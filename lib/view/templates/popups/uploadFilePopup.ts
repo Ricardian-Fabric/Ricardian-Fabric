@@ -1,5 +1,4 @@
 import { html } from "lit-html";
-import { TIP } from "../../../wallet/arweave";
 import { helperTooltips } from "../components/helperTooltips";
 import { BackLogo, CopyLogo } from "../components/logos";
 
