@@ -41,6 +41,7 @@ import {
   getERCSmartContractElement,
   getERC20Params,
   getEditorElementInnerHTML,
+  newTab,
 } from "../../view/utils";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import {
@@ -48,6 +49,8 @@ import {
   getTrailsContractWithRPC,
 } from "../../wallet/trails/contractCalls";
 import { BlockCountry } from "../countryBlock";
+import { getSignupContractWithoutWallet } from "../../wallet/signup/contractCalls";
+import { acceptedTerms, getTerms } from "../../wallet/catalogDAO/contractCalls";
 
 export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   if (calledAt === RenderType.create) {
@@ -61,6 +64,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   }
 
   const termsCheckbox = getTermsCheckbox();
+
   const sameButton = getSameAsAboveButton();
 
   sameButton.onclick = function () {
@@ -71,7 +75,22 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     }
   };
 
-  termsCheckbox.onclick = function () {
+  termsCheckbox.onclick = async function (e) {
+    if (termsCheckbox.checked) {
+      const address = await getAddress();
+      const signupContract = await getSignupContractWithoutWallet();
+
+      const signedTerms = await acceptedTerms(signupContract, address);
+      const contractURL = await getTerms(signupContract);
+      // If the terms were not signed, but they exist, I navigate to a new tab here
+      if (contractURL.length !== 0) {
+        if (!signedTerms) {
+          newTab(contractURL);
+        }
+        termsCheckbox.checked = signedTerms;
+      }
+    }
+
     if (termsCheckbox.checked) {
       const expires = getExpires();
 
