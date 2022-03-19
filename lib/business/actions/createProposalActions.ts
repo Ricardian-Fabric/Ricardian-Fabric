@@ -68,6 +68,7 @@ import {
 import Web3 from "web3";
 import { getProfitSharingAddresses } from "../profitSharing";
 import { getError } from "../../wallet/errors";
+import { handleTermsCheckbox } from "./permawebSelectActions";
 
 export async function createProposalActions(props: State) {
   dispatch_renderLoadingIndicator("loading-display");
@@ -327,6 +328,10 @@ export function uploadProposalActions(props: State, step: PopupState) {
   const implementsSimpleTerms = getById(
     "implements-simpleterms-checkbox"
   ) as HTMLInputElement;
+
+  termsAcceptedEl.onclick = async function () {
+    await handleTermsCheckbox(termsAcceptedEl);
+  };
 
   onDocProposalFileDropped(props);
 
