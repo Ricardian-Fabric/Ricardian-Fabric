@@ -44,6 +44,7 @@ import {
   copyAddressToClipboard,
   copyStringToClipboard,
   getById,
+  newTab,
   readFile,
   readWalletFile,
 } from "../../view/utils";
@@ -62,6 +63,11 @@ import {
 } from "../../wallet/trails/contractCalls";
 import { getAddress } from "../../wallet/web3";
 import { getProfitSharingAddresses } from "../profitSharing";
+import {
+  acceptedTerms,
+  getSignupContractWithoutWallet,
+  getTerms,
+} from "../../wallet/signup/contractCalls";
 
 export function permawebSelectActions(props: State) {
   const permawebCheckboxToggle = getById(
@@ -126,6 +132,11 @@ export function uploadFileListener(props: State) {
   backbutton.onclick = function () {
     dispatch_setPopupState(PopupState.NONE);
   };
+  const termscheckbox = getById("upload-terms-checkbox") as HTMLInputElement;
+
+  termscheckbox.onclick = async function () {
+    await handleTermsCheckbox(termscheckbox);
+  };
 
   uploadButton.onclick = async function () {
     if (fileInput.files.length !== 1) {
@@ -140,7 +151,6 @@ export function uploadFileListener(props: State) {
       return;
     }
 
-    const termscheckbox = getById("upload-terms-checkbox") as HTMLInputElement;
     if (termscheckbox.checked === false) {
       dispatch_renderError("You need to accept the terms!");
       return;
@@ -308,7 +318,11 @@ export function permapinPopupActions(props: any) {
   const CIDEl = getById("CID-input-permapin") as HTMLInputElement;
   const passwordEl = getById("walletPassword") as HTMLInputElement;
   const accountBttn = getById("permapin-account-button");
+  const termsEl = getById("permapin-terms-checkbox") as HTMLInputElement;
 
+  termsEl.onclick = async function () {
+    await handleTermsCheckbox(termsEl);
+  };
   accountBttn.onclick = async function () {
     dispatch_setPopupState(PopupState.ShowAccount);
   };
@@ -327,7 +341,6 @@ export function permapinPopupActions(props: any) {
       return;
     }
 
-    const termsEl = getById("permapin-terms-checkbox") as HTMLInputElement;
     if (CIDEl.value === "") {
       dispatch_renderError("You must add an ipfs identifier!");
       return;
@@ -643,6 +656,13 @@ export function switchAccountsActions(props: State) {
 export async function transferPageActions(props: State) {
   const backbutton = getById("transferPage-cancel");
   const sendbutton = getById("transferPage-proceed");
+  const acceptedTermsEl = getById(
+    "transfer-terms-checkbox"
+  ) as HTMLInputElement;
+
+  acceptedTermsEl.onclick = async function () {
+    await handleTermsCheckbox(acceptedTermsEl);
+  };
 
   backbutton.onclick = async function () {
     await goToShowAccountPage(props);
@@ -652,9 +672,6 @@ export async function transferPageActions(props: State) {
     const amountEl = getById("transferAmount") as HTMLInputElement;
     const toEl = getById("transferToAddress") as HTMLInputElement;
     const passwordEl = getById("password") as HTMLInputElement;
-    const acceptedTermsEl = getById(
-      "transfer-terms-checkbox"
-    ) as HTMLInputElement;
 
     const amount = amountEl.value;
 
@@ -674,6 +691,7 @@ export async function transferPageActions(props: State) {
       dispatch_renderError("Missing password.");
       return;
     }
+
     const acceptedTerms = acceptedTermsEl.checked;
 
     if (!acceptedTerms) {
@@ -842,6 +860,10 @@ export function uploadCommentActions(props: State) {
   const trailNameEl = getById("trail-name") as HTMLInputElement;
   const passwordEl = getById("wallet-password") as HTMLInputElement;
   const termsCheckbox = getById("terms-checkbox") as HTMLInputElement;
+  termsCheckbox.onclick = async function () {
+    await handleTermsCheckbox(termsCheckbox);
+  };
+
   const linkedTransactionEl = getById(
     "linkedTransaction-input"
   ) as HTMLInputElement;
@@ -991,4 +1013,21 @@ export function uploadCommentActions(props: State) {
       );
     }
   };
+}
+
+export async function handleTermsCheckbox(termsCheckbox: HTMLInputElement) {
+  if (termsCheckbox.checked) {
+    const address = await getAddress();
+    const signupContract = await getSignupContractWithoutWallet();
+
+    const signedTerms = await acceptedTerms(signupContract, address);
+    const contractURL = await getTerms(signupContract);
+    // If the terms were not signed, but they exist, I navigate to a new tab here
+    if (contractURL.length !== 0) {
+      if (!signedTerms) {
+        newTab(contractURL);
+      }
+      termsCheckbox.checked = signedTerms;
+    }
+  }
 }
