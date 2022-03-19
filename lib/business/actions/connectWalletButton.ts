@@ -40,34 +40,8 @@ export async function connectWalletButton(props) {
     //TODO ON MAINNET LAUNCH I NEED TO CHANGE THIS TO MAINNET
     await switchNetwork(ChainName.Harmony, 0, "Testnet");
 
-    // Now I check if they signed the terms,
-    // If the terms is an empty string, I allow pass (dev mode)
-    // if they didnt accept the terms, they get redirected
-
-    try {
-      const signUpContract = await getSignupContract();
-
-      const contractURL = await getTerms(signUpContract);
-
-      if (contractURL.length === 0) {
-        // This is developer mode, no smart contract attached
-        dispatch_setPage(PageState.Menu);
-        OnQueryRedirect();
-      } else {
-        const address = await getAddress();
-        const signedTerms = await acceptedTerms(signUpContract, address);
-
-        if (signedTerms) {
-          // signed the terms already
-          dispatch_setPage(PageState.Menu);
-          OnQueryRedirect();
-        } else {
-          newTab(contractURL);
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    dispatch_setPage(PageState.Menu);
+    OnQueryRedirect();
   };
 }
 
