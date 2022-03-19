@@ -6,7 +6,12 @@ import {
 } from "../../dispatch/render";
 import { dispatch_setSelectedDate } from "../../dispatch/stateChange";
 import { State } from "../../types";
-import { didExpire, getById, getExpires, getTermsCheckbox } from "../../view/utils";
+import {
+  didExpire,
+  getById,
+  getExpires,
+  getTermsCheckbox,
+} from "../../view/utils";
 
 export const attachExpiryClickAndListener = (props: State) => {
   const reset = getById("expires-reset");
