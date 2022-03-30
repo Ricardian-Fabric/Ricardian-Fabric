@@ -309,7 +309,6 @@ export async function myAcceptedSmartContractProposalTableActions(
   props: State,
   indexes: string[]
 ) {
-  console.log("INDEXES", indexes);
   const removeButtons = document.getElementsByClassName(
     "contract-remove-button"
   );
