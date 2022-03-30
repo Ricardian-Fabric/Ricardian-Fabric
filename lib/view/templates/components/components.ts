@@ -100,6 +100,13 @@ export const networkTemplate = (network: string, isFulfilled: boolean) => {
       "Shard 0",
       isFulfilled
     ),
+    [Chains.harmonyMainnetShard0]: getChainButton(
+      Chains.harmonyMainnetShard0,
+      "Harmony",
+      "Mainnet",
+      "Shard 0",
+      isFulfilled
+    ),
   };
 
   const networkEl = chains[network];
@@ -138,6 +145,8 @@ export function getChainLogo(chain: Chains) {
     case Chains.Ropsten:
       return EthLogo("0px");
     case Chains.harmonyTestnetShard0:
+      return HarmonyLogo();
+    case Chains.harmonyMainnetShard0:
       return HarmonyLogo();
     case Chains.bscTestnet:
       return BSCLogo();

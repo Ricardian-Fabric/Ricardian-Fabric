@@ -7,6 +7,7 @@ export enum Chains {
   bscTestnet = "97",
   polygonTestnet = "80001",
   harmonyTestnetShard0 = "1666700000",
+  harmonyMainnetShard0 = "1666600000",
 }
 export enum ChainName {
   Harmony = "Harmony",

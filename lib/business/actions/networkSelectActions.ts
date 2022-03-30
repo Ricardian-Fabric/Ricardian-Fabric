@@ -29,6 +29,7 @@ export function networkSelectActions() {
   const bscTestnet = getById("bsc-testnet");
   const polygonTestnet = getById("polygon-testnet");
   const hmnyTestnetShard0 = getById("network-hmny-testnet-shard0");
+  const hmnyMainnetShard0 = getById("network-hmny-mainnet-shard0");
 
   ropsten.onclick = async function () {
     switchnetworkToggle.checked = false;
@@ -46,6 +47,10 @@ export function networkSelectActions() {
     switchnetworkToggle.checked = false;
     await switchNetwork(ChainName.Harmony, 0, "Testnet");
   };
+  hmnyMainnetShard0.onclick = async function () {
+    switchnetworkToggle.checked = false;
+    await switchNetwork(ChainName.Harmony, 0, "Mainnet");
+  };
 }
 
 export function addChainButtonListener(props: State) {
@@ -60,6 +65,8 @@ export function addChainButtonListener(props: State) {
         await switchNetwork(ChainName.Polygon, 0, "Testnet"),
       [Chains.harmonyTestnetShard0]: async () =>
         await switchNetwork(ChainName.Harmony, 0, "Testnet"),
+      [Chains.harmonyMainnetShard0]: async () =>
+        await switchNetwork(ChainName.Harmony, 0, "Mainnet"),
     };
     await chains[props.network]();
   };
