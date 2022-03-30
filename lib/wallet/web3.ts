@@ -13,7 +13,6 @@ import {
   Status,
 } from "../types";
 import { getSimpleTermsAbi } from "./abi/SimpleTerms";
-import { HARMONYRPCURL } from "./catalogDAO/contractCalls";
 
 export const SIGNUPADDRESS = "0xEaF201f1d59BFa87176C4445B22A5fF4a0fAa23b";
 export const TRAILSADDRESS = "0x0A40FF105c915955071e6F2214247670c8d91dED";
@@ -25,6 +24,9 @@ export const ARWAVEPSADDRESS = "0x51f3A69de3D890f42422BC8cc652eDB59fc065AA";
 export const DAOSTAKINGADDRESS = "0x9dC2702FE6224fE880d345D079A30b01ba1cE905";
 export const FEEDAOADDRESS = "0xB839D0e2997859D8d2e47c47dbF16939ee655336";
 export const RICVAULTADDRESS = "0x93cb87281CFCfb3dABbC72c5f307f17A79F806db";
+
+export const HARMONYRPCURL = "https://api.s0.b.hmny.io";
+export const VOTINGPERIODBLOCKS = 100; ///259200; //The blocks passing in the voting period. 302400 on Harmony, 10 on Hardhat
 
 export const metamask_web3 = new Web3(window.ethereum);
 export const rpc_web3 = new Web3(HARMONYRPCURL);

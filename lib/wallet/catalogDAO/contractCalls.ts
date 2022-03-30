@@ -9,8 +9,6 @@ import {
   SmartContractProposal,
 } from "../../types";
 import { CATALOGDAOADDRESS, metamask_web3, rpc_web3 } from "../web3";
-export const HARMONYRPCURL = "https://api.s0.b.hmny.io";
-export const VOTINGPERIODBLOCKS = 259200; //The blocks passing in the voting period. 302400 on Harmony, 10 on Hardhat
 
 export async function getCatalogDAOContractWithWallet() {
   return await new metamask_web3.eth.Contract(
