@@ -7,6 +7,13 @@ Detailed docs on how to use it can be found at docs.ricadianfabric.com
 The latest version of ricadian fabric.
 DEPLOYED AT:
 
+- 0.0.6 https://arweave.net/7LQK3kLSscrmYUmt3dXhoO0PE8W5tqG-UyDSEAfm5q8
+  Updated splashpage
+  Harmony mainnet added to ricardian contract
+  Sped up voting for testnet
+  bugfixes
+  polling period variables on testnet
+
 - 0.0.5 https://licyt5slcklm3hq6n5enxhqtg3zkddzaj3estirwvkpijmayju.arweave.net/WgWJ9ksSls2eHm9I254TNvKhjyBOySm-iNqqehLAYTU
 - 0.0.4 https://5sogpgw5uhq7a6lr3kkw7mxkq2mxvgikf66qujhhmte5zntm.arweave.net/7Jxn_mt2h4fB5cdqVb7L-qhpl6mQovvQok52TJ3LZsI
 
