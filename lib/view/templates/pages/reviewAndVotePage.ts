@@ -5,7 +5,7 @@ import {
   RemovalProposal,
   SmartContractProposal,
 } from "../../../types";
-import { VOTINGPERIODBLOCKS } from "../../../wallet/catalogDAO/contractCalls";
+import { VOTINGPERIODBLOCKS } from "../../../wallet/web3";
 import { getBlockie } from "../components/getBlockies";
 import {
   AddDocumentImage,
