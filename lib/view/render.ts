@@ -1286,7 +1286,6 @@ export function enableStakingButtons(
   ricBalanceEl.textContent = ricBalance;
 
   let stakingdisabled = !stakingButtonDisabled;
-
   if (parseInt(ricBalance) < 3000) {
     stakingdisabled = true;
   }
@@ -1294,6 +1293,10 @@ export function enableStakingButtons(
 
   if (isStaking) {
     approveDisabled = true;
+  }
+
+  if (stakingdisabled) {
+    stakingButtonEl.title = "You need 3000 RIC to stake!";
   }
 
   stakingButtonEl.disabled = stakingdisabled;
