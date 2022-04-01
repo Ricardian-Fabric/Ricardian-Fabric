@@ -2,19 +2,13 @@ import {
   dispatch_navigateTo,
   dispatch_renderError,
 } from "../../dispatch/render";
-import { getById, newTab, parseQueryString } from "../../view/utils";
+import { getById, parseQueryString } from "../../view/utils";
 import {
-  getAddress,
   requestAccounts,
   switchNetwork,
   web3Injected,
 } from "../../wallet/web3";
 import MetaMaskOnboarding from "@metamask/onboarding";
-import {
-  acceptedTerms,
-  getSignupContract,
-  getTerms,
-} from "../../wallet/signup/contractCalls";
 import {
   dispatch_setPage,
   dispatch_setPopupState,
