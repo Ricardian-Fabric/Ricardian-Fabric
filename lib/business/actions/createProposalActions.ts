@@ -69,6 +69,11 @@ import Web3 from "web3";
 import { getProfitSharingAddresses } from "../profitSharing";
 import { getError } from "../../wallet/errors";
 import { handleTermsCheckbox } from "./permawebSelectActions";
+import { createProposalEditor } from "../../state/editor";
+import {
+  getTrailDetailsWithoutFrom,
+  getTrailsContractWithRPC,
+} from "../../wallet/trails/contractCalls";
 
 export async function createProposalActions(props: State) {
   dispatch_renderLoadingIndicator("loading-display");
@@ -308,7 +313,12 @@ function artifactValid(data: string): boolean {
   return true;
 }
 
+const proposalEditor = createProposalEditor();
+
 export function uploadProposalActions(props: State, step: PopupState) {
+  proposalEditor.destroy();
+  proposalEditor.setup();
+
   const backbutton = getById("create-contract-back");
 
   const createContractProposal = getById("create-contract-proposal");
@@ -316,9 +326,9 @@ export function uploadProposalActions(props: State, step: PopupState) {
   const nameEl = getById("smartcontract-name") as HTMLInputElement;
   const artifactEl = getById("smartcontract-artifact") as HTMLInputElement;
 
-  const termsEl = getById("docx-input") as HTMLInputElement;
   const gitEl = getById("smartcontract-repo") as HTMLInputElement;
   const frontEndEl = getById("smartcontract-frontend") as HTMLInputElement;
+  const trailEl = getById("trailname-input") as HTMLInputElement;
   const termsAcceptedEl = getById("accepted-terms") as HTMLInputElement;
 
   const networkEl = getById("selected-network") as HTMLSelectElement;
@@ -333,18 +343,19 @@ export function uploadProposalActions(props: State, step: PopupState) {
     await handleTermsCheckbox(termsAcceptedEl);
   };
 
-  onDocProposalFileDropped(props);
-
+  if (props.uploadProposalProps !== null) {
+    proposalEditor.setContent(props.uploadProposalProps.terms, 0);
+  }
   if (props.uploadProposalProps !== null) {
     dispatch_initializeProposalUpload(props, {
       nameEl,
       artifactEl,
-      termsEl,
       gitEl,
       frontEndEl,
       networkEl,
       categoryEl,
       implementsSimpleTerms,
+      trailEl,
     });
   }
 
@@ -356,12 +367,13 @@ export function uploadProposalActions(props: State, step: PopupState) {
     dispatch_setUploadProposalProps({
       name: nameEl.value,
       artifact: artifactEl.value,
-      terms: termsEl.files[0],
+      terms: proposalEditor.getContent(),
       git: gitEl.value,
       frontEnd: frontEndEl.value,
       network: networkEl.value,
       category: categoryEl.value,
       simpleterms: implementsSimpleTerms.checked,
+      trail: trailEl.value,
     });
     switch (step) {
       case PopupState.UploadProposal:
@@ -382,15 +394,17 @@ export function uploadProposalActions(props: State, step: PopupState) {
   };
 
   createContractProposal.onclick = async function () {
+    const terms = proposalEditor.getContent();
     dispatch_setUploadProposalProps({
       name: nameEl.value,
       artifact: artifactEl.value,
-      terms: termsEl.files[0],
+      terms,
       git: gitEl.value,
       frontEnd: frontEndEl.value,
       network: networkEl.value,
       category: categoryEl.value,
       simpleterms: implementsSimpleTerms.checked,
+      trail: trailEl.value,
     });
     switch (step) {
       case PopupState.UploadProposal:
@@ -420,6 +434,28 @@ export function uploadProposalActions(props: State, step: PopupState) {
           return;
         }
 
+        if (trailEl.value.length !== 0) {
+          // Trail element can be empty but if it's not, I check if the trail exists
+          const trailsContractOptions = await OptionsBuilder(() =>
+            getTrailsContractWithRPC()
+          );
+          const trails = trailsContractOptions.data;
+          if (hasError(trailsContractOptions)) {
+            return;
+          }
+          const trailDetailsOptions = await OptionsBuilder(() =>
+            getTrailDetailsWithoutFrom(trails, trailEl.value)
+          );
+          if (hasError(trailDetailsOptions)) {
+            return;
+          }
+          const trailDetails = trailDetailsOptions.data;
+          if (!trailDetails.initialized) {
+            dispatch_renderError("Trail doesn't exist!");
+            return;
+          }
+        }
+
         if (gitEl.value === "") {
           dispatch_renderError("You must add a valid link for a git repo.");
           return;
@@ -428,11 +464,10 @@ export function uploadProposalActions(props: State, step: PopupState) {
         dispatch_setPopupState(PopupState.UploadProposalStep3);
         break;
       case PopupState.UploadProposalStep3:
-        if (
-          termsEl.files.length !== 1 &&
-          props.uploadProposalProps.terms === undefined
-        ) {
-          dispatch_renderError("You must propose terms for the contract.");
+        if (terms.length < 400) {
+          dispatch_renderError(
+            "You must propose terms for the contract. At least 400 characters."
+          );
           return;
         }
         dispatch_setPopupState(PopupState.UploadProposalStep4);
@@ -448,82 +483,67 @@ export function uploadProposalActions(props: State, step: PopupState) {
           return;
         }
 
-        const file =
-          termsEl.files.length === 0
-            ? (props.uploadProposalProps.terms as File)
-            : termsEl.files[0];
+        const proposal: ProposalFormat = {
+          name: nameEl.value,
+          artifact: JSON.parse(artifactEl.value),
+          terms: terms,
+          git: gitEl.value,
+          frontEnd: frontEndEl.value,
+          network: networkEl.value,
+          category: categoryEl.value,
+          simpleterms: implementsSimpleTerms.checked,
+          trail: trailEl.value,
+        };
 
-        readFile(file, async (data) => {
-          const proposal: ProposalFormat = {
-            name: nameEl.value,
-            artifact: JSON.parse(artifactEl.value),
-            terms: data,
-            git: gitEl.value,
-            frontEnd: frontEndEl.value,
-            network: networkEl.value,
-            category: categoryEl.value,
-            simpleterms: implementsSimpleTerms.checked,
-          };
+        if (props.Account.data === null) {
+          dispatch_renderError("Missing arweave account.");
+          return;
+        }
+        const decryptOptions = await decryptWallet(
+          props.Account.data,
+          passwordEl.value
+        );
 
-          if (props.Account.data === null) {
-            dispatch_renderError("Missing arweave account.");
-            return;
-          }
-          const decryptOptions = await decryptWallet(
-            props.Account.data,
-            passwordEl.value
-          );
+        if (decryptOptions.status !== Status.Success) {
+          dispatch_renderError(decryptOptions.error);
+          return;
+        }
 
-          if (decryptOptions.status !== Status.Success) {
-            dispatch_renderError(decryptOptions.error);
-            return;
-          }
+        const proposalTransaction = await createProposalTransaction(
+          proposal,
+          props.version,
+          decryptOptions.data,
+          nameEl.value,
+          categoryEl.value,
+          networkEl.value,
+          implementsSimpleTerms.checked
+        );
+        const pstAddress = await getProfitSharingAddresses();
 
-          const proposalTransaction = await createProposalTransaction(
+        if (pstAddress === undefined) {
+          dispatch_renderProposalSummary(
+            proposalTransaction,
+            props,
             proposal,
-            props.version,
-            decryptOptions.data,
-            nameEl.value,
-            categoryEl.value,
-            networkEl.value,
-            implementsSimpleTerms.checked
+            terms,
+            false,
+            ""
           );
-          const pstAddress = await getProfitSharingAddresses();
-
-          if (pstAddress === undefined) {
-            const getTerms = (terms: string) => {
-              // Because I need to get the terms via callback, I continue the rest of the action here
-
-              dispatch_renderProposalSummary(
-                proposalTransaction,
-                props,
-                proposal,
-                terms,
-                false,
-                ""
-              );
-            };
-
-            convertToHTMLFromArrayBuffer(proposal.terms, getTerms);
-          } else {
-            const tipTransaction = await getProfitSharingTransaction(
-              pstAddress.to,
-              decryptOptions.data,
-              props.version
-            );
-            const getTerms = (terms: string) => {
-              dispatch_renderProposalSummary(
-                proposalTransaction,
-                props,
-                proposal,
-                terms,
-                true,
-                tipTransaction
-              );
-            };
-            convertToHTMLFromArrayBuffer(proposal.terms, getTerms);
-          }
-        });
+        } else {
+          const tipTransaction = await getProfitSharingTransaction(
+            pstAddress.to,
+            decryptOptions.data,
+            props.version
+          );
+          dispatch_renderProposalSummary(
+            proposalTransaction,
+            props,
+            proposal,
+            terms,
+            true,
+            tipTransaction
+          );
+        }
         break;
       default:
         break;
