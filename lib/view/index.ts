@@ -811,7 +811,6 @@ const Render: Renderer = {
     renderSCProposalDisplayPage(
       props.tmp.arweaveTxId,
       props.tmp.proposal,
-      props.tmp.terms,
       props.tmp.preview,
       props.tmp.acceptedProposal
     );

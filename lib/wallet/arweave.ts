@@ -1,5 +1,4 @@
 import Arweave from "arweave";
-import { Tag } from "arweave/node/lib/transaction";
 import { readContract, selectWeightedPstHolder } from "smartweave";
 import { Options, ProposalFormat, Status } from "../types";
 export const TIP = "0.0001";
@@ -49,13 +48,8 @@ export async function createProposalTransaction(
   chainid: string,
   simpleTerms: boolean
 ) {
-  const preparedProposal = {
-    ...proposal,
-    terms: encodeProposalTerms(proposal.terms as ArrayBuffer),
-  };
-
   const transaction = await arweave.createTransaction(
-    { data: JSON.stringify(preparedProposal) },
+    { data: JSON.stringify(proposal) },
     key
   );
   transaction.addTag("Contract-Type", "Proposal");

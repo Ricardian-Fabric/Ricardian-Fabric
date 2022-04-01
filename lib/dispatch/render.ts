@@ -529,12 +529,12 @@ export function dispatch_initializeProposalUpload(
   tmp: {
     nameEl: HTMLInputElement;
     artifactEl: HTMLInputElement;
-    termsEl: HTMLInputElement;
     gitEl: HTMLInputElement;
     frontEndEl: HTMLInputElement;
     networkEl: HTMLSelectElement;
     categoryEl: HTMLSelectElement;
     implementsSimpleTerms: HTMLInputElement;
+    trailEl: HTMLInputElement;
   }
 ) {
   dispatch(Events.render, {
@@ -952,7 +952,6 @@ export function dispatch_renderSCProposalDisplayPage(
   props: State,
   arweaveTxId: string,
   proposal: ProposalFormat,
-  terms: string,
   preview: boolean,
   acceptedProposal: AcceptedSmartContractProposal
 ) {
@@ -963,7 +962,6 @@ export function dispatch_renderSCProposalDisplayPage(
       tmp: {
         arweaveTxId,
         proposal,
-        terms,
         preview,
         acceptedProposal,
       },
