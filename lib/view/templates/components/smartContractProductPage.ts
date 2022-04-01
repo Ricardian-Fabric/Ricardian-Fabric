@@ -73,11 +73,11 @@ export function smartContractProductPage(
               </button>
             </div>`}
         <hr />
-        ${preview
+        ${preview || proposal.terms === ""
           ? nothing
           : html` <div class="text-align-center">
               <button id="download-terms-button" class="labelButton width-100">
-                ${DownloadLogo()}Download
+                ${DownloadLogo()}Downloads
               </button>
             </div>`}
         <hr />
