@@ -2,7 +2,6 @@ import { html, render } from "lit-html";
 import {
   AcceptedSmartContractProposal,
   ArweaveDataPage,
-  ArweaveQueryResult,
   ContractTypes,
   CreateRicardianPageProps,
   FetchedProposals,
@@ -138,7 +137,7 @@ import {
   VoteOnSmartContract,
 } from "./templates/popups/contractDisplayAndVote";
 import { smartContractProductPage } from "./templates/components/smartContractProductPage";
-import { zeroAddress } from "ethereumjs-util";
+import DOMPurify from "dompurify";
 
 export function renderConnectYourWallet(props: State) {
   const page = getById("page");
@@ -1143,23 +1142,23 @@ export function proposalUpload(
   elements: {
     nameEl: HTMLInputElement;
     artifactEl: HTMLInputElement;
-    termsEl: HTMLInputElement;
     gitEl: HTMLInputElement;
     frontEndEl: HTMLInputElement;
     networkEl: HTMLSelectElement;
     categoryEl: HTMLSelectElement;
     implementsSimpleTerms: HTMLInputElement;
+    trailEl: HTMLInputElement;
   }
 ) {
   const {
     nameEl,
     artifactEl,
-    termsEl,
     gitEl,
     frontEndEl,
     networkEl,
     categoryEl,
     implementsSimpleTerms,
+    trailEl,
   } = elements;
 
   const proposalProps = props.uploadProposalProps;
@@ -1171,6 +1170,7 @@ export function proposalUpload(
   networkEl.value = proposalProps.network;
   categoryEl.value = proposalProps.category;
   implementsSimpleTerms.checked = proposalProps.simpleterms;
+  trailEl.value = proposalProps.trail;
 }
 
 export function render_createProposalPageContent(
@@ -1580,7 +1580,6 @@ export function renderVoteOnSmartContract(
 export function renderSCProposalDisplayPage(
   arweaveTxId: string,
   proposal: ProposalFormat,
-  terms: string,
   preview: boolean,
   acceptedProposal: AcceptedSmartContractProposal
 ) {
@@ -1607,9 +1606,9 @@ export function renderSCProposalDisplayPage(
   }
 
   const termsContent = getById("termsContent");
-  termsContent.innerHTML = terms;
+  //If there are script tags injected by malicious user, FCK U
+  termsContent.innerHTML = DOMPurify.sanitize(proposal.terms);
 }
-
 export function renderRemovalProposalPopup(
   props: State,
   acceptableIndex: string,
