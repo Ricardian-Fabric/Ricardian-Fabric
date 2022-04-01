@@ -1,23 +1,27 @@
 import {
   dispatch_createRemovalProposal,
+  dispatch_navigateTo,
   dispatch_renderError,
   dispatch_renderSCProposalDisplayPage,
   dispatch_SCDeploySelected,
   dispatch_teardownContractDisplayPage,
 } from "../../dispatch/render";
-import { dispatch_setPopupState } from "../../dispatch/stateChange";
+import {
+  dispatch_setPage,
+  dispatch_setPopupState,
+} from "../../dispatch/stateChange";
 import { fetchTransactionBy } from "../../fetch";
 import {
   AcceptedSmartContractProposal,
+  PageState,
   PopupState,
   ProposalFormat,
+  QueryStrings,
   State,
 } from "../../types";
-import { downloadBlob } from "../../view/render";
 import { getById } from "../../view/utils";
 import { getDecodedTagsFromTX } from "../../wallet/arweave";
 import { hasError, OptionsBuilder } from "../utils";
-import { convertToHTMLFromArrayBuffer } from "./onDocFileDropped";
 
 export async function contractDisplayActions(
   props: State,
@@ -54,18 +58,13 @@ export async function contractDisplayActions(
     dispatch_renderError("Invalid proposal! Name is undefined.");
     return;
   }
-  const getTerms = (terms: string) => {
-    dispatch_renderSCProposalDisplayPage(
-      props,
-      contractId,
-      proposal,
-      terms,
-      preview,
-      acceptedProposal
-    );
-  };
-
-  convertToHTMLFromArrayBuffer(proposal.terms, getTerms);
+  dispatch_renderSCProposalDisplayPage(
+    props,
+    contractId,
+    proposal,
+    preview,
+    acceptedProposal
+  );
 }
 
 export function checkForProposalTag(edge) {
@@ -88,10 +87,6 @@ export function SCProposalDisplayPageActions(props) {
   const remove = getById("remove-sc-button");
   const arweaveTxId = deploy.dataset.arweavetxid;
 
-  let name = "";
-  if (deploy.dataset.name !== undefined) {
-    name = deploy.dataset.name.split(" ").join("_");
-  }
   deploy.onclick = async function () {
     const transactionOptions = await OptionsBuilder(() =>
       fetchTransactionBy<ProposalFormat>(arweaveTxId)
@@ -108,21 +103,18 @@ export function SCProposalDisplayPageActions(props) {
   };
 
   dl.onclick = async function () {
-    // Fetch the transaction and get the terms
-    const proposalOptions = await OptionsBuilder(() =>
-      fetchTransactionBy(arweaveTxId)
+    const transactionOptions = await OptionsBuilder(() =>
+      fetchTransactionBy<ProposalFormat>(arweaveTxId)
     );
 
-    if (hasError(proposalOptions)) {
+    if (hasError(transactionOptions)) {
+      dispatch_renderError("Invalid proposal!");
       return;
     }
-    // Buffer the terms and initiate the download
-    const buff = new Uint8Array(proposalOptions.data.terms).buffer;
-    const dataview = new DataView(buff);
-    const blob = new Blob([dataview], {
-      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    });
-    downloadBlob(blob, name + ".docx");
+    const proposal: ProposalFormat = transactionOptions.data;
+    dispatch_setPopupState(PopupState.NONE);
+    dispatch_setPage(PageState.trails);
+    dispatch_navigateTo(QueryStrings.trail, proposal.trail);
   };
 
   remove.onclick = async function () {
