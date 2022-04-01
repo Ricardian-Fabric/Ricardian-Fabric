@@ -73,6 +73,13 @@ export async function getTrailDetails(
   return await trail.methods.getTrailDetails(trailId).call({ from });
 }
 
+export async function getTrailDetailsWithoutFrom(
+  trail: Contract,
+  trailId: string
+): Promise<TrailDetails> {
+  return await trail.methods.getTrailDetails(trailId).call();
+}
+
 export async function getTrailContent(
   trail: Contract,
   trailId: string,
