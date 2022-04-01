@@ -16,6 +16,7 @@ import {
   getPageButtonEndPoint,
   getPageButtonStartPoint,
 } from "../components/paginations";
+import DOMPurify from "dompurify";
 
 export const TrailsPage = () => html`<h3>Trails</h3>
   <small>Create a new trail or search for an existing one</small>
@@ -174,7 +175,7 @@ export const TrailData = (dataPage: ArweaveDataPage, creatorCalls: boolean) => {
         <small class="overflow-auto">
           ${content.hadError
             ? "Error occurred while loading the transaction!"
-            : content.comment}
+            : DOMPurify.sanitize(content.comment)}
         </small>
       </div>
       <hr />
