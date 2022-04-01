@@ -133,6 +133,15 @@ export const UploadProposalStep2 = () => html` <div
       </td>
     </tr>
     <tr>
+      <td><label for="trailname-input">Trail</label></td>
+      <td><input id="trailname-input" type="text" /></td>
+      <td>
+        ${helperTooltips(
+          "Add a trail where legal contract templates are uploaded!"
+        )}
+      </td>
+    </tr>
+    <tr>
       <td>
         <label for="implements-simpleterms-checkbox"
           >Inherits from Simple terms?</label
@@ -150,10 +159,17 @@ export const UploadProposalStep2 = () => html` <div
 
 export function UploadProposalStep3() {
   return html` <div id="uploadProposalStep3" class="uploadProposalDiv">
-    <h4>Add terms.</h4>
-    <small>Upload a .docx file with the proposals.</small>
-    ${ProposalDocXDropper()}
+    <h4>Add terms</h4>
+    <small
+      >Add the description of the smart contract in the filed. Minimum 400
+      Characters!</small
+    >
+    ${ProposalEditor()}
   </div>`;
+}
+
+function ProposalEditor() {
+  return html`<div class="proposal-editor"></div>`;
 }
 
 export function UploadProposalStep4() {
