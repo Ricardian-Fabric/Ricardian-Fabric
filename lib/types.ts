@@ -577,12 +577,13 @@ window.ethereum = window.ethereum || {};
 export type ProposalFormat = {
   name: string;
   artifact: string | any;
-  terms: string | File | ArrayBuffer;
+  terms: string;
   git: string;
   frontEnd: string;
   network: string;
   category: string;
   simpleterms: boolean;
+  trail: string;
 };
 
 export type RankProposal = {
