@@ -26,6 +26,7 @@
     "arweave": "1.10.0",
     "buffer-to-uint8array": "^1.1.0",
     "decimal.js": "3.0.0",
+    "dompurify": "^2.3.6",
     "ethereum-blockies-base64": "^1.0.2",
     "ethereumjs-tx": "^2.1.2",
     "ethereumjs-util": "^7.1.2",
