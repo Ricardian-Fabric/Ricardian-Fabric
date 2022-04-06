@@ -7,6 +7,10 @@ Detailed docs on how to use it can be found at docs.ricadianfabric.com
 The latest version of ricadian fabric.
 DEPLOYED AT:
 
+- 0.0.7 https://arweave.net/tYv0dNOrUVEHe2fg2rctyxkp0-W0oPf4-AinkYlwtC0
+  After feedback from early users, changed the tokensale to a static 5RIC/ONE
+  Updated the way proposals are uploaded, it now uses the medium editor and the downloads button leads to trails
+
 - 0.0.6 https://arweave.net/7LQK3kLSscrmYUmt3dXhoO0PE8W5tqG-UyDSEAfm5q8
   Updated splashpage
   Harmony mainnet added to ricardian contract
