@@ -9,10 +9,7 @@ import { dashEl } from "./dashboardPage";
 
 export const TokenSalePage = () => html`<h3>Join the community</h3>
   ${balanceDisplay()}
-  <h6>
-    You can buy once per rate, max 100.000 RIC/Rate. The price is incrementing
-    from 0.1 ONE till 1 ONE per RIC.
-  </h6>
+
   <div class="column">
     <div class="rowAround">
       ${dashEl(
@@ -35,6 +32,11 @@ export const TokenSalePage = () => html`<h3>Join the community</h3>
       </h5>
       <button class="labelButton" id="buy-ric" title="Buy RIC" disabled>
         ${BuyIcon()}
+      </button>
+      <hr />
+
+      <button id="add-to-wallet" class="labelButton" title="Add RIC to Wallet">
+        <label>Add to Wallet</label>
       </button>
     </div>
   </div> `;

@@ -19,7 +19,6 @@ import {
   getCurrentRate,
   getRicSaleContract,
   getTokensSold,
-  purchasedAlready,
   remainingTokens,
 } from "../../wallet/ricSale/contractCalls";
 import { getAddress, watchAsset } from "../../wallet/web3";
@@ -28,6 +27,7 @@ import { getError } from "../../wallet/errors";
 
 export async function tokenSalePageActions(props: State) {
   const buyButton = getById("buy-ric");
+  const addToWalletButton = getById("add-to-wallet");
   const amountEl = getById("buy-amount") as HTMLInputElement;
 
   const addressOptions = await OptionsBuilder(() => getAddress());
@@ -72,29 +72,16 @@ export async function tokenSalePageActions(props: State) {
 
   const tokensSold = tokensSoldOptions.data;
   const ricRateOptions = await OptionsBuilder(() =>
-    getCurrentRate(ricsale, tokensSold, address)
+    getCurrentRate(ricsale, address)
   );
   if (hasError(ricRateOptions)) {
-    return;
-  }
-
-  const purchasedAlreadyOptions = await OptionsBuilder(() =>
-    purchasedAlready(ricsale, address, address)
-  );
-  if (hasError(purchasedAlreadyOptions)) {
     return;
   }
 
   const rate = ricRateOptions.data;
   const balance = ricBalanceOptions.data;
   dispatch_renderMyRicBalance(props, balance);
-  dispatch_tokenSalePageInit(
-    props,
-    ricLeft,
-    rate,
-    tokensSold,
-    purchasedAlreadyOptions.data
-  );
+  dispatch_tokenSalePageInit(props, ricLeft, rate, tokensSold);
   const ricSaleOptions = await OptionsBuilder(() => getRicSaleContract());
   if (hasError(ricSaleOptions)) {
     return;
@@ -119,20 +106,18 @@ export async function tokenSalePageActions(props: State) {
 
   setSellAmount("0");
 
-  buyButton.onclick = async function () {
-    if (purchasedAlreadyOptions.data) {
-      dispatch_renderError("You already made a purchase at this rate.");
-      return;
-    }
+  addToWalletButton.onclick = async function () {
+    await watchAsset(RICPARAMS, () => {
+      dispatch_renderError("Couldn't add token to wallet.");
+    });
+  };
 
+  buyButton.onclick = async function () {
     const onError = (error: any, receipt: any) => {
       dispatch_renderError(getError(error.message));
     };
     const onReceipt = async (receipt: any) => {
       dispatch_setPage(PageState.tokenSale);
-      await watchAsset(RICPARAMS, () => {
-        dispatch_renderError("Couldn't add token to wallet.");
-      });
     };
 
     // If max price is not exceeded
