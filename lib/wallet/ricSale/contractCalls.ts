@@ -54,16 +54,7 @@ export async function getTokensSold(
 
 export async function getCurrentRate(
   ricsale: Contract,
-  tokensSold: string,
   from: string
 ): Promise<string> {
-  return await ricsale.methods.getCurrentRate(tokensSold).call({ from });
-}
-
-export async function purchasedAlready(
-  ricSale: Contract,
-  address: string,
-  from: string
-) {
-  return await ricSale.methods.purchasedAlready(address).call({ from });
+  return await ricsale.methods.getCurrentRate().call({ from });
 }
