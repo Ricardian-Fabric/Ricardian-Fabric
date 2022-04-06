@@ -1308,8 +1308,7 @@ export function enableStakingButtons(
 export function tokenSaleInit(
   ricLeft: string,
   rate: string,
-  tokensSold: string,
-  purchasedAlready: boolean
+  tokensSold: string
 ) {
   const ricLeftEl = getById("ric-left-for-sale-buy-page");
   const rateEl = getById("ric-rate-buy-page");
@@ -1320,10 +1319,6 @@ export function tokenSaleInit(
   rateEl.classList.remove("placeholder-item");
   ricLeftEl.textContent = ricLeft + " RIC";
   rateEl.textContent = rate + " RIC/ONE";
-
-  if (purchasedAlready) {
-    buyButton.disabled = true;
-  }
 
   if (tokensSold === "40000000") {
     ricLeftEl.textContent = "SALE FINISHED";

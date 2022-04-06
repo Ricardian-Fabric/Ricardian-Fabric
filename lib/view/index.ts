@@ -674,12 +674,7 @@ const Render: Renderer = {
     await trailsPageActions(props);
   },
   [RenderType.tokenSalePageInit]: (props: RenderDispatchArgs) => {
-    tokenSaleInit(
-      props.tmp.ricLeft,
-      props.tmp.rate,
-      props.tmp.tokensSold,
-      props.tmp.purchasedAlready
-    );
+    tokenSaleInit(props.tmp.ricLeft, props.tmp.rate, props.tmp.tokensSold);
   },
   [RenderType.renderSellAmount]: (props: RenderDispatchArgs) => {
     renderSellAmount(props.tmp.rate);

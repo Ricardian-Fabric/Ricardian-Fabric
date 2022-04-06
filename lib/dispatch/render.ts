@@ -736,14 +736,13 @@ export function dispatch_tokenSalePageInit(
   props: State,
   ricLeft: string,
   rate: string,
-  tokensSold: string,
-  purchasedAlready: boolean
+  tokensSold: string
 ) {
   dispatch(Events.render, {
     type: RenderType.tokenSalePageInit,
     props: {
       ...props,
-      tmp: { ricLeft, rate, tokensSold, purchasedAlready },
+      tmp: { ricLeft, rate, tokensSold },
     },
   });
 }
