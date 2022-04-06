@@ -130,7 +130,7 @@ export async function dashboardActions(props: State) {
   }
 
   const ricRateOptions = await OptionsBuilder(() =>
-    getCurrentRate(ricsale, tokensSold, address)
+    getCurrentRate(ricsale, address)
   );
   if (hasError(ricRateOptions)) {
     return;
