@@ -5,7 +5,12 @@
 Detailed docs on how to use it can be found at docs.ricadianfabric.com
 
 The latest version of ricadian fabric.
-DEPLOYED AT:
+
+DEPLOYED ON MAINNET:
+
+- 0.0.7 https://ervded4meifzaaglk6j5sxqmioenu4ibajhx4o3m7x2stsbi.arweave.net/JGoyD4wiC5AAy1eT-2V4MQ4jacQECT347bP-31Kcgo8
+
+DEPLOYED on TESTNET:
 
 - 0.0.7 https://arweave.net/tYv0dNOrUVEHe2fg2rctyxkp0-W0oPf4-AinkYlwtC0
   After feedback from early users, changed the tokensale to a static 5RIC/ONE
