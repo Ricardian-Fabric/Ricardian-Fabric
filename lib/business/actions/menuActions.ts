@@ -56,5 +56,5 @@ export async function menuActions(props: State) {
 }
 
 async function switchToHarmony() {
-  await switchNetwork(ChainName.Harmony, 0, "Testnet");
+  await switchNetwork(ChainName.Harmony, 0, "Mainnet");
 }

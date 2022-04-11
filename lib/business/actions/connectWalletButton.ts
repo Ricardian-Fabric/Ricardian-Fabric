@@ -31,8 +31,7 @@ export async function connectWalletButton(props) {
     await requestAccounts();
     registerEthereumProviderEvents(props);
 
-    //TODO ON MAINNET LAUNCH I NEED TO CHANGE THIS TO MAINNET
-    await switchNetwork(ChainName.Harmony, 0, "Testnet");
+    await switchNetwork(ChainName.Harmony, 0, "Mainnet");
 
     dispatch_setPage(PageState.Menu);
     OnQueryRedirect();

@@ -63,7 +63,7 @@ export function constructSCActions(props: State, selected: ProposalFormat) {
     await requestAccounts();
 
     if (selected.network !== "All") {
-      await switchNetwork(selected.network as ChainName, 0, "Testnet");
+      await switchNetwork(selected.network as ChainName, 0, "Mainnet");
     }
 
     const empty = inputsEmpty(constructorElements, constructorParams);
