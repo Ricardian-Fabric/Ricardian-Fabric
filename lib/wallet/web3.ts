@@ -13,20 +13,20 @@ import {
   Status,
 } from "../types";
 import { getSimpleTermsAbi } from "./abi/SimpleTerms";
-// THIS IS TESTNET HARMONY
-export const SIGNUPADDRESS = "0x4C4bbb6ea70B8971e22B540Eb62369d593FB6119";
-export const TRAILSADDRESS = "0x4056CfF5d34acf28915b61cc36dD704208f18321";
-export const CATALOGDAOADDRESS = "0xeC31adD59dF3eF522304e2C476901E02316fA4C2";
-export const RICADDRESS = "0x3273bE56e70a2D1D554FbaA9703C3a4ae8C71B8a";
-export const RICSALEADDRESS = "0x4370FFe0dE7b614e6e75A6BaDCB97661E9236354";
+// THIS IS MAINNET HARMONY
+export const SIGNUPADDRESS = "0xdC627A00D6d717c3A920ed07C28027E6f4474dF6";
+export const TRAILSADDRESS = "0x278dD2cc09cE7f4Edf0bcda5927fE7BD3D99cD82";
+export const CATALOGDAOADDRESS = "0x43BAdA39C45dbeE132Da6bD6d6d9818E8c5e06EF";
+export const RICADDRESS = "0xDe307524826Bf49c7e7DA469E0c5cf47D8f6AAdC";
+export const RICSALEADDRESS = "0xf96EC150FF4fBC15a176a3E50163D0A1ebA54532";
 
-export const ARWAVEPSADDRESS = "0x2D293e09cCeee62fd4dFB2a5785716b4735220d8";
-export const DAOSTAKINGADDRESS = "0xa3167667ECaaaE71A4901bf993B59c9C9C9b2c07";
-export const FEEDAOADDRESS = "0xe40C271DE92E29cAEDfF1a60FB0cA37Efc732CAB";
-export const RICVAULTADDRESS = "0x16942A549c26D0b98Ec65EF5DC67d02Df081d851";
+export const ARWAVEPSADDRESS = "0xdBfce4149b4443c885d7d4d3E686F2E2a31378B8";
+export const DAOSTAKINGADDRESS = "0x8f22458612812947F05C9eAfcE2526df40FB6D2d";
+export const FEEDAOADDRESS = "0x1208DE8EBf20B265293c1cC4C3eb93Ad076b809F";
+export const RICVAULTADDRESS = "0x2011fB94B5fe2a44bD6d95791312578c44730a14";
 
-export const HARMONYRPCURL = "https://api.s0.b.hmny.io";
-export const VOTINGPERIODBLOCKS = 100; ///259200; //The blocks passing in the voting period. 302400 on Harmony, 10 on Hardhat
+export const HARMONYRPCURL = "https://harmony-0-rpc.gateway.pokt.network";
+export const VOTINGPERIODBLOCKS = 259200; //The blocks passing in the voting period. 302400 on Harmony, 10 on Hardhat
 
 export const metamask_web3 = new Web3(window.ethereum);
 export const rpc_web3 = new Web3(HARMONYRPCURL);
