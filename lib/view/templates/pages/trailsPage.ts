@@ -4,13 +4,12 @@ import { helperTooltips } from "../components/helperTooltips";
 import {
   ChevronLeftBlack,
   ChevronRightBlack,
+  CommentLogo,
   CopyLogo,
   DownloadLogo,
   Footsteps,
   RefreshLogo,
   RemoveIcon,
-  SearchLogo,
-  SignPost,
 } from "../components/logos";
 import {
   getPageButtonEndPoint,
@@ -19,98 +18,64 @@ import {
 import DOMPurify from "dompurify";
 
 export const TrailsPage = () => html`<h3>Trails</h3>
-  <small>Create a new trail or search for an existing one</small>
   <div class="row">
     <div id="permaweb-dropdown"></div>
-    <button id="search-trail-tab" class="labelButton" title="Search">
-      ${SearchLogo()}
-    </button>
-    <button id="create-trail-tab" class="labelButton" title="Create new trail">
-      ${SignPost()}
-    </button>
   </div>
   <hr />
   <div class="center">${Footsteps()}</div>
-  <div class="center" id="search-container">${FindTrail()}</div>
-  <div class="center display-none" id="create-container">
-    ${CreateTrail()}
-  </div> `;
-
-const CreateTrail = () => html`
-  <div class="column">
-    <h4>Create a new Trail</h4>
-    <table>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-      <tr>
-        <td><input type="text" id="new-trail-input" /></td>
-        <td></td>
-        <td>
-          ${helperTooltips(
-            "The trail identifier, can be any human readable text.."
-          )}
-        </td>
-      </tr>
-      <tr>
-        <td><label for="access-input">Private</label></td>
-        <td><input type="checkbox" id="access-input" /></td>
-        <td>
-          ${helperTooltips(
-            "Private means, only the creator's comments will be visible, if this is unchecked, anyone can comment on the trail!"
-          )}
-        </td>
-      </tr>
-    </table>
-    <button id="add-new-trail" class="labelButton">Create the trail!</button>
-  </div>
-`;
+  <div class="center" id="search-container">${FindTrail()}</div> `;
 
 export const FindTrail = () => html`<div class="column">
   <h4>Search for a trail</h4>
-  <input id="trail-id" type="text" />
+  <table>
+    <tr>
+      <td>
+        <label>Trail Name:</label>
+      </td>
+      <td><input id="trail-id" type="text" /></td>
+      <td>${helperTooltips("The name of the trail to search for.")}</td>
+    </tr>
+    <tr>
+      <td>
+        <label>Arweave Address:</label>
+      </td>
+      <td>
+        <input id="trail-creator-address" type="text" />
+      </td>
+      <td>${helperTooltips("Optional. The address of the uploader.")}</td>
+    </tr>
+  </table>
   <button class="labelButton" id="trail-find">Find</button>
-
-  <hr />
-
   <div id="trail-search-result"></div>
 </div>`;
 
-export const FoundTrail = (
-  name: string,
-  access: string,
-  creatorCalls: boolean
-) => {
-  let creatorUi = nothing;
-  if (access === "private" && creatorCalls) {
-    creatorUi = html`
-      <table>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-        <tr>
-          <td><label for="add-tx-input">TransactionId:</label></td>
-          <td><input type="text" id="add-tx-input" /></td>
-          <td>
-            <button class="labelButton" id="private-add-txid">Add</button>
-          </td>
-        </tr>
-      </table>
-    `;
-  }
+export const FoundTrail = (name: string, uploaderAddress: string) => {
   return html`<div class="column">
     <hr />
     <h2 class="center">${name}</h2>
-    <small class="center">This is a ${access} trail.</small>
-    ${creatorUi}
+    <small class="center">${uploaderAddress}</small>
     <hr />
     <div class="center">
       <button title="Refresh" id="refresh-button" class="labelButton width-50">
         ${RefreshLogo()}
+      </button>
+      <button
+        title="Copy Trail Link"
+        class="labelButton width-50 center"
+        id="copyTrail"
+        data-name="${name}"
+        data-address="${uploaderAddress}"
+      >
+        ${CopyLogo()}
+      </button>
+      <button
+        title="Add Comment"
+        class="labelButton width-50 center"
+        id="addCommentOnTrailButton"
+        data-name="${name}"
+        data-address="${uploaderAddress}"
+      >
+        ${CommentLogo()}
       </button>
     </div>
     <div id="trail-content-display" class="placeholder-item"></div>
