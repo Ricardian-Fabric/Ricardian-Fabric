@@ -122,14 +122,32 @@ export const CreatePage = () => html`
           <label>Trail:</label>
         </td>
         <td>
-          <input
-            aria-label="Related trail"
-            name="trail"
-            id="trail-input"
-            type="text"
-            placeholder="..."
-            class="cursor-text"
-          />
+          <table class="width-100Percent">
+            <tr>
+              <td>
+                <input
+                  aria-label="Related trail"
+                  name="trail"
+                  id="trail-input"
+                  type="text"
+                  placeholder="Trail Name"
+                  class="cursor-text"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  aria-label="Arweave address for trail"
+                  name="trail"
+                  id="trail-address-input"
+                  type="text"
+                  placeholder="Arweave address"
+                  class="cursor-text"
+                />
+              </td>
+            </tr>
+          </table>
         </td>
         <td>
           <span id="trail-tooltip"></span>
