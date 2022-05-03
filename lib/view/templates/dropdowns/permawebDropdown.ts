@@ -30,8 +30,8 @@ export const PermawebDropdown = (
     <ul>
       <li>
         <button id="Account-popup-button" class="dropdown-button">
-          <small>${accountLogo()} Account</small>
-        </button>
+         <span class="fire">🔥</span> 
+        <small> Burner Wallet</small>
       </li>
       ${getDropdowns(contractType, page)}
     </ul>
