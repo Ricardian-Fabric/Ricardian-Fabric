@@ -329,6 +329,7 @@ export function uploadProposalActions(props: State, step: PopupState) {
   const gitEl = getById("smartcontract-repo") as HTMLInputElement;
   const frontEndEl = getById("smartcontract-frontend") as HTMLInputElement;
   const trailEl = getById("trailname-input") as HTMLInputElement;
+  const arweaveAddressEl = getById("trail-arweave-address") as HTMLInputElement;
   const termsAcceptedEl = getById("accepted-terms") as HTMLInputElement;
 
   const networkEl = getById("selected-network") as HTMLSelectElement;
@@ -356,6 +357,7 @@ export function uploadProposalActions(props: State, step: PopupState) {
       categoryEl,
       implementsSimpleTerms,
       trailEl,
+      arweaveAddressEl,
     });
   }
 
@@ -374,6 +376,7 @@ export function uploadProposalActions(props: State, step: PopupState) {
       category: categoryEl.value,
       simpleterms: implementsSimpleTerms.checked,
       trail: trailEl.value,
+      arweaveAddress: arweaveAddressEl.value,
     });
     switch (step) {
       case PopupState.UploadProposal:
@@ -405,6 +408,7 @@ export function uploadProposalActions(props: State, step: PopupState) {
       category: categoryEl.value,
       simpleterms: implementsSimpleTerms.checked,
       trail: trailEl.value,
+      arweaveAddress: arweaveAddressEl.value,
     });
     switch (step) {
       case PopupState.UploadProposal:
@@ -432,28 +436,6 @@ export function uploadProposalActions(props: State, step: PopupState) {
         if (!artifactIsValid) {
           dispatch_renderError("Malformed Artifact.");
           return;
-        }
-
-        if (trailEl.value.length !== 0) {
-          // Trail element can be empty but if it's not, I check if the trail exists
-          const trailsContractOptions = await OptionsBuilder(() =>
-            getTrailsContractWithRPC()
-          );
-          const trails = trailsContractOptions.data;
-          if (hasError(trailsContractOptions)) {
-            return;
-          }
-          const trailDetailsOptions = await OptionsBuilder(() =>
-            getTrailDetailsWithoutFrom(trails, trailEl.value)
-          );
-          if (hasError(trailDetailsOptions)) {
-            return;
-          }
-          const trailDetails = trailDetailsOptions.data;
-          if (!trailDetails.initialized) {
-            dispatch_renderError("Trail doesn't exist!");
-            return;
-          }
         }
 
         if (gitEl.value === "") {
@@ -493,6 +475,7 @@ export function uploadProposalActions(props: State, step: PopupState) {
           category: categoryEl.value,
           simpleterms: implementsSimpleTerms.checked,
           trail: trailEl.value,
+          arweaveAddress: arweaveAddressEl.value,
         };
 
         if (props.Account.data === null) {
