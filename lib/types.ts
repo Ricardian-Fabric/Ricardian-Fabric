@@ -149,6 +149,7 @@ export enum RenderType {
   renderTokenSelected = "renderTokenSelected",
   contractDeployedPopup = "contractDeployedPopup",
   contractDeployedData = "contractDeployedData",
+  setCommentPopup = "setCommentPopup",
 }
 
 // TODO refactor to RenderDispatchArgs for specifying the dispatch arguments
@@ -271,6 +272,7 @@ export type Renderer = {
   [RenderType.renderTokenSelected]: RenderFunction;
   [RenderType.contractDeployedPopup]: RenderFunction;
   [RenderType.contractDeployedData]: RenderFunction;
+  [RenderType.setCommentPopup]: RenderFunction;
 };
 
 export enum VerificationState {
@@ -493,6 +495,7 @@ export type AcceptablePageProps = {
   ERC20: string;
   creatorAppLink: string;
   relatedtrail: string;
+  trailAddress: string;
   ipfsParams: IPFSParams;
 };
 
@@ -584,6 +587,7 @@ export type ProposalFormat = {
   category: string;
   simpleterms: boolean;
   trail: string;
+  arweaveAddress: string;
 };
 
 export type RankProposal = {
