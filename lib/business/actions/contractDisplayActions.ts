@@ -114,7 +114,11 @@ export function SCProposalDisplayPageActions(props) {
     const proposal: ProposalFormat = transactionOptions.data;
     dispatch_setPopupState(PopupState.NONE);
     dispatch_setPage(PageState.trails);
-    dispatch_navigateTo(QueryStrings.trail, proposal.trail);
+    dispatch_navigateTo(
+      QueryStrings.trail,
+      proposal.trail,
+      proposal.arweaveAddress
+    );
   };
 
   remove.onclick = async function () {
