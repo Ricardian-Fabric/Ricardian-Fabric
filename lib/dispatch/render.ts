@@ -535,6 +535,7 @@ export function dispatch_initializeProposalUpload(
     categoryEl: HTMLSelectElement;
     implementsSimpleTerms: HTMLInputElement;
     trailEl: HTMLInputElement;
+    arweaveAddressEl: HTMLInputElement;
   }
 ) {
   dispatch(Events.render, {
@@ -821,30 +822,23 @@ export function dispatch_vaultHistoryEmpty() {
   });
 }
 
-export function dispath_trailsTabs(
-  props: State,
-  tab: "create" | "search",
-  trails: Contract,
-  addr: string
-) {
+export function dispath_trailsTabs(props: State) {
   dispatch(Events.render, {
     type: RenderType.trailsTabs,
-    props: { ...props, tmp: { tab, trails, addr } },
+    props: { ...props, tmp: {} },
   });
 }
 
 export function dispatch_trailsDetails(
   props: State,
-  name: string,
-  caller: string,
-  trails: Contract,
-  trailDetails: TrailDetails
+  trailId: string,
+  uploaderWalletAddress: string
 ) {
   dispatch(Events.render, {
     type: RenderType.trailsDetails,
     props: {
       ...props,
-      tmp: { name, caller, trails, trailDetails },
+      tmp: { trailId, uploaderWalletAddress },
     },
   });
 }
@@ -871,25 +865,25 @@ export function dispatch_renderArweaveTxSummary(
 export function dispatch_renderTrailDataPage(
   props: State,
   dataPage: ArweaveDataPage,
-  creatorCalls: boolean,
-  caller: string,
-  trails: Contract,
-  trailId: string,
-  trailDetails: TrailDetails
+  trailId: string
 ) {
   dispatch(Events.render, {
     type: RenderType.trailDataPage,
     props: {
       ...props,
-      tmp: { dataPage, creatorCalls, caller, trails, trailId, trailDetails },
+      tmp: { dataPage, trailId },
     },
   });
 }
 
-export function dispatch_navigateTo(queryStrings: QueryStrings, value: string) {
+export function dispatch_navigateTo(
+  queryStrings: QueryStrings,
+  value: string,
+  secondValue?: string
+) {
   dispatch(Events.render, {
     type: RenderType.navigateToQueryString,
-    props: { tmp: { value, queryStrings } },
+    props: { tmp: { secondValue, value, queryStrings } },
   });
 }
 
@@ -1085,5 +1079,16 @@ export function dispatch_contractDeployedData(
   dispatch(Events.render, {
     type: RenderType.contractDeployedData,
     props: { ...props, tmp: { contractAddress, simpleTerms } },
+  });
+}
+
+export function dispatch_setCommentFields(
+  props: State,
+  trailName: string,
+  linkedTransaction: string
+) {
+  dispatch(Events.render, {
+    type: RenderType.setCommentPopup,
+    props: { ...props, tmp: { trailName, linkedTransaction } },
   });
 }
