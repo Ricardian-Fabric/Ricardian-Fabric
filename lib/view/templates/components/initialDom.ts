@@ -8,7 +8,7 @@ export const initialStringDom = `  <!DOCTYPE html>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="icon" type="image/x-icon"
       href="https://arweave.net/cGU3w4SlEESxajw-t_mhoBArT7WTwmac1mvjlBqNIi0"/>
-      <title>Ricardian Fabric</title>
+      <title>Ricardian Contract</title>
     </head>
     <body>
     </body>
