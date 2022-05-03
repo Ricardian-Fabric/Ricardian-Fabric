@@ -405,6 +405,7 @@ const acceptablePage = (props: AcceptablePageProps) => html`
     data-erc20="${props.ERC20}"
     data-creatorapplink="${props.creatorAppLink}"
     data-relatedtrail="${props.relatedtrail}"
+    data-trailAddress="${props.trailAddress}"
     data-ipfs="${JSON.stringify(props.ipfsParams)}"
     id="page"
   >
@@ -420,7 +421,11 @@ const acceptablePage = (props: AcceptablePageProps) => html`
       ${createdDateTemplate(props.createdDate)} ${expiryTemplate(props.expires)}
       ${networkTemplate(props.network, false)} ${issuerTemplate(props.issuer)}
       ${props.relatedtrail !== ""
-        ? TrailTemplate(props.creatorAppLink, props.relatedtrail)
+        ? TrailTemplate(
+            props.creatorAppLink,
+            props.relatedtrail,
+            props.trailAddress
+          )
         : nothing}
     </table>
     <hr />
