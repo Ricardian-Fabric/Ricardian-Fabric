@@ -150,28 +150,13 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
 
     const trailEl = getById("trail-input") as HTMLInputElement;
 
-    if (trailEl.value !== "") {
-      // check if the trail exists
-      const TrailsContractOptions = await OptionsBuilder(() =>
-        getTrailsContractWithRPC()
-      );
+    const trailArweaveAddressEl = getById(
+      "trail-address-input"
+    ) as HTMLInputElement;
 
-      if (hasError(TrailsContractOptions)) {
-        return;
-      }
-
-      const detailsOptions = await OptionsBuilder(() =>
-        getTrailDetails(TrailsContractOptions.data, trailEl.value, issuer)
-      );
-      if (hasError(detailsOptions)) {
-        return;
-      }
-      if (!detailsOptions.data.initialized) {
-        dispatch_renderError("Invalid Trail name.");
-        return;
-      }
-      if (detailsOptions.data.creator !== issuer) {
-        dispatch_renderError("You can only link your own trail!");
+    if (trailArweaveAddressEl.value.length !== 0) {
+      if (trailArweaveAddressEl.value.length !== 43) {
+        dispatch_renderError("Invalid Arweave address");
         return;
       }
     }
@@ -224,6 +209,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
           ERC20,
           creatorAppLink: location.origin + location.pathname,
           relatedtrail: trailEl.value,
+          trailAddress: trailArweaveAddressEl.value,
           ipfsParams: props.ipfs,
         },
       });
