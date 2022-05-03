@@ -133,12 +133,34 @@ export const UploadProposalStep2 = () => html` <div
       </td>
     </tr>
     <tr>
-      <td><label for="trailname-input">Trail</label></td>
-      <td><input id="trailname-input" type="text" /></td>
+      <td><label for="trailname-input">Trail:</label></td>
       <td>
-        ${helperTooltips(
-          "Add a trail where legal contract templates are uploaded!"
-        )}
+        <table class="width-100Percent">
+          <tr>
+            <td>
+              <input
+                id="trailname-input"
+                type="text"
+                placeholder="Trail Name"
+              />
+            </td>
+            <td>
+              ${helperTooltips(
+                "Add a trail where contract templates are uploaded!"
+              )}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="trail-arweave-address"
+                type="text"
+                placeholder="Arweave Address"
+              />
+            </td>
+            <td>${helperTooltips("Add the Address of the Trail Uploader")}</td>
+          </tr>
+        </table>
       </td>
     </tr>
     <tr>
