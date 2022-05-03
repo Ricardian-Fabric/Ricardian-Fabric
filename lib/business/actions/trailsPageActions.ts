@@ -1,255 +1,117 @@
-import { Contract } from "web3-eth-contract";
 import {
   dispatch_renderError,
   dispatch_renderTrailDataPage,
+  dispatch_setCommentFields,
   dispatch_trailsDetails,
   dispath_trailsTabs,
 } from "../../dispatch/render";
+import { dispatch_setPopupState } from "../../dispatch/stateChange";
 import { fetchTransactionBy } from "../../fetch";
-import { getPublicTrail, getTags } from "../../fetch/graphql";
+import {
+  getPublicTrail,
+  getPublicTrailWithOwner,
+  getTags,
+} from "../../fetch/graphql";
 import {
   ArweaveDataDisplayContent,
   ArweaveDataPage,
   ArweaveNode,
   ContractTypes,
   Options,
+  PopupState,
   State,
   Status,
   TrailData,
-  TrailDetails,
 } from "../../types";
 import { copyStringToClipboard, getById } from "../../view/utils";
-import { getError } from "../../wallet/errors";
-import {
-  add,
-  blacklist,
-  getBlackList,
-  getTrailContent,
-  getTrailDetails,
-  getTrailsContract,
-  newTrail,
-} from "../../wallet/trails/contractCalls";
-import { getAddress } from "../../wallet/web3";
 import { getTotalPages, hasError, OptionsBuilder } from "../utils";
 
 export async function trailsPageActions(props: State) {
-  const createTabButton = getById("create-trail-tab");
-  const searchTabButton = getById("search-trail-tab");
-  const newTrailInputEl = getById("new-trail-input") as HTMLInputElement;
-  const addTrailEl = getById("add-new-trail");
-  const trailIdEl = getById("trail-id") as HTMLInputElement;
-  const accessEl = getById("access-input") as HTMLInputElement;
-  const searchTrail = getById("trail-find");
-  const myAddressOptions = await OptionsBuilder(() => getAddress());
+  dispath_trailsTabs(props);
 
-  if (hasError(myAddressOptions)) {
-    return;
-  }
-  const addr = myAddressOptions.data;
-  const trailsContractOptions = await OptionsBuilder(() => getTrailsContract());
-  const trails = trailsContractOptions.data;
-
-  if (hasError(trailsContractOptions)) {
-    return;
-  }
-  dispath_trailsTabs(props, "search", trails, addr);
-
-  createTabButton.onclick = function () {
-    dispath_trailsTabs(props, "create", trails, addr);
-  };
-  searchTabButton.onclick = function () {
-    dispath_trailsTabs(props, "search", trails, addr);
-  };
-
-  addTrailEl.onclick = async function () {
-    if (newTrailInputEl.value === "") {
-      dispatch_renderError("Trail name is missing");
-      return;
-    }
-    const trailId = newTrailInputEl.value;
-
-    const checkIfExistsOptions = await OptionsBuilder(() =>
-      getTrailDetails(trails, trailId, addr)
-    );
-
-    if (hasError(checkIfExistsOptions)) {
-      return;
-    }
-    const trailDetails = checkIfExistsOptions.data;
-
-    if (trailDetails.initialized) {
-      dispatch_renderError("Trail already exists!");
-      return;
-    }
-
-    const onError = (err, receipt) => {
-      dispatch_renderError(getError(err.message));
-      return;
-    };
-    const onReceipt = (err, receipt) => {
-      dispath_trailsTabs(props, "search", trails, addr);
-      trailIdEl.value = trailId;
-      searchTrail.click();
-      return;
-    };
-
-    const access = accessEl.checked ? "private" : "public";
-
-    await newTrail(trails, trailId, access, addr, onError, onReceipt);
-  };
-  await searchButtonClicked(props, trails, addr);
+  searchButtonClicked(props);
 }
 
-export async function searchButtonClicked(
-  props: State,
-  trails: Contract,
-  addr: string
-) {
+export function searchButtonClicked(props: State) {
   const searchTrail = getById("trail-find");
   const trailIdEl = getById("trail-id") as HTMLInputElement;
-
+  const trailAddress = getById("trail-creator-address") as HTMLInputElement;
   searchTrail.onclick = async function () {
     if (trailIdEl.value === "") {
-      dispatch_renderError("Trail id missing");
+      dispatch_renderError("Trail Id is Missing");
       return;
     }
     const trailId = trailIdEl.value;
-
-    const checkIfExistsOptions = await OptionsBuilder(() =>
-      getTrailDetails(trails, trailId, addr)
-    );
-
-    if (hasError(checkIfExistsOptions)) {
-      return;
-    }
-    let trailDetails: TrailDetails = checkIfExistsOptions.data;
-
-    if (!trailDetails.initialized) {
-      dispatch_renderError("The trail doesn't exist");
+    if (trailAddress.value.length !== 0 && trailAddress.value.length !== 43) {
+      dispatch_renderError("Invalid Arweave Address ");
       return;
     }
 
-    dispatch_trailsDetails(props, trailId, addr, trails, {
-      initialized: trailDetails.initialized,
-      access: trailDetails.access === "0" ? "private" : "public",
-      creator: trailDetails.creator,
-    });
+    dispatch_trailsDetails(props, trailId, trailAddress.value);
   };
 }
 
 export async function fetchAllTrailDetails(
   props: State,
   trailId,
-  trails: Contract,
-  trailDetails: TrailDetails,
-  caller: string,
-  creatorCalls: boolean
+  uploaderWalletAddress
 ) {
-  const privateAddTx = getById("private-add-txid") as HTMLButtonElement;
   const refreshBtn = getById("refresh-button");
+  const copyBtn = getById("copyTrail");
+  const addCommentButton = getById("addCommentOnTrailButton");
+
+  addCommentButton.onclick = function () {
+    dispatch_setPopupState(PopupState.AddComment);
+    const name = addCommentButton.dataset.name;
+    const address = addCommentButton.dataset.address;
+    dispatch_setCommentFields(props, name, address);
+  };
+
   refreshBtn.onclick = function () {
-    dispatch_trailsDetails(props, trailId, caller, trails, trailDetails);
+    dispatch_trailsDetails(props, trailId, uploaderWalletAddress);
   };
-
-  privateAddTx.onclick = async function () {
-    const addInput = getById("add-tx-input") as HTMLInputElement;
-    if (addInput.value.length !== 43) {
-      dispatch_renderError("Invalid arweave transaction id");
-      return;
-    }
-
-    const onError = (error: any, receipt: any) => {
-      dispatch_renderError("An error occured while saving the trail");
-    };
-    const onReceipt = (receipt: any) => {
-      addInput.value = "";
-      // Dispatch a rerender for the trail details!
-      dispatch_trailsDetails(props, trailId, caller, trails, trailDetails);
-    };
-    await add(trails, trailId, addInput.value, caller, onError, onReceipt);
+  copyBtn.onclick = () => {
+    const name = copyBtn.dataset.name;
+    const address = copyBtn.dataset.address;
+    const addressURL = address.length === 0 ? "" : `&address=${address}`;
+    const creatorAppLink = location.origin + location.pathname;
+    const url = creatorAppLink + "?trail=" + name + addressURL;
+    copyStringToClipboard(url);
   };
+  let publicTrailOptions;
 
-  const blacklistOptions = await OptionsBuilder(() =>
-    getBlackList(trails, trailId, caller)
-  );
+  if (uploaderWalletAddress.length !== 0) {
+    publicTrailOptions = await getPublicTrailWithOwner(
+      trailId,
+      uploaderWalletAddress
+    );
+  } else {
+    publicTrailOptions = await getPublicTrail(trailId);
+  }
 
-  if (hasError(blacklistOptions)) {
+  if (hasError(publicTrailOptions)) {
     return;
   }
+  const edges: Array<{ node: ArweaveNode }> =
+    publicTrailOptions.data.transactions.edges;
+  const trailContent = filterEdgesWithBlacklist(edges, []);
 
-  //Compare the public data with the blacklist
-  const blacklist: Array<string> = blacklistOptions.data;
-
-  let trailContent;
-
-  if (trailDetails.access === "private") {
-    const trailContentOptions = await OptionsBuilder(() =>
-      getTrailContent(trails, trailId, caller)
-    );
-
-    if (hasError(trailContentOptions)) {
-      return;
-    }
-    trailContent = filterAddedTrailsWithBlackList(
-      trailContentOptions.data,
-      blacklist
-    );
-  } else if (trailDetails.access === "public") {
-    const publicTrailOptions = await getPublicTrail(trailId);
-
-    if (hasError(publicTrailOptions)) {
-      return;
-    }
-    const edges: Array<{ node: ArweaveNode }> =
-      publicTrailOptions.data.transactions.edges;
-    trailContent = filterEdgesWithBlacklist(edges, blacklist);
-  }
-
-  trailDataPagePaginated(
-    props,
-    creatorCalls,
-    trailContent,
-    1,
-    trailDetails,
-    caller,
-    trails,
-    trailId
-  );
+  trailDataPagePaginated(props, trailContent, 1, trailId);
 }
 
 async function trailDataPagePaginated(
   props: State,
-  creatorCalls: boolean,
   trailContent: string[],
   currentPageIndex: number,
-  trailDetails: TrailDetails,
-  caller: string,
-  trails: Contract,
   trailId: string
 ) {
-  const dataPage = await getPage(
-    trailContent,
-    currentPageIndex,
-    trailDetails.access
-  );
+  const dataPage = await getPage(trailContent, currentPageIndex);
 
-  dispatch_renderTrailDataPage(
-    props,
-    dataPage,
-    creatorCalls,
-    caller,
-    trails,
-    trailId,
-    trailDetails
-  );
+  dispatch_renderTrailDataPage(props, dataPage, trailId);
 }
 
-async function getPage(
-  txIds: Array<string>,
-  currentPage: number,
-  access: string
-) {
-  const PageSize = 5; // 5 comments on a page
+async function getPage(txIds: Array<string>, currentPage: number) {
+  const PageSize = 10; // 10 comments on a page
   const currentDataToFetch = getCurrentContentToFetch(
     currentPage,
     txIds,
@@ -306,7 +168,7 @@ async function fetchDataOptions(currentDataToFetch: Array<string>) {
       });
     }
   }
-  return correctedData;
+  return correctedData.reverse();
 }
 
 async function getMetaDisplay(
@@ -405,14 +267,9 @@ function filterAddedTrailsWithBlackList(
 
 export function trailDetailsActions(
   props,
-  trails: Contract,
   trailId: string,
-  creatorCalls: boolean,
-  caller: string,
-  trailDetails: TrailDetails,
   dataPage: ArweaveDataPage
 ) {
-  const blacklistButtons = document.getElementsByClassName("blacklist-button");
   const copyButtons = document.getElementsByClassName("copy-txid-buttons");
   const paginationButtons = document.getElementsByClassName(
     "trail-paging-buttons"
@@ -424,12 +281,8 @@ export function trailDetailsActions(
     btn.onclick = async function () {
       await trailDataPagePaginated(
         props,
-        creatorCalls,
         dataPage.totalTxIds,
         pageIndex,
-        trailDetails,
-        caller,
-        trails,
         trailId
       );
     };
@@ -445,12 +298,8 @@ export function trailDetailsActions(
     if (index > 1) {
       await trailDataPagePaginated(
         props,
-        creatorCalls,
         dataPage.totalTxIds,
         index - 1,
-        trailDetails,
-        caller,
-        trails,
         trailId
       );
     }
@@ -462,12 +311,8 @@ export function trailDetailsActions(
     if (index < total) {
       await trailDataPagePaginated(
         props,
-        creatorCalls,
         dataPage.totalTxIds,
         index + 1,
-        trailDetails,
-        caller,
-        trails,
         trailId
       );
     }
@@ -478,53 +323,16 @@ export function trailDetailsActions(
     const total = parseInt(lastPageButton.dataset.totalpages);
 
     if (index < total) {
-      await trailDataPagePaginated(
-        props,
-        creatorCalls,
-        dataPage.totalTxIds,
-        total,
-        trailDetails,
-        caller,
-        trails,
-        trailId
-      );
+      await trailDataPagePaginated(props, dataPage.totalTxIds, total, trailId);
     }
   };
 
   firstPageButton.onclick = async function () {
     const index = parseInt(firstPageButton.dataset.trailpage);
     if (index > 1) {
-      await trailDataPagePaginated(
-        props,
-        creatorCalls,
-        dataPage.totalTxIds,
-        1,
-        trailDetails,
-        caller,
-        trails,
-        trailId
-      );
+      await trailDataPagePaginated(props, dataPage.totalTxIds, 1, trailId);
     }
   };
-
-  for (let i = 0; i < blacklistButtons.length; i++) {
-    const btn = blacklistButtons[i] as HTMLButtonElement;
-    const txId = btn.dataset.txid;
-    btn.onclick = async function () {
-      const onError = (error: any, receipt: any) => {
-        dispatch_renderError(getError(error.message));
-      };
-      const onReceipt = (receipt: any) => {
-        // DISPATCH TO REFETCH THE WHOLE FROM PAGE 1
-        dispatch_trailsDetails(props, trailId, caller, trails, trailDetails);
-      };
-      const addrOpt = await OptionsBuilder(() => getAddress());
-      if (hasError(addrOpt)) {
-        return;
-      }
-      await blacklist(trails, trailId, txId, addrOpt.data, onError, onReceipt);
-    };
-  }
 
   for (let i = 0; i < copyButtons.length; i++) {
     const btn = copyButtons[i] as HTMLButtonElement;
