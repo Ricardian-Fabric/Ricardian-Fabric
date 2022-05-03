@@ -28,7 +28,12 @@ export async function connectWalletButton(props) {
       return;
     }
 
-    await requestAccounts();
+    try {
+      await requestAccounts();
+    } catch (e) {
+      dispatch_renderError("WALLET: " + e.message);
+      return;
+    }
     registerEthereumProviderEvents(props);
 
     await switchNetwork(ChainName.Harmony, 0, "Mainnet");
@@ -47,7 +52,11 @@ export function OnQueryRedirect() {
 
   if (queryStrings.trail !== undefined) {
     dispatch_setPage(PageState.trails);
-    dispatch_navigateTo(QueryStrings.trail, queryStrings.trail);
+
+    const address =
+      queryStrings.address === undefined ? "" : queryStrings.address;
+
+    dispatch_navigateTo(QueryStrings.trail, queryStrings.trail, address);
   } else if (queryStrings.verify !== undefined) {
     dispatch_setPage(PageState.VerifyContract);
     dispatch_navigateTo(QueryStrings.verify, queryStrings.verify);
