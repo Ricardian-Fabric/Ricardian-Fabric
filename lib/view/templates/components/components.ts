@@ -57,8 +57,14 @@ export const issuerTemplate = (address: string) => {
   `;
 };
 
-export const TrailTemplate = (creatorAppLink: string, relatedTrail: string) => {
-  const url = creatorAppLink + "?trail=" + relatedTrail;
+export const TrailTemplate = (
+  creatorAppLink: string,
+  relatedTrail: string,
+  arweaveAddress: string
+) => {
+  const address =
+    arweaveAddress.length === 0 ? "" : `&address=${arweaveAddress}`;
+  const url = creatorAppLink + "?trail=" + relatedTrail + address;
   return html` <tr>
     <td>
       <label for="Trail">Trail:</label>
