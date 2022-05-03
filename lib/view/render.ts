@@ -365,7 +365,12 @@ export function renderTooltips() {
   const erc20DecimalTooltip = getById("erc20-decimal-tooltip");
   const erc20Address = getById("erc20-address-tooltip");
 
-  render(helperTooltips("Add a trail to this contract."), trailTooltip);
+  render(
+    helperTooltips(
+      "Add a trail to this contract. Arweave Address is optional."
+    ),
+    trailTooltip
+  );
 
   render(
     helperTooltips(
@@ -432,6 +437,7 @@ export function disableCreateInputs() {
   const docxDropper = getById("import-docx-trigger") as HTMLInputElement;
   const smartContract = getById("smartcontract-input") as HTMLInputElement;
   const trail = getById("trail-input") as HTMLInputElement;
+  const arweaveAddress = getById("trail-address-input") as HTMLInputElement;
   const sanctions = getById("sanctions_checkbox_toggle") as HTMLInputElement;
   const sanctionsLabel = getById("sanctions_checkbox_label");
 
@@ -487,6 +493,7 @@ export function disableCreateInputs() {
   disable(docxDropper);
   disable(smartContract);
   disable(trail);
+  disable(arweaveAddress);
 }
 export function enableCreateInputs() {
   enum Cursor {
@@ -505,15 +512,6 @@ export function enableCreateInputs() {
 
   editor.contentEditable = "true";
 
-  // const smartContractCatalogButton = getById(
-  //   "smart-contract-catalog-button"
-  // ) as HTMLButtonElement;
-  // const stakingButton = getById("staking-button") as HTMLButtonElement;
-  // const verifyButton = getById("verify-contract-button") as HTMLButtonElement;
-  // smartContractCatalogButton.disabled = false;
-  // stakingButton.disabled = false;
-  // verifyButton.disabled = false;
-
   const expires = getById("expires-input") as HTMLInputElement;
   const never = getById("expires-reset") as HTMLInputElement;
   const redirectto = getById("redirectto-input") as HTMLInputElement;
@@ -523,6 +521,7 @@ export function enableCreateInputs() {
   const docxDropper = getById("import-docx-trigger") as HTMLInputElement;
   const smartContract = getById("smartcontract-input") as HTMLInputElement;
   const trail = getById("trail-input") as HTMLInputElement;
+  const arweaveAddress = getById("trail-address-input") as HTMLInputElement;
   const sanctions = getById("sanctions_checkbox_toggle") as HTMLInputElement;
   const sanctionsLabel = getById("sanctions_checkbox_label");
 
@@ -586,6 +585,7 @@ export function enableCreateInputs() {
   enable(docxDropper, Cursor.pointer);
   enable(smartContract, Cursor.auto);
   enable(trail, Cursor.auto);
+  enable(arweaveAddress, Cursor.auto);
 }
 
 export function renderButtonSlotAlignment(center: boolean) {
@@ -1148,6 +1148,7 @@ export function proposalUpload(
     categoryEl: HTMLSelectElement;
     implementsSimpleTerms: HTMLInputElement;
     trailEl: HTMLInputElement;
+    arweaveAddressEl: HTMLInputElement;
   }
 ) {
   const {
@@ -1159,6 +1160,7 @@ export function proposalUpload(
     categoryEl,
     implementsSimpleTerms,
     trailEl,
+    arweaveAddressEl,
   } = elements;
 
   const proposalProps = props.uploadProposalProps;
@@ -1171,6 +1173,7 @@ export function proposalUpload(
   categoryEl.value = proposalProps.category;
   implementsSimpleTerms.checked = proposalProps.simpleterms;
   trailEl.value = proposalProps.trail;
+  arweaveAddressEl.value = proposalProps.arweaveAddress;
 }
 
 export function render_createProposalPageContent(
@@ -1432,54 +1435,42 @@ export function renderVaultHistoryEmpty() {
   render(EmptyVault(), vaultItemContainer);
 }
 
-export function renderTrailsTabs(tab: "search" | "create") {
+export function renderTrailsTabs() {
   const createTabButton = getById("create-trail-tab");
   const searchTabButton = getById("search-trail-tab");
   const searchContainer = getById("search-container");
   const createContainer = getById("create-container");
 
-  if (tab === "search") {
-    searchContainer.classList.remove("display-none");
+  searchContainer.classList.remove("display-none");
 
-    createTabButton.classList.add("light-shadow");
-    searchContainer.style.width = "";
+  createTabButton.classList.add("light-shadow");
+  searchContainer.style.width = "";
 
-    searchTabButton.classList.remove("light-shadow");
-    searchContainer.classList.add("display-block");
-    if (!createContainer.classList.contains("display-none")) {
-      createContainer.classList.add("display-none");
-    }
-    render(FindTrail(), searchContainer);
-  } else {
-    searchTabButton.classList.add("light-shadow");
-    createTabButton.classList.remove("light-shadow");
-    createContainer.classList.remove("display-none");
-    createContainer.classList.add("display-block");
-    if (!searchContainer.classList.contains("display-none")) {
-      searchContainer.classList.add("display-none");
-    }
+  searchTabButton.classList.remove("light-shadow");
+  searchContainer.classList.add("display-block");
+  if (!createContainer.classList.contains("display-none")) {
+    createContainer.classList.add("display-none");
   }
+  render(FindTrail(), searchContainer);
 }
 
 export function renderTrailDetails(
-  name: string,
-  access: string,
-  creatorCalls: boolean,
-  lastIndex: string
+  trailId: string,
+  uploaderWalletAddress: string
 ) {
   const searchTabButton = getById("search-trail-tab");
   searchTabButton.classList.add("light-shadow");
 
   const searchContainer = getById("search-container");
   searchContainer.style.width = "100%";
-  render(FoundTrail(name, access, creatorCalls), searchContainer);
-  const trailContentDisplay = getById("trail-content-display");
+  render(FoundTrail(trailId, uploaderWalletAddress), searchContainer);
+  // const trailContentDisplay = getById("trail-content-display");
 
-  if (lastIndex === "0" && access === "private") {
-    trailContentDisplay.classList.remove("placeholder-item");
-    trailContentDisplay.classList.add("center");
-    trailContentDisplay.textContent = "Trail is empty";
-  }
+  // if (lastIndex === "0" && access === "private") {
+  //   trailContentDisplay.classList.remove("placeholder-item");
+  //   trailContentDisplay.classList.add("center");
+  //   trailContentDisplay.textContent = "Trail is empty";
+  // }
 }
 
 export function renderAddCommentPopup() {
@@ -1529,7 +1520,8 @@ export function renderTrailDataPage(
 
 export function navigateToQueryString(
   queryStrings: QueryStrings,
-  value: string
+  value: string,
+  secondValue: string
 ) {
   setTimeout(() => {
     switch (queryStrings) {
@@ -1537,6 +1529,10 @@ export function navigateToQueryString(
         const trailIdEl = getById("trail-id") as HTMLInputElement;
         trailIdEl.classList.add("display-none");
         trailIdEl.value = value;
+
+        const addressEl = getById("trail-creator-address") as HTMLInputElement;
+        addressEl.value = secondValue;
+
         const find = getById("trail-find");
         find.click();
         break;
@@ -1697,4 +1693,14 @@ export function contractDeployedPopup() {
 export function contractDeployedData(address: string, simpleterms: boolean) {
   const contractDetails = getById("contract-details");
   render(deploymentDone(address, simpleterms), contractDetails);
+}
+
+export function setCommentPopup(name: string, linkedTx: string) {
+  const trailNameEl = getById("trail-name") as HTMLInputElement;
+  const linkedTransactionEl = getById(
+    "linkedTransaction-input"
+  ) as HTMLInputElement;
+
+  trailNameEl.value = name;
+  linkedTransactionEl.value = linkedTx;
 }
