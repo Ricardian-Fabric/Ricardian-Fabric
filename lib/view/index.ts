@@ -131,6 +131,7 @@ import {
   renderTokenSelected,
   contractDeployedPopup,
   contractDeployedData,
+  setCommentPopup,
 } from "./render";
 import { renderAcceptTools } from "./render";
 import { areYouSureButtons } from "../business/actions/areYouSureButtons";
@@ -710,25 +711,16 @@ const Render: Renderer = {
     renderVaultHistoryEmpty();
   },
   [RenderType.trailsTabs]: async (props: RenderDispatchArgs) => {
-    renderTrailsTabs(props.tmp.tab);
-    await searchButtonClicked(props, props.tmp.trails, props.tmp.addr);
+    renderTrailsTabs();
+    searchButtonClicked(props);
   },
   [RenderType.trailsDetails]: async (props: RenderDispatchArgs) => {
-    const creatorCalls = props.tmp.trailDetails.creator === props.tmp.caller;
-    renderTrailDetails(
-      props.tmp.name,
-      props.tmp.trailDetails.access,
-      creatorCalls,
-      props.tmp.trailDetails.contentIndex
-    );
+    renderTrailDetails(props.tmp.trailId, props.tmp.uploaderWalletAddress);
 
     await fetchAllTrailDetails(
       props,
-      props.tmp.name,
-      props.tmp.trails,
-      props.tmp.trailDetails,
-      props.tmp.caller,
-      creatorCalls
+      props.tmp.trailId,
+      props.tmp.uploaderWalletAddress
     );
   },
   [RenderType.addCommentPopup]: (props: RenderDispatchArgs) => {
@@ -757,18 +749,14 @@ const Render: Renderer = {
   },
   [RenderType.trailDataPage]: (props: RenderDispatchArgs) => {
     renderTrailDataPage(props.tmp.dataPage, props.tmp.creatorCalls);
-    trailDetailsActions(
-      props,
-      props.tmp.trails,
-      props.tmp.trailId,
-      props.tmp.creatorCalls,
-      props.tmp.caller,
-      props.tmp.trailDetails,
-      props.tmp.dataPage
-    );
+    trailDetailsActions(props, props.tmp.trailId, props.tmp.dataPage);
   },
   [RenderType.navigateToQueryString]: (props: RenderDispatchArgs) => {
-    navigateToQueryString(props.tmp.queryStrings, props.tmp.value);
+    navigateToQueryString(
+      props.tmp.queryStrings,
+      props.tmp.value,
+      props.tmp.secondValue
+    );
   },
   [RenderType.renderIpfsConfig]: (props: RenderDispatchArgs) => {
     renderIpfsConfigPage(props);
@@ -875,6 +863,9 @@ const Render: Renderer = {
   [RenderType.contractDeployedData]: (props: RenderDispatchArgs) => {
     contractDeployedData(props.tmp.contractAddress, props.tmp.simpleTerms);
     deploymentDoneActions();
+  },
+  [RenderType.setCommentPopup]: (props: RenderDispatchArgs) => {
+    setCommentPopup(props.tmp.trailName, props.tmp.linkedTransaction);
   },
 };
 
