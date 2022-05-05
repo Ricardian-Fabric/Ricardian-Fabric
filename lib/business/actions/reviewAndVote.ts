@@ -12,7 +12,6 @@ import {
 } from "../../types";
 import { getById, newTab } from "../../view/utils";
 import {
-  checkNetwork,
   getAddress,
   getBlockNumber,
   requestAccounts,

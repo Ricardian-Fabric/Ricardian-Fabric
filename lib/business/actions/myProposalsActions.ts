@@ -11,7 +11,6 @@ import {
   dispatch_renderStakerDetails,
 } from "../../dispatch/render";
 import {
-  checkNetwork,
   getAddress,
   getBlockNumber,
   requestAccounts,
