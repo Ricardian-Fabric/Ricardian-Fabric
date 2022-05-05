@@ -863,14 +863,10 @@ export function uploadCommentActions(props: State) {
   termsCheckbox.onclick = async function () {
     await handleTermsCheckbox(termsCheckbox);
   };
-
   const linkedTransactionEl = getById(
     "linkedTransaction-input"
   ) as HTMLInputElement;
   const commentEl = getById("comment-input") as HTMLInputElement;
-  if (props.Account.data === null) {
-    dispatch_renderError("You must add an arweave key first!");
-  }
 
   dispatch_disableButtonElement(proceedEl, false);
   dispatch_disableButtonElement(backEl, false);
@@ -879,10 +875,6 @@ export function uploadCommentActions(props: State) {
   };
 
   proceedEl.onclick = async function () {
-    if (props.Account.data === null) {
-      dispatch_renderError("You must add an arweave key first!");
-      return;
-    }
     if (trailNameEl.value === "") {
       dispatch_renderError("Trail id is missing");
       dispatch_disableButtonElement(proceedEl, false);
@@ -907,62 +899,10 @@ export function uploadCommentActions(props: State) {
       dispatch_renderError("Missing password.");
       return;
     }
-    const myAddressOptions = await OptionsBuilder(() => getAddress());
 
     dispatch_disableButtonElement(proceedEl, true);
     dispatch_disableButtonElement(backEl, true);
 
-    if (hasError(myAddressOptions)) {
-      dispatch_disableButtonElement(proceedEl, false);
-      dispatch_disableButtonElement(backEl, false);
-
-      return;
-    }
-    const addr = myAddressOptions.data;
-    const trailsContractOptions = await OptionsBuilder(() =>
-      getTrailsContract()
-    );
-    const trails = trailsContractOptions.data;
-
-    if (hasError(trailsContractOptions)) {
-      dispatch_disableButtonElement(proceedEl, false);
-      dispatch_disableButtonElement(backEl, false);
-
-      return;
-    }
-
-    const checkIfExistsOptions = await OptionsBuilder(() =>
-      getTrailDetails(trails, trailId, addr)
-    );
-
-    if (hasError(checkIfExistsOptions)) {
-      dispatch_disableButtonElement(proceedEl, false);
-      dispatch_disableButtonElement(backEl, false);
-
-      return;
-    }
-    const trailDetails: TrailDetails = checkIfExistsOptions.data;
-
-    if (!trailDetails.initialized) {
-      dispatch_renderError("That trail doesn't exist");
-      dispatch_disableButtonElement(proceedEl, false);
-      dispatch_disableButtonElement(backEl, false);
-
-      return;
-    }
-
-    if (trailDetails.access === "0") {
-      //If it's private, I check if the uploading address is the same as the creator
-      if (addr !== trailDetails.creator) {
-        dispatch_renderError(
-          "This is a private trail, your comments will never be displayed."
-        );
-        dispatch_disableButtonElement(proceedEl, false);
-        dispatch_disableButtonElement(backEl, false);
-
-        return;
-      }
-    }
     if (linkedTransactionEl.value.length !== 0) {
       if (linkedTransactionEl.value.length !== 43) {
         dispatch_renderError("Invalid linked transaction!");
