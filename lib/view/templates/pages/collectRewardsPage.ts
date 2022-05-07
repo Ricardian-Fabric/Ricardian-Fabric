@@ -12,17 +12,17 @@ export const CollectRewardsContent = () => html` <h3>Collect Rewards</h3>
     >Fees from deployed smart contracts accumulate in the Fee Dao
     contract.</small
   >
-  <small>You can withdraw some in exchange for locking up Ric.</small>
+  <small>You can withdraw some in exchange for locking up OneRIC.</small>
   <table>
     <tr>
       <td><label for="ricAmount">Lock </label></td>
       <td><input id="ricAmount" type="number" value="ricAmount" /></td>
-      <td><label for="ricAmount">Ric </label></td>
+      <td><label for="ricAmount">OneRIC </label></td>
       <td>
         <button
           class="labelButton light-shadow"
           id="approve-ric-spend"
-          title="Approve the ric for spending"
+          title="Approve the 1ric for spending"
         >
           ${SpendLogo()} Approve
         </button>

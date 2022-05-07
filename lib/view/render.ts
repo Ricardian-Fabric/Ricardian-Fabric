@@ -159,7 +159,7 @@ export function renderCollectRewardsPage(props: State) {
 
 export function renderMenuPage(props: State) {
   const menuItems = getById("menuItems");
-  render(MenuPage(), menuItems);
+  render(MenuPage(props), menuItems);
 
   //I need to set the background of page
   const page = getById("page");
@@ -1299,7 +1299,7 @@ export function enableStakingButtons(
   }
 
   if (stakingdisabled) {
-    stakingButtonEl.title = "You need 3000 RIC to stake!";
+    stakingButtonEl.title = "You need 3000 OneRIC to stake!";
   }
 
   stakingButtonEl.disabled = stakingdisabled;
@@ -1320,8 +1320,10 @@ export function tokenSaleInit(
 
   ricLeftEl.classList.remove("placeholder-item");
   rateEl.classList.remove("placeholder-item");
-  ricLeftEl.textContent = ricLeft + " RIC";
-  rateEl.textContent = rate + " RIC/ONE";
+
+  ricLeftEl.textContent = ricLeft + " OneRIC";
+
+  rateEl.textContent = rate + " OneRIC/ONE";
 
   if (tokensSold === "40000000") {
     ricLeftEl.textContent = "SALE FINISHED";

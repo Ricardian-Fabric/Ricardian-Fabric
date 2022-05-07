@@ -39,7 +39,7 @@ export const VaultPage = () => html`<h3>Vault</h3>
             placeholder="0"
           />
         </td>
-        <td>${TokenLogoIcon()} RIC</td>
+        <td>${TokenLogoIcon()} OneRIC</td>
       </tr>
       <tr>
         <td>For</td>
@@ -121,7 +121,7 @@ export const VaultItem = (
     id="${"blocksleft" + index}"
   ></div>
   <div class="box-title">
-    Amount: ${TokenLogoIcon()}${lockedToken.lockedAmount} RIC
+    Amount: ${TokenLogoIcon()}${lockedToken.lockedAmount} OneRIC
   </div>
   <div>
     ${lockedToken.released

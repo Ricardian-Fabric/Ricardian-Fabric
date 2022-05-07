@@ -20,31 +20,31 @@ import { Marquee } from "../components/marquee";
 
 export const dashBoardElementsTitles: DashboardUIElement[] = [
   {
-    title: "Total Supply (RIC)",
+    title: "Total Supply (OneRIC)",
     id: "ric-total-supply",
     desc: "All the tokens were created and it's not possible to mint more.",
     logo: GoldBarsLogo(),
   },
   {
-    title: "Locked in Vault (RIC)",
+    title: "Locked in Vault (OneRIC)",
     id: "ric-in-vault",
-    desc: "The amount of RIC currently locked in the vault.",
+    desc: "The amount of OneRIC currently locked in the vault.",
     logo: CryptoVaultLogo(),
   },
   {
-    title: "For sale (RIC)",
+    title: "For sale (OneRIC)",
     id: "ric-left-for-sale",
-    desc: "Join the community by purchasing the native token, Ric.",
+    desc: "Join the community by purchasing the native token, OneRIC.",
     logo: CardLookingLogo(),
   },
   {
     title: "Token Sale Rate",
     id: "ric-sale-rate",
-    desc: "The amount of RIC for 1 ONE.",
+    desc: "The amount of OneRIC for 1 ONE.",
     logo: RateLogo(),
   },
   {
-    title: "Contributor Rewards (RIC)",
+    title: "Contributor Rewards (OneRIC)",
     id: "available-reward-amount",
     desc: "The rewards available for the catalogue contributors!",
     logo: Rewardhand(),
@@ -62,9 +62,9 @@ export const dashBoardElementsTitles: DashboardUIElement[] = [
     logo: AllProposalsLogo(),
   },
   {
-    title: "Contributor Stake (RIC)",
+    title: "Contributor Stake (OneRIC)",
     id: "total-staking-amount",
-    desc: "The amount of RIC securing the catalogue.",
+    desc: "The amount of OneRIC securing the catalogue.",
     logo: StakingLogo("50"),
   },
   {
