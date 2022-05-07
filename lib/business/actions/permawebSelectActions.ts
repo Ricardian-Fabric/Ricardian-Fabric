@@ -252,7 +252,7 @@ export function onFileDropped() {
       contentTypeEl.value = fileInput.files[0].type;
       dispatch_removeError();
     } else {
-      dispatch_promptError("You can only upload a single filezs");
+      dispatch_promptError("You can only upload a single file");
     }
     dropZone.classList.remove("drop-zone--over");
   };
