@@ -48,3 +48,15 @@ Then run `yarn inline`
 The final bundle.html is ready to be deployed!
 
 Upload these files using the Ricardian Fabric permaweb upload feature
+
+### IMPORTANT
+
+AppType property on the index.html #page is used to change menu options on the deployed app.
+
+use this for dao
+
+    data-apptype="dao"
+
+and this for contract deployments
+
+    data-apptype="deployments"

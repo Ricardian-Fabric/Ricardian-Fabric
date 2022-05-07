@@ -13,6 +13,7 @@ import {
 } from "../types";
 import { getCurrentUrl, getPage } from "../view/utils";
 import {
+  getAppTypeFromDataProp,
   getBlockCountriesFromDataProp,
   getBlockedAddressesFromDataProp,
   getCreatedDateFromDataProp,
@@ -84,6 +85,7 @@ import { beforePageSetHook, setStateHook } from "./setStateHook";
       editFinished: false,
       blockPollTimer: undefined,
       creatorAppLink: getCreatorAppLinkFromDataProp(pageEl),
+      appType: getAppTypeFromDataProp(pageEl),
     };
 
     const stateHandler = {

@@ -1,5 +1,6 @@
+import { BlockCountry } from "../business/countryBlock";
 import {
-  BlockCountry,
+  AppType,
   ContractTypes,
   ERC20Params,
   IPFSParams,
@@ -66,6 +67,10 @@ export function getIsERC20FromDataProp(page: HTMLElement): ERC20Params {
     return {} as ERC20Params;
   }
   return JSON.parse(page.dataset.erc20) as ERC20Params;
+}
+
+export function getAppTypeFromDataProp(page: HTMLElement): AppType {
+  return page.dataset.apptype as AppType;
 }
 
 export function getBlockCountriesFromDataProp(

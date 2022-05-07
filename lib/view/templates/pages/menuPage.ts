@@ -1,5 +1,5 @@
 import { html } from "lit-html";
-import { getBlockie } from "../components/getBlockies";
+import { AppType, State } from "../../../types";
 import {
   AgreementLogo,
   catalogLogo,
@@ -11,79 +11,96 @@ import {
   VotingLogo,
 } from "../components/logos";
 
-export const MenuPage = () => html`
-  <hr />
-  <div class="text-align-center">
-    <button
-      class="lightSlateGray-shadow  labelButton"
-      id="dashboard-button"
-      title="Dashboard"
-    >
-      ${Dashboard2()}
-    </button>
-  </div>
-  <div class="text-align-center">
-    <button
-      class="lightSlateGray-shadow  labelButton"
-      id="create-contract-button"
-      title="Create a Ricardian contract"
-    >
-      ${AgreementLogo()}
-    </button>
-  </div>
+export const MenuPage = (state: State) => {
+  const DeploymentsPage = () => html` <hr />
+    <div class="text-align-center">
+      <button
+        class="lightSlateGray-shadow  labelButton"
+        id="dashboard-button"
+        title="Dashboard"
+      >
+        ${Dashboard2()}
+      </button>
+    </div>
+    <div class="text-align-center">
+      <button
+        class="lightSlateGray-shadow  labelButton"
+        id="create-contract-button"
+        title="Create a Ricardian contract"
+      >
+        ${AgreementLogo()}
+      </button>
+    </div>
 
-  <div class="text-align-center">
-    <button
-      class="lightSlateGray-shadow  labelButton"
-      id="smart-contract-catalog-button"
-      title="Catalogue"
-    >
-      ${catalogLogo()}
-    </button>
-  </div>
-  <div class="text-align-center">
-    <button
-      title="Trails"
-      class="lightSlateGray-shadow labelButton"
-      id="trails-page-button"
-    >
-      ${TrailsLogo()}
-    </button>
-  </div>
-  <div class="text-align-center">
-    <button
-      title="DAO"
-      class="lightSlateGray-shadow  labelButton"
-      id="review-and-vote-button"
-    >
-      ${VotingLogo()}
-    </button>
-    <div class="text-align-enter">
+    <div class="text-align-center">
       <button
-        title="Token Sale"
-        class="lightSlateGray-shadow labelButton"
-        id="tokensale-button"
+        class="lightSlateGray-shadow  labelButton"
+        id="smart-contract-catalog-button"
+        title="Catalogue"
       >
-        ${TokenSaleLogo()}
+        ${catalogLogo()}
       </button>
     </div>
     <div class="text-align-center">
       <button
-        title="Fees"
+        title="Trails"
         class="lightSlateGray-shadow labelButton"
-        id="fees-button"
+        id="trails-page-button"
       >
-        ${RewardsPageIcon()}
+        ${TrailsLogo()}
+      </button>
+    </div>`;
+  const DAOPage = () => html`
+    <div class="text-align-center">
+      <button
+        class="lightSlateGray-shadow  labelButton"
+        id="dashboard-button"
+        title="Dashboard"
+      >
+        ${Dashboard2()}
       </button>
     </div>
     <div class="text-align-center">
       <button
-        title="Vault"
-        class="lightSlateGray-shadow labelButton"
-        id="vault-button"
+        title="DAO"
+        class="lightSlateGray-shadow  labelButton"
+        id="review-and-vote-button"
       >
-        ${VaultLogo()}
+        ${VotingLogo()}
       </button>
+      <div class="text-align-enter">
+        <button
+          title="Token Sale"
+          class="lightSlateGray-shadow labelButton"
+          id="tokensale-button"
+        >
+          ${TokenSaleLogo()}
+        </button>
+      </div>
+      <div class="text-align-center">
+        <button
+          title="Fees"
+          class="lightSlateGray-shadow labelButton"
+          id="fees-button"
+        >
+          ${RewardsPageIcon()}
+        </button>
+      </div>
+      <div class="text-align-center">
+        <button
+          title="Vault"
+          class="lightSlateGray-shadow labelButton"
+          id="vault-button"
+        >
+          ${VaultLogo()}
+        </button>
+      </div>
     </div>
-  </div>
-`;
+  `;
+
+  if (state.appType === AppType.deployments) {
+    return DeploymentsPage();
+  } else if (state.appType === AppType.dao) {
+    return DAOPage();
+  }
+};

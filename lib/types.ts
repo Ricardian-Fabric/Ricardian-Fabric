@@ -452,7 +452,13 @@ export type State = {
   editFinished: boolean;
   blockPollTimer: NodeJS.Timer;
   creatorAppLink: string;
+  appType: AppType;
 };
+
+export enum AppType {
+  dao = "dao",
+  deployments = "deployments",
+}
 
 export type SetHookArgs = {
   obj: State;
