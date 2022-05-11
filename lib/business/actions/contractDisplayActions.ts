@@ -5,6 +5,7 @@ import {
   dispatch_renderSCProposalDisplayPage,
   dispatch_SCDeploySelected,
   dispatch_teardownContractDisplayPage,
+  dispatch_uploadFrontendPopup,
 } from "../../dispatch/render";
 import {
   dispatch_setPage,
@@ -81,9 +82,10 @@ export function checkForProposalTag(edge) {
   return hasTag;
 }
 
-export function SCProposalDisplayPageActions(props) {
+export function SCProposalDisplayPageActions(props: State) {
   const deploy = getById("deploy-button");
   const dl = getById("download-terms-button");
+  const deployFrontEnd = getById("deploy-frontend-button");
   const remove = getById("remove-sc-button");
   const arweaveTxId = deploy.dataset.arweavetxid;
 
@@ -125,5 +127,12 @@ export function SCProposalDisplayPageActions(props) {
     const index = remove.dataset.index;
     dispatch_setPopupState(PopupState.emptyPopup);
     dispatch_createRemovalProposal(props, index, true);
+  };
+
+  deployFrontEnd.onclick = async function () {
+    // Should show a popup where the user inputs the title and the contract address!!
+    const url = deployFrontEnd.dataset.frontend;
+    dispatch_setPopupState(PopupState.emptyPopup);
+    dispatch_uploadFrontendPopup(props, url);
   };
 }
