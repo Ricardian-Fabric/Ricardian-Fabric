@@ -17,7 +17,6 @@ import {
   Token,
   TokenProposal,
   TokenWithBalance,
-  TrailDetails,
   VerificationState,
 } from "../types";
 import { dispatch } from "./dispatch";
@@ -854,11 +853,15 @@ export function dispatch_renderArweaveTxSummary(
   transaction: any,
   props: State,
   hasTip: boolean,
-  tipTransaction: any
+  tipTransaction: any,
+  redirectTo: PopupState
 ) {
   dispatch(Events.render, {
     type: RenderType.arweaveTxSummary,
-    props: { ...props, tmp: { transaction, hasTip, tipTransaction } },
+    props: {
+      ...props,
+      tmp: { transaction, hasTip, tipTransaction, redirectTo },
+    },
   });
 }
 
@@ -1090,5 +1093,12 @@ export function dispatch_setCommentFields(
   dispatch(Events.render, {
     type: RenderType.setCommentPopup,
     props: { ...props, tmp: { trailName, linkedTransaction } },
+  });
+}
+
+export function dispatch_uploadFrontendPopup(props: State, url: string) {
+  dispatch(Events.render, {
+    type: RenderType.uploadFrontendPopup,
+    props: { ...props, tmp: { url } },
   });
 }
