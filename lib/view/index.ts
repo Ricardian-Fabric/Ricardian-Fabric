@@ -132,6 +132,7 @@ import {
   contractDeployedPopup,
   contractDeployedData,
   setCommentPopup,
+  render_uploadFrontendPopup,
 } from "./render";
 import { renderAcceptTools } from "./render";
 import { areYouSureButtons } from "../business/actions/areYouSureButtons";
@@ -165,6 +166,7 @@ import {
   transferSummaryPageActions,
   uploadCommentActions,
   uploadFileListener,
+  uploadFrontEndPopupActions,
   uploadSummaryActions,
   walletCreateActions,
 } from "../business/actions/permawebSelectActions";
@@ -742,7 +744,7 @@ const Render: Renderer = {
     uploadSummaryActions(
       props.tmp.transaction,
       props,
-      PopupState.AddComment,
+      props.tmp.redirectTo,
       props.tmp.hasTip,
       props.tmp.tipTransaction
     );
@@ -866,6 +868,10 @@ const Render: Renderer = {
   },
   [RenderType.setCommentPopup]: (props: RenderDispatchArgs) => {
     setCommentPopup(props.tmp.trailName, props.tmp.linkedTransaction);
+  },
+  [RenderType.uploadFrontendPopup]: (props: RenderDispatchArgs) => {
+    render_uploadFrontendPopup(props.tmp.url);
+    uploadFrontEndPopupActions(props, props.tmp.url);
   },
 };
 
