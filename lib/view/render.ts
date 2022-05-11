@@ -138,6 +138,7 @@ import {
 } from "./templates/popups/contractDisplayAndVote";
 import { smartContractProductPage } from "./templates/components/smartContractProductPage";
 import DOMPurify from "dompurify";
+import { uploadNewFrontEndTemplate } from "./templates/popups/uploadFrontend";
 
 export function renderConnectYourWallet(props: State) {
   const page = getById("page");
@@ -832,6 +833,10 @@ export function render_wrongNetworkPopup() {
   setBannerDisplayBlock();
   const layout = getById("overlay-layout");
   render(WrongNetworkPopup(), layout);
+}
+export function render_uploadFrontendPopup(url: string) {
+  const layout = getById("overlay-layout");
+  render(uploadNewFrontEndTemplate(url), layout);
 }
 
 export function renderTransferSummaryPage(arg: {
