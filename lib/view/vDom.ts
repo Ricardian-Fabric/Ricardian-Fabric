@@ -22,6 +22,22 @@ export async function getFulfilledPagefromVDOM(pageProps: FulfilledPageProps) {
   return serialize(doc);
 }
 
+export function deployFromVDOMTemplate(
+  pageProps: {
+    contract: string;
+    title: string;
+    domParser: DOMParser;
+  },
+  fetchedDom: string
+) {
+  const doc = parseDOMfromString(pageProps.domParser, fetchedDom);
+  const body = doc.getElementsByTagName("body");
+
+  body[0].dataset.title = pageProps.title;
+  body[0].dataset.contract = pageProps.contract;
+  return serialize(doc);
+}
+
 function parseDOMfromString(parser: DOMParser, initialDom: string): Document {
   return parser.parseFromString(initialDom, "text/html");
 }
