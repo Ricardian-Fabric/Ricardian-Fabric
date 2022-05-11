@@ -56,7 +56,7 @@ export function StakerDetails(
   }
 
   return html`<div>
-    Stake: ${staker.stakeAmount} RIC
+    Stake: ${staker.stakeAmount} OneRIC
     ${staker.isStaking
       ? html`<button
           id="unstake-button"
@@ -628,8 +628,8 @@ export function RemovalProposalPage(index: string, malicious: boolean) {
       ${malicious
         ? html`<small
             >Reporting will create a removal proposal. Only do this if you have
-            proof the contract is unusable/malicious. The creator will loose his
-            stake in the Dao.</small
+            proof the contract is unusable/malicious. A malicious actor can
+            loose his stake in the Dao.</small
           >`
         : nothing}
 
