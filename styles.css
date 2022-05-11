@@ -97,6 +97,12 @@ textarea {
   width: 100%;
 }
 
+h4,
+p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 #sanctions_checkbox_toggle {
   display: none;
   cursor: pointer;
@@ -335,6 +341,11 @@ hr {
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
+}
+.rowRight {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
 }
 .column {
   display: flex;
@@ -1211,4 +1222,9 @@ hr {
 
 .fire {
   margin-left: 4px;
+}
+
+.columnNoAround {
+  display: flex;
+  flex-direction: column;
 }
