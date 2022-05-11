@@ -1,7 +1,7 @@
 import { html, nothing } from "lit-html";
 import { ProposalFormat } from "../../../types";
 import { getBlockie } from "./getBlockies";
-import { BugLogo, DownloadLogo, RocketLogo } from "./logos";
+import { BugLogo, DownloadLogo, RocketLogo, webLogo } from "./logos";
 
 export function smartContractProductPage(
   arweaveTxId: string,
@@ -11,7 +11,7 @@ export function smartContractProductPage(
 ) {
   return html`
     <div class="row">
-      <div id="termsContent" class="column width-70Percent"></div>
+      <div id="termsContent" class="columnNoAround width-70Percent"></div>
       <div class="display-block width-30Percent">
         <hr />
         <div class="text-align-center">
@@ -51,10 +51,11 @@ export function smartContractProductPage(
         <div class="text-align-center">
           <a href="${proposal.git}" target="_blank" rel="noopener">Github</a>
         </div>
+        <hr />
         ${proposal.frontEnd !== ""
           ? html` <div class="text-align-center column">
               <a href="${proposal.frontEnd}" target="_blank" rel="noopener"
-                >Front End</a
+                >Front End Demo</a
               >
             </div>`
           : nothing}
@@ -69,7 +70,20 @@ export function smartContractProductPage(
                 class="labelButton width-100"
                 ?disabled=${preview}
               >
-                ${RocketLogo()} Deploy
+                ${RocketLogo()} Smart Contract!
+              </button>
+            </div>`}
+        <hr />
+        ${preview
+          ? nothing
+          : html` <div class="text-align-center">
+              <button
+                data-frontend="${proposal.frontEnd}"
+                id="deploy-frontend-button"
+                class="labelButton width-100 center"
+                ?disabled=${preview}
+              >
+                ${webLogo()} Upload Front End!
               </button>
             </div>`}
         <hr />
