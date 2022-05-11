@@ -150,6 +150,7 @@ export enum RenderType {
   contractDeployedPopup = "contractDeployedPopup",
   contractDeployedData = "contractDeployedData",
   setCommentPopup = "setCommentPopup",
+  uploadFrontendPopup = "uploadFrontendPopup",
 }
 
 // TODO refactor to RenderDispatchArgs for specifying the dispatch arguments
@@ -273,6 +274,7 @@ export type Renderer = {
   [RenderType.contractDeployedPopup]: RenderFunction;
   [RenderType.contractDeployedData]: RenderFunction;
   [RenderType.setCommentPopup]: RenderFunction;
+  [RenderType.uploadFrontendPopup]: RenderFunction;
 };
 
 export enum VerificationState {
