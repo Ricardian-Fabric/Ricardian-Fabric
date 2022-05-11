@@ -23,7 +23,7 @@ import { getDecodedTagsFromTX } from "../../wallet/arweave";
 import {
   getAllAccepted,
   getAllRemoved,
-  getCatalogDAOContractWithRPC,
+  getCatalogDAOContractWithWallet,
 } from "../../wallet/catalogDAO/contractCalls";
 import { hasError, OptionsBuilder } from "../utils";
 
@@ -32,7 +32,7 @@ export async function catalogAction(props: State) {
 
   // based on what category is selected, I render the contracts
   const catalogDAOOptions = await OptionsBuilder(() =>
-    getCatalogDAOContractWithRPC()
+    getCatalogDAOContractWithWallet()
   );
 
   if (hasError(catalogDAOOptions)) {
@@ -167,7 +167,6 @@ export function catalogContentActions(props: State) {
 
   for (let i = 0; i < smartcontracts.length; i++) {
     const cont = smartcontracts[i] as HTMLButtonElement;
-
     cont.onclick = function () {
       const tx = cont.dataset.arweavetxid;
       const proposal: AcceptedSmartContractProposal = JSON.parse(
