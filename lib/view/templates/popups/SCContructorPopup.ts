@@ -47,7 +47,9 @@ export function SCConstructorPopup(selected: ProposalFormat) {
   const list = constructorParams.map((params) => {
     return html`<tr>
       <td>
-        <label for="${params.name}-input">${params.name}:</label>
+        <label for="${params.name}-input"
+          >${params.name} (${params.type}) :
+        </label>
       </td>
       <td>
         <input
