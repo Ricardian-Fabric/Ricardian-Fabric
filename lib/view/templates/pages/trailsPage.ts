@@ -17,13 +17,15 @@ import {
 } from "../components/paginations";
 import DOMPurify from "dompurify";
 
-export const TrailsPage = () => html`<h3>Trails</h3>
-  <div class="row">
+export const TrailsPage = () => html`
+  <div class="rowRight">
     <div id="permaweb-dropdown"></div>
   </div>
+  <h3>Trails</h3>
   <hr />
   <div class="center">${Footsteps()}</div>
-  <div class="center" id="search-container">${FindTrail()}</div> `;
+  <div class="center" id="search-container">${FindTrail()}</div>
+`;
 
 export const FindTrail = () => html`<div class="column">
   <h4>Search for a trail</h4>
