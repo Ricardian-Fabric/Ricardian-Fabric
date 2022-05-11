@@ -1,9 +1,5 @@
 import { html } from "lit-html";
-import {
-  AcceptedSmartContractProposal,
-  ArweaveQueryResult,
-  ArweaveTags,
-} from "../../../types";
+import { AcceptedSmartContractProposal } from "../../../types";
 import { getBlockie } from "../components/getBlockies";
 
 export function getCategories() {
@@ -19,7 +15,10 @@ export function getCategories() {
 }
 
 export function catalogPage() {
-  return html`<h3>Catalogue of smart contracts</h3>
+  return html`
+    <div class="rowRight"><div id="permaweb-dropdown"></div></div>
+
+    <h3>Catalogue of smart contracts</h3>
     <small>
       Select and deploy a smart contract for your specific use case.
     </small>
@@ -42,7 +41,8 @@ export function catalogPage() {
     <div id="catalog-content" class="placeholder-item">
       <h3>Loading</h3>
     </div>
-    <hr /> `;
+    <hr />
+  `;
 }
 
 export function catalogContent(

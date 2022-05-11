@@ -188,6 +188,7 @@ export const setStateHook = {
         break;
       case PageState.Catalog:
         dispatch_catalogPage(clone);
+        dispatch_permawebselectActions(clone);
         break;
       case PageState.VerifyContract:
         dispatch_renderVerifyContract(clone);
