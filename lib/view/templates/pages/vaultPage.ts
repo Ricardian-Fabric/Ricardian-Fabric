@@ -72,7 +72,7 @@ export const VaultPage = () => html`<h3>Vault</h3>
       </tr>
     </table>
     <small
-      >Approved <span class="placeholder-item" id="spend"> </span> RIC to
+      >Approved <span class="placeholder-item" id="spend"> </span> OneRIC to
       spend</small
     >
   </div>
