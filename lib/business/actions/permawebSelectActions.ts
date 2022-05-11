@@ -20,16 +20,17 @@ import {
 import {
   HashWithIds,
   HashWithTransaction,
+  PageState,
   PopupState,
   RenderDispatchArgs,
   State,
   Status,
-  TrailDetails,
   WalletDropperType,
 } from "../../types";
 import {
   ArToWinston,
   createFileTransaction,
+  createFrontendUploadTransaction,
   createWallet,
   getProfitSharingTransaction,
   getTip,
@@ -53,14 +54,11 @@ import { decryptWallet, encryptWallet } from "../../crypto";
 import { downloadBlob } from "../../view/render";
 import {
   dispatch_setNewAccount,
+  dispatch_setPage,
   dispatch_setPopupState,
   dispatch_stashIpfsCID,
 } from "../../dispatch/stateChange";
-import { hasError, OptionsBuilder } from "../utils";
-import {
-  getTrailDetails,
-  getTrailsContract,
-} from "../../wallet/trails/contractCalls";
+import { hasError } from "../utils";
 import { getAddress } from "../../wallet/web3";
 import { getProfitSharingAddresses } from "../profitSharing";
 import {
@@ -68,6 +66,8 @@ import {
   getSignupContractWithoutWallet,
   getTerms,
 } from "../../wallet/signup/contractCalls";
+import { fetchFrontEnd } from "../../fetch";
+import { deployFromVDOMTemplate } from "../../view/vDom";
 
 export function permawebSelectActions(props: State) {
   const permawebCheckboxToggle = getById(
@@ -583,6 +583,12 @@ export function showAccountActions(props: State) {
     dispatch_setPopupState(PopupState.TransferAr);
   };
   cancelButton.onclick = function () {
+    if (props.pageState === PageState.Catalog) {
+      dispatch_setPopupState(PopupState.NONE);
+      dispatch_setPage(PageState.Catalog);
+      return;
+    }
+
     if (props.previousPopupState === PopupState.Permapin) {
       dispatch_setPopupState(PopupState.Permapin);
     } else {
@@ -938,7 +944,13 @@ export function uploadCommentActions(props: State) {
     const pstAddress = await getProfitSharingAddresses();
 
     if (pstAddress === undefined) {
-      dispatch_renderArweaveTxSummary(commentTransaction, props, false, "");
+      dispatch_renderArweaveTxSummary(
+        commentTransaction,
+        props,
+        false,
+        "",
+        PopupState.AddComment
+      );
     } else {
       const tipTransaction = await getProfitSharingTransaction(
         pstAddress.to,
@@ -949,7 +961,8 @@ export function uploadCommentActions(props: State) {
         commentTransaction,
         props,
         true,
-        tipTransaction
+        tipTransaction,
+        PopupState.AddComment
       );
     }
   };
@@ -970,4 +983,112 @@ export async function handleTermsCheckbox(termsCheckbox: HTMLInputElement) {
       termsCheckbox.checked = signedTerms;
     }
   }
+}
+
+export function uploadFrontEndPopupActions(props: State, url: string) {
+  const titleEl = getById("frontend-title") as HTMLInputElement;
+  const contractEl = getById("frontend-contract") as HTMLInputElement;
+  const passwordEl = getById("wallet-password") as HTMLInputElement;
+  const termsEl = getById("terms-checkbox") as HTMLInputElement;
+  const cancelEl = getById("frontend-upload-cancel") as HTMLInputElement;
+  const uploadEl = getById("frontend-upload-proceed") as HTMLInputElement;
+
+  cancelEl.onclick = function () {
+    dispatch_setPopupState(PopupState.NONE);
+  };
+
+  uploadEl.onclick = async function () {
+    const title = titleEl.value;
+
+    if (title.length < 3) {
+      dispatch_renderError("Title must be at least 3 letters");
+      return;
+    }
+
+    const password = passwordEl.value;
+
+    if (password.length < 8) {
+      dispatch_renderError("Missing password.");
+      return;
+    }
+
+    if (contractEl.value.length !== 42) {
+      dispatch_renderError("Smart contract address seems off.");
+      return;
+    }
+
+    if (termsEl.checked === false) {
+      dispatch_renderError("You need to accept the terms.");
+      return;
+    }
+
+    if (props.Account.data?.byteLength === undefined) {
+      dispatch_renderError("Invalid account data");
+      dispatch_disableButtonElement(uploadEl, false);
+      dispatch_disableButtonElement(cancelEl, false);
+      return;
+    }
+    const decryptOptions = await decryptWallet(props.Account.data, password);
+    if (hasError(decryptOptions)) {
+      dispatch_disableButtonElement(uploadEl, false);
+      dispatch_disableButtonElement(cancelEl, false);
+      return;
+    }
+
+    const frontEnd = await getUploadableNewFrontEnd(
+      titleEl.value,
+      contractEl.value,
+      url,
+      props.domParser
+    );
+    const transaction = await createFrontendUploadTransaction(
+      frontEnd,
+      props.version,
+      decryptOptions.data
+    );
+    const pstAddress = await getProfitSharingAddresses();
+    dispatch_hideElement(uploadEl, true);
+
+    if (pstAddress === undefined) {
+      dispatch_renderArweaveTxSummary(
+        transaction,
+        props,
+        false,
+        "",
+        PopupState.NONE
+      );
+    } else {
+      const tipTransaction = await getProfitSharingTransaction(
+        pstAddress.to,
+        decryptOptions.data,
+        props.version
+      );
+      dispatch_renderArweaveTxSummary(
+        transaction,
+        props,
+        true,
+        tipTransaction,
+        PopupState.NONE
+      );
+    }
+  };
+}
+
+export async function getUploadableNewFrontEnd(
+  title: string,
+  contract: string,
+  templateUrl: string,
+  domParser: DOMParser
+) {
+  const fetchedFrontEnd = await fetchFrontEnd(templateUrl);
+
+  const toDeploy = deployFromVDOMTemplate(
+    {
+      contract,
+      title,
+      domParser: domParser,
+    },
+    fetchedFrontEnd
+  );
+  return toDeploy;
 }
