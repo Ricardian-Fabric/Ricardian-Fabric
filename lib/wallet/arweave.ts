@@ -64,6 +64,21 @@ export async function createProposalTransaction(
   return transaction;
 }
 
+export async function createFrontendUploadTransaction(
+  data: string,
+  version: string,
+  key: any
+) {
+  const transaction = await arweave.createTransaction({ data }, key);
+  transaction.addTag("Contract-Type", "Front-End Deployment");
+  transaction.addTag("Content-Type", "text/html");
+  transaction.addTag("App-Version", version);
+  transaction.addTag("App-Name", "Ricardian Fabric");
+
+  await arweave.transactions.sign(transaction, key);
+  return transaction;
+}
+
 export async function uploadData(
   transaction: any,
   progressLogger: CallableFunction
@@ -193,7 +208,7 @@ export async function getTrailTransaction(
   await arweave.transactions.sign(transaction, key);
   return transaction;
 }
-
+//TODO: ADD THIS BACK!
 export async function getWeighedPSTHolder() {
   //@ts-ignore
   const contractState = await readContract(arweave, PSTContract);
