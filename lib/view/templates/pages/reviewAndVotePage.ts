@@ -45,9 +45,6 @@ export function ReviewAndVote() {
       >
         ${FeeProposalLogo()}
       </button>
-      <button id="profit-sharing-button" class="labelButton" title="Ar Sharing">
-        ${ProfitSharingLogo()}
-      </button>
       <a
         id="terms-and-conditions-button"
         class="labelButton"
