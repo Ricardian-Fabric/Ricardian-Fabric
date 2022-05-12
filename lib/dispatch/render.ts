@@ -706,12 +706,7 @@ export function dispatch_feeProposals(props: State) {
     props,
   });
 }
-export function dispatch_PSTPage(props: State) {
-  dispatch(Events.render, {
-    type: RenderType.pstPage,
-    props,
-  });
-}
+
 export function dispatch_tokenSale(props: State) {
   dispatch(Events.render, {
     type: RenderType.tokenSalePage,
