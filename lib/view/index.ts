@@ -89,7 +89,6 @@ import {
   pinnedDashboardData,
   enableStakingButtons,
   renderFeeProposalsPage,
-  renderPSTPage,
   renderTokenSalePage,
   renderVaultPage,
   renderTrailsPage,
@@ -207,7 +206,6 @@ import {
   tokenProposalsTableActions,
   tokenRowActions,
 } from "../business/actions/feeProposalPageActions";
-import { pstPageActions } from "../business/actions/pstPageActions";
 import { tokenSalePageActions } from "../business/actions/tokenSalePageActions";
 import {
   lockedTokensActions,
@@ -659,10 +657,6 @@ const Render: Renderer = {
   [RenderType.feeProposalsPage]: async (props: RenderDispatchArgs) => {
     renderFeeProposalsPage(props);
     await feeProposalPageActions(props);
-  },
-  [RenderType.pstPage]: (props: RenderDispatchArgs) => {
-    renderPSTPage(props);
-    pstPageActions(props);
   },
   [RenderType.tokenSalePage]: async (props: RenderDispatchArgs) => {
     renderTokenSalePage(props);
