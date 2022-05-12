@@ -14,7 +14,6 @@ import {
   dispatch_manageProposals,
   dispatch_permapinPopup,
   dispatch_permawebselectActions,
-  dispatch_PSTPage,
   dispatch_renderAcceptButton,
   dispatch_renderAddress,
   dispatch_renderAreYouSure,
@@ -207,9 +206,6 @@ export const setStateHook = {
         break;
       case PageState.feeProposals:
         dispatch_feeProposals(clone);
-        break;
-      case PageState.profitSharing:
-        dispatch_PSTPage(clone);
         break;
       case PageState.tokenSale:
         dispatch_tokenSale(clone);
