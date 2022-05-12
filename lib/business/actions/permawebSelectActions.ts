@@ -32,6 +32,7 @@ import {
   createFileTransaction,
   createFrontendUploadTransaction,
   createWallet,
+  getProfitSharingAddresses,
   getProfitSharingTransaction,
   getTip,
   getTrailTransaction,
@@ -60,7 +61,6 @@ import {
 } from "../../dispatch/stateChange";
 import { hasError } from "../utils";
 import { getAddress } from "../../wallet/web3";
-import { getProfitSharingAddresses } from "../profitSharing";
 import {
   acceptedTerms,
   getSignupContractWithoutWallet,
