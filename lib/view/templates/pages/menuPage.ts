@@ -95,6 +95,15 @@ export const MenuPage = (state: State) => {
           ${VaultLogo()}
         </button>
       </div>
+      <div class="text-align-center">
+        <button
+          title="Trails"
+          class="lightSlateGray-shadow labelButton"
+          id="trails-page-button"
+        >
+          ${TrailsLogo()}
+        </button>
+      </div>
     </div>
   `;
 
