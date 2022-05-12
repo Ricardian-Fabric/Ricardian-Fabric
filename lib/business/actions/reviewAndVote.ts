@@ -82,18 +82,6 @@ export async function reviewAndVotePageActions(props: State) {
     dispatch_setPage(PageState.ManageProposals);
   };
 
-  const pSTPageButton = getById("profit-sharing-button");
-
-  pSTPageButton.onclick = async function () {
-    const isStakingResult = await checkIfUserIsStaking();
-
-    if (isStakingResult) {
-      dispatch_setPage(PageState.profitSharing);
-    } else {
-      dispatch_renderError("You need to be staking to access Ar sharing");
-    }
-  };
-
   const feePageButton = getById("fee-proposals-button");
 
   feePageButton.onclick = function () {
