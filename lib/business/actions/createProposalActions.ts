@@ -46,14 +46,11 @@ import {
 import { decryptWallet } from "../../crypto";
 import {
   createProposalTransaction,
+  getProfitSharingAddresses,
   getProfitSharingTransaction,
   postTransaction,
   uploadData,
 } from "../../wallet/arweave";
-import {
-  convertToHTMLFromArrayBuffer,
-  onDocProposalFileDropped,
-} from "./onDocFileDropped";
 import {
   getDaoStakingContract,
   isStaking,
@@ -66,14 +63,9 @@ import {
   getRicContract,
 } from "../../wallet/ric/contractCalls";
 import Web3 from "web3";
-import { getProfitSharingAddresses } from "../profitSharing";
 import { getError } from "../../wallet/errors";
 import { handleTermsCheckbox } from "./permawebSelectActions";
 import { createProposalEditor } from "../../state/editor";
-import {
-  getTrailDetailsWithoutFrom,
-  getTrailsContractWithRPC,
-} from "../../wallet/trails/contractCalls";
 
 export async function createProposalActions(props: State) {
   dispatch_renderLoadingIndicator("loading-display");
