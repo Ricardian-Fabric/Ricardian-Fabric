@@ -23,6 +23,8 @@ export const dependencyDeployer = [
   "Ygcqww4Hq2mjMzqhWFnCTMsQ9VFEr4ytVWbYDbXCpDw",
 ];
 
+const PSTContract = "ligtZZ4M3Gy3BUi2qz4B6yXQiOcjJ_wU55QYhXFw7Ow";
+
 export async function createFileTransaction(
   type: string,
   data: any,
@@ -208,12 +210,16 @@ export async function getTrailTransaction(
   await arweave.transactions.sign(transaction, key);
   return transaction;
 }
-//TODO: ADD THIS BACK!
 export async function getWeighedPSTHolder() {
   //@ts-ignore
   const contractState = await readContract(arweave, PSTContract);
   const holder = selectWeightedPstHolder(contractState.balances);
   return holder;
+}
+
+export async function getProfitSharingAddresses() {
+  const holder = await getWeighedPSTHolder();
+  return { to: holder };
 }
 
 export function encodeProposalTerms(buff: ArrayBuffer): Array<number> {
