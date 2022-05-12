@@ -111,7 +111,6 @@ import {
   TokenProposals,
   tokenRow,
 } from "./templates/pages/feeDaoPage";
-import { PSTPage } from "./templates/pages/pstPage";
 import { TokenSalePage } from "./templates/pages/tokenSalePage";
 import { EmptyVault, VaultItems, VaultPage } from "./templates/pages/vaultPage";
 import {
@@ -200,10 +199,6 @@ export function renderCatalogPage() {
 export function renderFeeProposalsPage(props: State) {
   const page = getById("page");
   render(FeeDaoPage(), page);
-}
-export function renderPSTPage(props: State) {
-  const page = getById("page");
-  render(PSTPage(), page);
 }
 export function renderTokenSalePage(props: State) {
   const page = getById("page");
