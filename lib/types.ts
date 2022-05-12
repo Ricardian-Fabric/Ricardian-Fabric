@@ -111,7 +111,6 @@ export enum RenderType {
   pinnedDashboardData = "pinnedDashboardData",
   stakingButtons = "stakingButtons",
   feeProposalsPage = "feeProposalsPage",
-  pstPage = "pstPage",
   tokenSalePage = "tokenSalePage",
   vaultPage = "vaultPage",
   trailsPage = "trails",
@@ -235,7 +234,6 @@ export type Renderer = {
   [RenderType.pinnedDashboardData]: RenderFunction;
   [RenderType.stakingButtons]: RenderFunction;
   [RenderType.feeProposalsPage]: RenderFunction;
-  [RenderType.pstPage]: RenderFunction;
   [RenderType.tokenSalePage]: RenderFunction;
   [RenderType.vaultPage]: RenderFunction;
   [RenderType.trailsPage]: RenderFunction;
@@ -409,7 +407,6 @@ export enum PageState {
   Proposals,
   ReviewAndVote,
   ManageProposals,
-  profitSharing,
   feeProposals,
   tokenSale,
   vault,
