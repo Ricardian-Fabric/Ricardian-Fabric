@@ -2,12 +2,12 @@ import { html, nothing } from "lit-html";
 import { ArweaveDataPage } from "../../../types";
 import { helperTooltips } from "../components/helperTooltips";
 import {
+  arweaveLogo,
   ChevronLeftBlack,
   ChevronRightBlack,
   CommentLogo,
   CopyLogo,
   DownloadLogo,
-  Footsteps,
   RefreshLogo,
   RemoveIcon,
 } from "../components/logos";
@@ -23,12 +23,17 @@ export const TrailsPage = () => html`
   </div>
   <h3>Trails</h3>
   <hr />
-  <div class="center">${Footsteps()}</div>
+  <div class="center">${arweaveLogo()}</div>
   <div class="center" id="search-container">${FindTrail()}</div>
 `;
 
 export const FindTrail = () => html`<div class="column">
-  <h4>Search for a trail</h4>
+  <p>
+    A Trail is just a name that helps search for and organize files uploaded to
+    Arweave. You can comment on a trail, by adding the name to the upload and
+    leaving a message. You can link a transaction in comments that can be
+    uploaded files, or a comment to reply to.
+  </p>
   <table>
     <tr>
       <td>
