@@ -23,7 +23,6 @@ export const TrailsPage = () => html`
   </div>
   <h3>Trails</h3>
   <hr />
-  <div class="center">${arweaveLogo()}</div>
   <div class="center" id="search-container">${FindTrail()}</div>
 `;
 
@@ -52,7 +51,9 @@ export const FindTrail = () => html`<div class="column">
       <td>${helperTooltips("Optional. The address of the uploader.")}</td>
     </tr>
   </table>
-  <button class="labelButton" id="trail-find">Find</button>
+  <div class="text-align-center">
+    <button class="labelButton width-100" id="trail-find">Find</button>
+  </div>
   <div id="trail-search-result"></div>
 </div>`;
 
