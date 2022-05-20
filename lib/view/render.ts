@@ -1325,7 +1325,7 @@ export function tokenSaleInit(
 
   rateEl.textContent = rate + " OneRIC/ONE";
 
-  if (tokensSold === "40000000") {
+  if (tokensSold === "2000000") {
     ricLeftEl.textContent = "SALE FINISHED";
     rateEl.textContent = "SALE FINISHED";
     buyButton.disabled = true;
