@@ -122,9 +122,8 @@ export async function dashboardActions(props: State) {
 
   const tokensSold = tokensSoldOptions.data;
   // tokensSold = ricLeft; // uncomment to see the sale finished UI, redeclare tokensSold with let;
-  // TODO: CHANGE THE TOKENS SOLD , NOW I GOT CHAIN SPECIFIC OneRIC!!
 
-  if (tokensSold === "40000000") {
+  if (tokensSold === "2000000") {
     dispatch_renderLoadedValue(props, "Sale finished", ricLeftEl);
   } else {
     dispatch_renderLoadedValue(props, ricLeft, ricLeftEl);
@@ -138,11 +137,10 @@ export async function dashboardActions(props: State) {
   }
 
   const ricRate = ricRateOptions.data;
-  // TODO: CHANGE THE TOKENS SOLD , NOW I GOT CHAIN SPECIFIC OneRIC!!
-  if (tokensSold === "40000000") {
+  if (tokensSold === "2000000") {
     dispatch_renderLoadedValue(props, "Sale finished", ricSaleRateEl);
   } else {
-    dispatch_renderLoadedValue(props, ricRate + " OneRIC/ONE", ricSaleRateEl);
+    dispatch_renderLoadedValue(props, ricRate, ricSaleRateEl);
   }
 
   const vaultOptions = await OptionsBuilder(() => getRicVaultContract());
