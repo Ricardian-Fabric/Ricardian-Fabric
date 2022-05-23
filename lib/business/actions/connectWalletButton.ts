@@ -4,6 +4,7 @@ import {
 } from "../../dispatch/render";
 import { getById, parseQueryString } from "../../view/utils";
 import {
+  currentNetwork,
   requestAccounts,
   switchNetwork,
   web3Injected,
@@ -36,7 +37,7 @@ export async function connectWalletButton(props) {
     }
     registerEthereumProviderEvents(props);
 
-    await switchNetwork(ChainName.Harmony, 0, "Mainnet");
+    await switchNetwork(ChainName.Harmony, 0, currentNetwork);
 
     dispatch_setPage(PageState.Menu);
     OnQueryRedirect();

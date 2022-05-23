@@ -1,7 +1,7 @@
 import { dispatch_setPage } from "../../dispatch/stateChange";
 import { ChainName, PageState, State } from "../../types";
 import { getById } from "../../view/utils";
-import { switchNetwork } from "../../wallet/web3";
+import { currentNetwork, switchNetwork } from "../../wallet/web3";
 
 export async function menuActions(props: State) {
   const createPage = getById("create-contract-button");
@@ -56,5 +56,5 @@ export async function menuActions(props: State) {
 }
 
 async function switchToHarmony() {
-  await switchNetwork(ChainName.Harmony, 0, "Mainnet");
+  await switchNetwork(ChainName.Harmony, 0, currentNetwork);
 }
