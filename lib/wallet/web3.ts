@@ -13,25 +13,23 @@ import {
   Status,
 } from "../types";
 import { getSimpleTermsAbi } from "./abi/SimpleTerms";
-// THIS IS MAINNET HARMONY
-export const SIGNUPADDRESS = "0xdC627A00D6d717c3A920ed07C28027E6f4474dF6";
-export const TRAILSADDRESS = "0x278dD2cc09cE7f4Edf0bcda5927fE7BD3D99cD82";
-export const CATALOGDAOADDRESS = "0x43BAdA39C45dbeE132Da6bD6d6d9818E8c5e06EF";
-export const RICADDRESS = "0xDe307524826Bf49c7e7DA469E0c5cf47D8f6AAdC";
-export const RICSALEADDRESS = "0xf96EC150FF4fBC15a176a3E50163D0A1ebA54532";
+// THIS IS HARMONY TESTNET
+export const SIGNUPADDRESS = "0xE1fe19295EcE29eCE8a25969aDf5D5650a10b914";
+export const CATALOGDAOADDRESS = "0x30E072A9dfF6A38fC626fb58326683F6C74e37ca";
+export const RICADDRESS = "0x7FDFBBb392d17774CF95F761a843a4408965f2a8";
+export const RICSALEADDRESS = "0x0e1a755B1DA431a8e0dc37c5DD8C23B8f7f23C41";
 
-export const ARWAVEPSADDRESS = "0xdBfce4149b4443c885d7d4d3E686F2E2a31378B8";
-export const DAOSTAKINGADDRESS = "0x8f22458612812947F05C9eAfcE2526df40FB6D2d";
-export const FEEDAOADDRESS = "0x1208DE8EBf20B265293c1cC4C3eb93Ad076b809F";
-export const RICVAULTADDRESS = "0x2011fB94B5fe2a44bD6d95791312578c44730a14";
+export const DAOSTAKINGADDRESS = "0x484205757e7f5e376a40Cf378eeedF75089B42A5";
+export const FEEDAOADDRESS = "0xdBB2543b6Ef7e8480b51bE37f87fDd099b14cf86";
+export const RICVAULTADDRESS = "0x1d87b41128B645250e71EE546AC944062F7D46c3";
 
 export const HARMONYRPCURL = "https://harmony-0-rpc.gateway.pokt.network";
-export const VOTINGPERIODBLOCKS = 259200; //The blocks passing in the voting period. 302400 on Harmony, 10 on Hardhat
+export const VOTINGPERIODBLOCKS = 50; //259200; //The blocks passing in the voting period. 302400 on Harmony, 10 on Hardhat
 
 export const metamask_web3 = new Web3(window.ethereum);
-export const rpc_web3 = new Web3(HARMONYRPCURL);
+export const rpc_web3 = new Web3("https://api.s0.b.hmny.io");
 
-const CATALOGCHAIN = Chains.HardHat;
+export const currentNetwork: NetworkType = "Testnet";
 
 export async function requestAccounts() {
   await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -290,6 +288,10 @@ export async function switchNetwork(
   }
 
   if (network === ChainName.Harmony) {
+    const networkId = await getNetwork();
+    if (networkId === 1666600000) {
+      return;
+    }
     await switchToHarmony(shard, type);
   }
   if (network === ChainName.Ropsten) {
@@ -330,7 +332,8 @@ export async function switchToHardhat() {
 }
 
 export async function switchToBSC(type: NetworkType) {
-  const hexchainId = "0x" + Number(97).toString(16);
+  const chainId = type === "Mainnet" ? 56 : 97;
+  const hexchainId = "0x" + Number(chainId).toString(16);
   const switched = await switch_to_Chain(hexchainId);
   const chainName = type === "Mainnet" ? "BSC" : "BSC testnet";
   const rpcUrls = ["https://data-seed-prebsc-1-s1.binance.org:8545"];
@@ -355,7 +358,8 @@ export async function switchToBSC(type: NetworkType) {
   }
 }
 export async function switchToPolygon(type: NetworkType) {
-  const hexchainId = "0x" + Number(80001).toString(16);
+  const chainId = type === "Mainnet" ? 137 : 80001;
+  const hexchainId = "0x" + Number(chainId).toString(16);
   const switched = await switch_to_Chain(hexchainId);
   const chainName = type === "Mainnet" ? "Polygon" : "Polygon testnet";
   const rpcUrls = ["https://rpc-mumbai.maticvigil.com/"];
@@ -528,13 +532,4 @@ export function prepareType(type: string, value: string) {
   } else {
     return value;
   }
-}
-
-export async function checkNetwork(): Promise<boolean> {
-  const chainId: string = await window.ethereum.request({
-    method: "eth_chainId",
-  });
-
-  // Comparing to hardhat now, later HARMONY
-  return Number(chainId) === Number(CATALOGCHAIN);
 }
