@@ -26,8 +26,8 @@ export function networkSelectActions() {
   };
 
   const ropsten = getById("ropsten-testnet");
-  const bscTestnet = getById("bsc-testnet");
-  const polygonTestnet = getById("polygon-testnet");
+  const bscNetwork = getById("bsc-network");
+  const polygonnetwork = getById("polygon-network");
   const hmnyTestnetShard0 = getById("network-hmny-testnet-shard0");
   const hmnyMainnetShard0 = getById("network-hmny-mainnet-shard0");
 
@@ -35,13 +35,13 @@ export function networkSelectActions() {
     switchnetworkToggle.checked = false;
     await switchNetwork(ChainName.Ropsten, 0, "Testnet");
   };
-  bscTestnet.onclick = async function () {
+  bscNetwork.onclick = async function () {
     switchnetworkToggle.checked = false;
-    await switchNetwork(ChainName.BSC, 0, "Testnet");
+    await switchNetwork(ChainName.BSC, 0, "Mainnet");
   };
-  polygonTestnet.onclick = async function () {
+  polygonnetwork.onclick = async function () {
     switchnetworkToggle.checked = false;
-    await switchNetwork(ChainName.Polygon, 0, "Testnet");
+    await switchNetwork(ChainName.Polygon, 0, "Mainnet");
   };
   hmnyTestnetShard0.onclick = async function () {
     switchnetworkToggle.checked = false;
@@ -59,10 +59,10 @@ export function addChainButtonListener(props: State) {
     const chains = {
       [Chains.Ropsten]: async () =>
         await switchNetwork(ChainName.Ropsten, 0, "Testnet"),
-      [Chains.bscTestnet]: async () =>
-        await switchNetwork(ChainName.BSC, 0, "Testnet"),
-      [Chains.polygonTestnet]: async () =>
-        await switchNetwork(ChainName.Polygon, 0, "Testnet"),
+      [Chains.bscMainnet]: async () =>
+        await switchNetwork(ChainName.BSC, 0, "Mainnet"),
+      [Chains.polygonMainnet]: async () =>
+        await switchNetwork(ChainName.Polygon, 0, "Mainnet"),
       [Chains.harmonyTestnetShard0]: async () =>
         await switchNetwork(ChainName.Harmony, 0, "Testnet"),
       [Chains.harmonyMainnetShard0]: async () =>

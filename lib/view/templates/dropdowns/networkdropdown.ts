@@ -27,24 +27,24 @@ export const NetworkDropdown = () => html`
         ${HarmonyLogo()} <small>Harmony Mainnet Shard 0</small>
       </button>
     </li>
-    <li>
+    <!-- <li>
       <button id="network-hmny-testnet-shard0" class="dropdown-button">
         ${HarmonyLogo()} <small>Harmony Testnet Shard 0</small>
       </button>
-    </li>
-    <li>
+    </li> -->
+    <!-- <li>
       <button id="ropsten-testnet" class="dropdown-button">
         ${EthLogo("10px")} <small>Ropsten Testnet</small>
       </button>
-    </li>
+    </li> -->
     <li>
-      <button id="bsc-testnet" class="dropdown-button">
-        ${BSCLogo()} <small>BSC Testnet</small>
+      <button id="bsc-network" class="dropdown-button">
+        ${BSCLogo()} <small>Binance Smart Chain</small>
       </button>
     </li>
     <li>
-      <button id="polygon-testnet" class="dropdown-button">
-        ${PolygonLogo()} <small>Polygon Testnet</small>
+      <button id="polygon-network" class="dropdown-button">
+        ${PolygonLogo()} <small>Polygon</small>
       </button>
     </li>
     <li>

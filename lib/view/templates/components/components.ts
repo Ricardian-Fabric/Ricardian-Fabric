@@ -92,10 +92,24 @@ export const networkTemplate = (network: string, isFulfilled: boolean) => {
       "",
       isFulfilled
     ),
+    [Chains.bscMainnet]: getChainButton(
+      Chains.bscMainnet,
+      "Binance Smart Chain",
+      "",
+      "",
+      isFulfilled
+    ),
     [Chains.polygonTestnet]: getChainButton(
       Chains.polygonTestnet,
       "Polygon",
       "Testnet",
+      "",
+      isFulfilled
+    ),
+    [Chains.polygonMainnet]: getChainButton(
+      Chains.polygonMainnet,
+      "Polygon",
+      "",
       "",
       isFulfilled
     ),
@@ -156,7 +170,11 @@ export function getChainLogo(chain: Chains) {
       return HarmonyLogo();
     case Chains.bscTestnet:
       return BSCLogo();
+    case Chains.bscMainnet:
+      return BSCLogo();
     case Chains.polygonTestnet:
+      return PolygonLogo();
+    case Chains.polygonMainnet:
       return PolygonLogo();
     default:
       break;
