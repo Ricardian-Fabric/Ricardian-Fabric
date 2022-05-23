@@ -5,10 +5,13 @@ export enum Chains {
   HardHat = "31337",
   Ropsten = "3",
   bscTestnet = "97",
+  bscMainnet = "56",
   polygonTestnet = "80001",
+  polygonMainnet = "137",
   harmonyTestnetShard0 = "1666700000",
   harmonyMainnetShard0 = "1666600000",
 }
+
 export enum ChainName {
   Harmony = "Harmony",
   Ropsten = "Ropsten",
