@@ -274,7 +274,7 @@ export async function acceptAgreement(arg: {
 export function getChains() {
   return [
     { name: "All", id: "ALL" },
-    { name: ChainName.Harmony, id: Chains.harmonyTestnetShard0 },
+    { name: ChainName.Harmony, id: Chains.harmonyMainnetShard0 },
   ];
 }
 
