@@ -63,12 +63,6 @@ export function SCConstructorPopup(selected: ProposalFormat) {
 
   return html`
     <h4>Deploy ${selected.name}</h4>
-    ${selected.simpleterms
-      ? html`<small
-          >This contract uses a Ricardian contract. The contract address will be
-          set after deployment</small
-        >`
-      : nothing}
     <hr />
     ${list.length > 0
       ? html`<p>Constructor parameters:</p>
