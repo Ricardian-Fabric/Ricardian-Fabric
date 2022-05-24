@@ -87,7 +87,7 @@ export function smartContractProductPage(
               </button>
             </div>`}
         <hr />
-        ${preview || proposal.terms === ""
+        ${proposal.trail === ""
           ? nothing
           : html` <div class="text-align-center">
               <button id="download-terms-button" class="labelButton width-100">
