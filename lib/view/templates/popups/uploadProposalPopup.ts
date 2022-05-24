@@ -1,6 +1,5 @@
 import { html } from "lit-html";
 import { ProposalFormat } from "../../../types";
-import { ProposalDocXDropper } from "../components/docxDropper";
 import { helperTooltips } from "../components/helperTooltips";
 import { BackLogo, CopyLogo } from "../components/logos";
 import { smartContractProductPage } from "../components/smartContractProductPage";
