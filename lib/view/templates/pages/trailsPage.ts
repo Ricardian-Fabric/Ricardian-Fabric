@@ -114,9 +114,6 @@ export const TrailData = (dataPage: ArweaveDataPage, creatorCalls: boolean) => {
                   title="Download linked transaction."
                   >${DownloadLogo()}</a
                 >`}
-            <div class="overflow-auto">
-              <pre>${content.txId}</pre>
-            </div>
           </div>
         </div>
 
@@ -129,9 +126,6 @@ export const TrailData = (dataPage: ArweaveDataPage, creatorCalls: boolean) => {
             </button>`
           : nothing}
       </div>
-
-      <small>${content.created}</small>
-
       <hr />
       <div class="overflow-auto">
         ${content.metadisplay === ""
