@@ -1,6 +1,7 @@
 import { html } from "lit-html";
-import { AcceptedSmartContractProposal } from "../../../types";
+import { AcceptedSmartContractProposal, Chains } from "../../../types";
 import { getBlockie } from "../components/getBlockies";
+import { HarmonyLogo } from "../components/logos";
 
 export function getCategories() {
   return html` <select id="select-category" class="cursor-pointer">
@@ -68,7 +69,9 @@ function smartContractElementBoxes(
   >
     <div class="row padding-5">
       <div class="column">
-        <div>${getBlockie(uploadsForCategory.id, "50px", "")}</div>
+        <div class="center">
+          ${getBlockie(uploadsForCategory.id, "50px", "")}
+        </div>
         <label>
           ${getChainMessage(getTag(uploadsForCategory.tags, "ChainId"))}</label
         >
@@ -86,8 +89,13 @@ function smartContractElementBoxes(
 function getChainMessage(chainId) {
   if (chainId === "ALL") {
     return "Supports all networks.";
-  } else {
-    return `Supports only ${chainId}`;
+  } else if (chainId === Chains.harmonyTestnetShard0) {
+    return html` <div class="column text-aligin-center">
+      <small>Supports only </small>
+      <small class="center">${HarmonyLogo(true)}</small>
+    </div>`;
+  } else if (chainId === Chains.harmonyMainnetShard0) {
+    return html`<small>Supports only ${HarmonyLogo(true)}y</small>`;
   }
 }
 
