@@ -41,18 +41,36 @@ export const networkLogo = () => html` <style>
     src="https://arweave.net/OeVsTvbyeHVsCf5xiwdzXK4HIOqrM_Q2jW4YIpJkRlg"
   />`;
 
-export const HarmonyLogo = () => html` <style>
-    .harmony-logo {
-      width: 20px;
-      margin-right: 10px;
-      vertical-align: middle;
-      display: inline-block;
-    }
-  </style>
-  <img
-    class="harmony-logo"
-    src="https://arweave.net/7KC4jS8_FOzCcwMXbvikGxFs3RTofKpZx5-veoEDRR0"
-  />`;
+export const HarmonyLogo = (nomargin?) => {
+  let margin = "20px";
+
+  if (nomargin)
+    return html` <style>
+        .harmony-logo {
+          width: 20px;
+          vertical-align: middle;
+          display: inline-block;
+        }
+      </style>
+      <img
+        class="harmony-logo"
+        src="https://arweave.net/7KC4jS8_FOzCcwMXbvikGxFs3RTofKpZx5-veoEDRR0"
+      />`;
+
+  return html` <style>
+      .harmony-logo {
+        width: 20px;
+        margin-right: 10px;
+        vertical-align: middle;
+        display: inline-block;
+      }
+    </style>
+    <img
+      class="harmony-logo"
+      title="Harmony Network"
+      src="https://arweave.net/7KC4jS8_FOzCcwMXbvikGxFs3RTofKpZx5-veoEDRR0"
+    />`;
+};
 
 export const HarmonyLogoSizeable = (size: string) => html`
   <svg
