@@ -6,6 +6,12 @@ Detailed docs on how to use it can be found at docs.ricadianfabric.com
 
 The latest version of ricadian fabric.
 
+- 0.0.8 Deployed on TESTNET:
+
+  Deployments: https://arweave.net/RJCDv2Mnl_D39-f2E_cnH0bFTZUz6QSQkiPC4bNsn2c
+
+  DAO: https://arweave.net/tR0rVVRSbpTFyddPIvIjTJm-eFdUUHJETI5ye3mUlo4
+
 DEPLOYED ON MAINNET:
 
 - 0.0.7 https://ervded4meifzaaglk6j5sxqmioenu4ibajhx4o3m7x2stsbi.arweave.net/JGoyD4wiC5AAy1eT-2V4MQ4jacQECT347bP-31Kcgo8
