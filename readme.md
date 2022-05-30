@@ -6,6 +6,14 @@ Detailed docs on how to use it can be found at docs.ricadianfabric.com
 
 The latest version of ricadian fabric.
 
+- 0.0.10 MAINNET
+
+  update: ipfsArweave arql query deprecated
+
+  Deployments: https://ofg3x5edyrnnpszbdvuulrqzixvww7ib6wzr2pa72dgjfp3lbe.arweave.net/cU279IPEWtfLIR1p-RcYZRetrfQH1sx08H9DMkr9rCY
+
+  DAO: https://h7bezveh3vdolueqiazjxh2stqpavw3rnz6hqxkozy5cluqifnvq.arweave.net/P8JM1IfdRuXQkEAym59SnB4K23FufHhdTs46JdIIK2s
+
 - 0.0.9 MAINNET :
 
   Deployments :https://breja4wglf2gerk2i2fjvtg5kv64dilvrbp2t4ibp5iyfg2hfi.arweave.net/DEiQcsZZd_GJFWkaKmszdVX3BoXWIX6nxAX9RgptHKk
