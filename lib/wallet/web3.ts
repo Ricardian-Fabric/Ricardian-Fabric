@@ -13,7 +13,7 @@ import {
   Status,
 } from "../types";
 import { getSimpleTermsAbi } from "./abi/SimpleTerms";
-// THIS IS HARMONY TESTNET
+// THIS IS HARMONY MAINNET
 export const SIGNUPADDRESS = "0xE1fe19295EcE29eCE8a25969aDf5D5650a10b914";
 export const CATALOGDAOADDRESS = "0x30E072A9dfF6A38fC626fb58326683F6C74e37ca";
 export const RICADDRESS = "0x7FDFBBb392d17774CF95F761a843a4408965f2a8";
@@ -24,12 +24,12 @@ export const FEEDAOADDRESS = "0xdBB2543b6Ef7e8480b51bE37f87fDd099b14cf86";
 export const RICVAULTADDRESS = "0x1d87b41128B645250e71EE546AC944062F7D46c3";
 
 export const HARMONYRPCURL = "https://harmony-0-rpc.gateway.pokt.network";
-export const VOTINGPERIODBLOCKS = 50; //259200; //The blocks passing in the voting period. 302400 on Harmony, 10 on Hardhat
+export const VOTINGPERIODBLOCKS = 259200; //The blocks passing in the voting period. 302400 on Harmony, 10 on Hardhat
 
 export const metamask_web3 = new Web3(window.ethereum);
-export const rpc_web3 = new Web3("https://api.s0.b.hmny.io");
+export const rpc_web3 = new Web3(HARMONYRPCURL);
 
-export const currentNetwork: NetworkType = "Testnet";
+export const currentNetwork: NetworkType = "Mainnet";
 
 export async function requestAccounts() {
   await window.ethereum.request({ method: "eth_requestAccounts" });
