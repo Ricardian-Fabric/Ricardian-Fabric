@@ -46,13 +46,13 @@ export const dashBoardElementsTitles: DashboardUIElement[] = [
   {
     title: "Contributor Rewards (OneRIC)",
     id: "available-reward-amount",
-    desc: "The rewards available for the catalogue contributors!",
+    desc: "The rewards available for the catalog contributors!",
     logo: Rewardhand(),
   },
   {
     title: "Available Contracts",
     id: "catalogue-contracts-amount",
-    desc: "The amount of content in the smart contract catalogue",
+    desc: "The amount of content in the smart contract catalog",
     logo: AcceptedSmartContractLogo(),
   },
   {
@@ -64,7 +64,7 @@ export const dashBoardElementsTitles: DashboardUIElement[] = [
   {
     title: "Contributor Stake (OneRIC)",
     id: "total-staking-amount",
-    desc: "The amount of OneRIC securing the catalogue.",
+    desc: "The amount of OneRIC securing the catalog.",
     logo: StakingLogo("50"),
   },
   {

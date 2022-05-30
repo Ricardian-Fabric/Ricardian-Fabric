@@ -16,7 +16,7 @@ export function createProposalPage() {
       <button
         class="labelButton light-shadow"
         id="stake-3000-ric"
-        title="Stake 3000 OneRIC to start contributing to the catalogue."
+        title="Stake 3000 OneRIC to start contributing to the catalog."
         disabled
       >
         ${StakingLogo("30")} Stake
