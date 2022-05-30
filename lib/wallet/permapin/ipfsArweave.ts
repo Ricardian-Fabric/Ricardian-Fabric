@@ -2,6 +2,7 @@ import {
   HashWithIds,
   HashWithTransaction,
   IPFSParams,
+  Options,
   Status,
 } from "../../types";
 import tou8 from "buffer-to-uint8array";
@@ -11,6 +12,7 @@ import { CID } from "multiformats";
 import Arweave from "arweave";
 import { ARWAEVECONFIG } from "../arweave";
 import { fetchFromIPFS } from "../../fetch";
+import { findPermapinned } from "../../fetch/graphql";
 const IPFS_KEY = "IPFS-Add";
 
 //temporary so it doesnt conflict with different data structure
@@ -32,14 +34,15 @@ export async function addHash(
     h = v0.toV1().toString();
   }
   const arweave = Arweave.init(ARWAEVECONFIG);
-  const arid = await getArIdFromHash(h, arweave);
 
-  if (arid === "M") {
-    // means method not allowed was returned
-    return makeHashWithIds(h, "Error: Method not allowed", Status.Failure);
+  const findPinned: Options<any> = await findPermapinned(h);
+
+  if (findPinned.error !== "") {
+    return makeHashWithIds(h, "Error!", Status.Failure);
   }
 
-  if (arid !== null) {
+  const edges = findPinned.data.transactions.edges;
+  if (edges.length !== 0) {
     return makeHashWithIds(h, "It's already permapined!", Status.AlreadyExists);
   }
 
@@ -80,27 +83,3 @@ const makeHashWithIds = (
 ): HashWithIds => {
   return { hash, message, status };
 };
-
-async function getArIdFromHash(
-  hash: string,
-  arweave: Arweave
-): Promise<string> {
-  const x = await arweave.arql({
-    op: "and",
-    expr1: {
-      op: "equals",
-      expr1: IPFS_KEY,
-      expr2: hash,
-    },
-    expr2: {
-      op: "equals",
-      expr1: IPFS_CONSTRAINT_KEY,
-      expr2: IPFS_CONSTRAINT,
-    },
-  });
-  if (x.length > 0) {
-    return x[0];
-  } else {
-    return null;
-  }
-}
