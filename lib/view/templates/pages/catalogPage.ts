@@ -19,7 +19,7 @@ export function catalogPage() {
   return html`
     <div class="rowRight"><div id="permaweb-dropdown"></div></div>
 
-    <h3>Catalogue of smart contracts</h3>
+    <h3>Catalog of smart contracts</h3>
     <small>
       Select and deploy a smart contract for your specific use case.
     </small>
