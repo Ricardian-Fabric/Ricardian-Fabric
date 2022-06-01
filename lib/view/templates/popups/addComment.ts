@@ -5,9 +5,8 @@ import { BackLogo, CopyLogo } from "../components/logos";
 export const AddCommentTrail = () => html`
   <h2>Comment on a trail!</h2>
   <small
-    >You upload comments to the Permaweb and they will be added to the trail if
-    it's public. If the trail is private, the uploaded comments must be added by
-    the creator to be displayed.</small
+    >You upload comments to the Permaweb and they will be added to the
+    trail.</small
   >
   <table>
     <thead>
