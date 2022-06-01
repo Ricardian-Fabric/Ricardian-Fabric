@@ -139,6 +139,7 @@ export const uploadFileSummary = (
       id="copy-transaction"
       data-txid="${id}"
       class="text-align-center labelButton"
+      title="Copy Transaction ID"
       labelButton
     >
       ${CopyLogo()}

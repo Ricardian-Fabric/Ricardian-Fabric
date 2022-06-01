@@ -46,15 +46,6 @@ export const PermapinPopup = () => html`
         </td>
         <td>${helperTooltips("The password of the key file")}</td>
       </tr>
-      <!-- <tr>
-                            <td><label for="tipcheckbox">Send a tip:</label></td>
-                            <td>
-                              <input id="tipcheckbox" type="checkbox" checked />
-                            </td>
-                            <td>${helperTooltips(
-        `Support us by sending a tip. ${TIP} Ar`
-      )}</td>
-                          </tr> -->
       <tr>
         <td>
           <label>I accept the terms.</label>
@@ -110,6 +101,7 @@ export const PermapinSummaryPage = (arg: {
       id="copy-transaction"
       data-txid="${arg.permapinTx.tx.id}"
       class="text-align-center labelButton"
+      title="Copy Transaction ID"
       labelButton
     >
       ${CopyLogo()}
