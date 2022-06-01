@@ -18,8 +18,8 @@ import { balanceDisplay } from "./tokenSalePage";
 export const VaultPage = () => html`<h3>Vault</h3>
   ${balanceDisplay()} ${blockDisplay()}
   <h6>
-    You can lock Ric and release it after the blocks specified. The Ric you use
-    while claiming Fees will go here.
+    You can lock OneRic and release it after the blocks specified. The OneRic
+    you use while claiming Fees will go here.
   </h6>
   <hr />
   <div class="text-align-center center">
