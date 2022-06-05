@@ -90,7 +90,11 @@ export function smartContractProductPage(
         ${proposal.trail === ""
           ? nothing
           : html` <div class="text-align-center">
-              <button id="download-terms-button" class="labelButton width-100">
+              <button
+                data-arweavetxid="${arweaveTxId}"
+                id="download-terms-button"
+                class="labelButton width-100"
+              >
                 ${DownloadLogo()}Downloads
               </button>
             </div>`}

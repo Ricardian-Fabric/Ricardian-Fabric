@@ -105,8 +105,9 @@ export function SCProposalDisplayPageActions(props: State) {
   };
 
   dl.onclick = async function () {
+    const dlArweaveTxId = dl.dataset.arweavetxid;
     const transactionOptions = await OptionsBuilder(() =>
-      fetchTransactionBy<ProposalFormat>(arweaveTxId)
+      fetchTransactionBy<ProposalFormat>(dlArweaveTxId)
     );
 
     if (hasError(transactionOptions)) {
