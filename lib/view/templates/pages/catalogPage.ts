@@ -95,7 +95,7 @@ function getChainMessage(chainId) {
       <small class="center">${HarmonyLogo(true)}</small>
     </div>`;
   } else if (chainId === Chains.harmonyMainnetShard0) {
-    return html`<small>Supports only ${HarmonyLogo(true)}y</small>`;
+    return html`<small>Only Harmony Shard 0</small>`;
   }
 }
 
