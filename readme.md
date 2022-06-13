@@ -6,6 +6,14 @@ Detailed docs on how to use it can be found at docs.ricadianfabric.com
 
 The latest version of ricadian fabric.
 
+- 0.0.11 MAINNET
+
+  Update: A small ui bug on the smart contract page
+
+  Deployments: https://awwl3mynzw2cpwudy3kaqi2jr4o4mjgnta4reeayyk6g2qw3.arweave.net/Bay9sw3NtCfag8bUCCNJjx-3-GJM2YORIQGMK8bULbc
+
+  DAO: https://ky5spuqiddal4yu7clzo6dwrjkucapb63qxl6dzchfi2nyqyhvdq.arweave.net/Vjsn0ggYwL5inxLy7w7RSqggPD7cLr8PIjlRpuIYPUc
+
 - 0.0.10 MAINNET
 
   update: ipfsArweave arql query deprecated
