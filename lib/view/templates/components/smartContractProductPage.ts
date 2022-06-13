@@ -9,6 +9,23 @@ export function smartContractProductPage(
   preview: boolean,
   index: string
 ) {
+  let showFrontEnd = nothing;
+
+  if (!preview) {
+    if (proposal.frontEnd !== "") {
+      showFrontEnd = html`<div class="text-align-center">
+        <button
+          data-frontend="${proposal.frontEnd}"
+          id="deploy-frontend-button"
+          class="labelButton width-100 center"
+          ?disabled=${preview}
+        >
+          ${webLogo()} Upload Front End!
+        </button>
+      </div>`;
+    }
+  }
+
   return html`
     <div class="row">
       <div id="termsContent" class="columnNoAround width-70Percent"></div>
@@ -74,18 +91,7 @@ export function smartContractProductPage(
               </button>
             </div>`}
         <hr />
-        ${preview
-          ? nothing
-          : html` <div class="text-align-center">
-              <button
-                data-frontend="${proposal.frontEnd}"
-                id="deploy-frontend-button"
-                class="labelButton width-100 center"
-                ?disabled=${preview}
-              >
-                ${webLogo()} Upload Front End!
-              </button>
-            </div>`}
+        ${showFrontEnd}
         <hr />
         ${proposal.trail === ""
           ? nothing
