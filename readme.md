@@ -6,6 +6,15 @@ Detailed docs on how to use it can be found at docs.ricadianfabric.com
 
 The latest version of ricadian fabric.
 
+- 0.0.12 MAINNET
+
+  Update: Migration to polygon
+  Due to the Harmony Bridge hack and the collapse of the ecosystem, deployed the DAO to Polygon.
+
+  Deployments: https://tpou22egyefsxslyvnjmlq2izsfpmo54epsbrvgvjezndde2.arweave.net/m91NaIbB_CyvJeKtSxcNIzIr2O7wj5BjU1Uk_y0Yyak
+
+  DAO: https://flmywpggg4vzssdsmkmyu7uhsc6fxr3bpo7g2imr644elzk4l67q.arweave.net/KtmLPMY3K5lIcmKZin6HkLxbx2F7vm0hkfc4ReVcX78
+
 - 0.0.11 MAINNET
 
   Update: A small ui bug on the smart contract page
