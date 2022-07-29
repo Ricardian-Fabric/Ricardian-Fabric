@@ -14,7 +14,7 @@ export async function menuActions(props: State) {
   const rewardsButton = getById("fees-button");
 
   dashboardButton.onclick = async function () {
-    await switchToHarmony();
+    await switchToPolygon();
 
     dispatch_setPage(PageState.Dashboard);
   };
@@ -28,31 +28,35 @@ export async function menuActions(props: State) {
   };
 
   reviewAndVoteButton.onclick = async function () {
-    await switchToHarmony();
+    await switchToPolygon();
 
     dispatch_setPage(PageState.ReviewAndVote);
   };
 
-  tokenSale.onclick = async function () {
-    await switchToHarmony();
+  // tokenSale.onclick = async function () {
+  //   await switchToPolygon();
 
-    dispatch_setPage(PageState.tokenSale);
-  };
+  //   dispatch_setPage(PageState.tokenSale);
+  // };
 
   vaultButton.onclick = async function () {
-    await switchToHarmony();
+    await switchToPolygon();
     dispatch_setPage(PageState.vault);
   };
 
   trailsButton.onclick = async function () {
-    await switchToHarmony();
+    await switchToPolygon();
     dispatch_setPage(PageState.trails);
   };
 
   rewardsButton.onclick = async function () {
-    await switchToHarmony();
+    await switchToPolygon();
     dispatch_setPage(PageState.rewards);
   };
+}
+
+export async function switchToPolygon() {
+  await switchNetwork(ChainName.Polygon, 0, currentNetwork);
 }
 
 async function switchToHarmony() {

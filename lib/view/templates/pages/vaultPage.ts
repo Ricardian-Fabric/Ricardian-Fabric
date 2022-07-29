@@ -18,7 +18,7 @@ import { balanceDisplay } from "./tokenSalePage";
 export const VaultPage = () => html`<h3>Vault</h3>
   ${balanceDisplay()} ${blockDisplay()}
   <h6>
-    You can lock OneRic and release it after the blocks specified. The OneRic
+    You can lock PolyRIC and release it after the blocks specified. The PolyRIC
     you use while claiming Fees will go here.
   </h6>
   <hr />
@@ -39,7 +39,7 @@ export const VaultPage = () => html`<h3>Vault</h3>
             placeholder="0"
           />
         </td>
-        <td>${TokenLogoIcon()} OneRIC</td>
+        <td>${TokenLogoIcon()} PolyRIC</td>
       </tr>
       <tr>
         <td>For</td>
@@ -72,7 +72,7 @@ export const VaultPage = () => html`<h3>Vault</h3>
       </tr>
     </table>
     <small
-      >Approved <span class="placeholder-item" id="spend"> </span> OneRIC to
+      >Approved <span class="placeholder-item" id="spend"> </span> PolyRIC to
       spend</small
     >
   </div>
@@ -121,7 +121,7 @@ export const VaultItem = (
     id="${"blocksleft" + index}"
   ></div>
   <div class="box-title">
-    Amount: ${TokenLogoIcon()}${lockedToken.lockedAmount} OneRIC
+    Amount: ${TokenLogoIcon()}${lockedToken.lockedAmount} PolyRIC
   </div>
   <div>
     ${lockedToken.released

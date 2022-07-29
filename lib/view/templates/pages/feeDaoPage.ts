@@ -30,8 +30,8 @@ export const FeeDaoPage = () =>
     <small
       >The tokens displayed below can be used for fees in smart contract
       contributions. Implementing fees using a token will yield higher
-      contribution rewards. Only Harmony chain 0 is supported. Click to copy the
-      token addresses.
+      contribution rewards. Only Polygon is supported. Click to copy the token
+      addresses.
     </small>
     <div id="tokenRow" class="tokenRow"></div>
     <hr />
@@ -42,8 +42,7 @@ export function proposeTokenPopup() {
   return html`<div class="column width-400">
       <h3>Propose a token</h3>
       <small
-        >The token must be an ERC-20 and it must be deployed on Harmony Shard
-        0.</small
+        >The token must be an ERC-20 and it must be deployed on Polygon.</small
       >
       <hr />
       <table>
@@ -67,9 +66,7 @@ export function proposeTokenPopup() {
             <input type="text" id="contractProposalAddress" />
           </td>
           <td>
-            ${helperTooltips(
-              "The address of the token, hosted on the Harmony blockchain"
-            )}
+            ${helperTooltips("The address of the token, hosted on Polygon")}
           </td>
         </tr>
       </table>

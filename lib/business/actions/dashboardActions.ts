@@ -104,44 +104,44 @@ export async function dashboardActions(props: State) {
     return;
   }
 
-  const ricsale = ricsaleOptions.data;
-  const ricLeftOptions = await OptionsBuilder(() =>
-    remainingTokens(ricsale, address)
-  );
-  if (hasError(ricLeftOptions)) {
-    return;
-  }
+  // const ricsale = ricsaleOptions.data;
+  // const ricLeftOptions = await OptionsBuilder(() =>
+  //   remainingTokens(ricsale, address)
+  // );
+  // if (hasError(ricLeftOptions)) {
+  //   return;
+  // }
 
-  const ricLeft = parseFloat(ricLeftOptions.data).toFixed(0);
-  let tokensSoldOptions = await OptionsBuilder(() =>
-    getTokensSold(ricsale, address)
-  );
-  if (hasError(tokensSoldOptions)) {
-    return;
-  }
+  // const ricLeft = parseFloat(ricLeftOptions.data).toFixed(0);
+  // let tokensSoldOptions = await OptionsBuilder(() =>
+  //   getTokensSold(ricsale, address)
+  // );
+  // if (hasError(tokensSoldOptions)) {
+  //   return;
+  // }
 
-  const tokensSold = tokensSoldOptions.data;
-  // tokensSold = ricLeft; // uncomment to see the sale finished UI, redeclare tokensSold with let;
+  // const tokensSold = tokensSoldOptions.data;
+  // // tokensSold = ricLeft; // uncomment to see the sale finished UI, redeclare tokensSold with let;
 
-  if (tokensSold === "2000000") {
-    dispatch_renderLoadedValue(props, "Sale finished", ricLeftEl);
-  } else {
-    dispatch_renderLoadedValue(props, ricLeft, ricLeftEl);
-  }
+  // if (tokensSold === "2000000") {
+  //   dispatch_renderLoadedValue(props, "Sale finished", ricLeftEl);
+  // } else {
+  dispatch_renderLoadedValue(props, "Not Specified", ricLeftEl);
+  // }
 
-  const ricRateOptions = await OptionsBuilder(() =>
-    getCurrentRate(ricsale, address)
-  );
-  if (hasError(ricRateOptions)) {
-    return;
-  }
+  // const ricRateOptions = await OptionsBuilder(() =>
+  //   getCurrentRate(ricsale, address)
+  // );
+  // if (hasError(ricRateOptions)) {
+  //   return;
+  // }
 
-  const ricRate = ricRateOptions.data;
-  if (tokensSold === "2000000") {
-    dispatch_renderLoadedValue(props, "Sale finished", ricSaleRateEl);
-  } else {
-    dispatch_renderLoadedValue(props, ricRate, ricSaleRateEl);
-  }
+  // const ricRate = ricRateOptions.data;
+  // if (tokensSold === "2000000") {
+  dispatch_renderLoadedValue(props, "Not Specified", ricSaleRateEl);
+  // } else {
+  //   dispatch_renderLoadedValue(props, ricRate, ricSaleRateEl);
+  // }
 
   const vaultOptions = await OptionsBuilder(() => getRicVaultContract());
   if (hasError(vaultOptions)) {
@@ -248,7 +248,7 @@ export async function dashboardActions(props: State) {
 
   const fees = parseFloat(feesOptions.data).toFixed(0);
 
-  dispatch_renderLoadedValue(props, fees + " ONE", HarmonyFeesCollectedEl);
+  dispatch_renderLoadedValue(props, fees + " MATIC", HarmonyFeesCollectedEl);
 
   const tokensOptions = await OptionsBuilder(() => getTokens(feeDao, address));
   if (hasError(tokensOptions)) {

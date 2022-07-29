@@ -5,8 +5,8 @@ import { getRicAbi } from "../abi/ricABI";
 import { metamask_web3, RICADDRESS } from "../web3";
 
 export const RICPARAMS: ERC20Params = {
-  name: "OneRIC",
-  symbol: "OneRIC",
+  name: "PolyRIC",
+  symbol: "PolyRIC",
   address: RICADDRESS,
   decimals: 18,
 };

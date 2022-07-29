@@ -16,7 +16,7 @@ export function createProposalPage() {
       <button
         class="labelButton light-shadow"
         id="stake-3000-ric"
-        title="Stake 3000 OneRIC to start contributing to the catalog."
+        title="Stake 3000 PolyRIC to start contributing to the catalog."
         disabled
       >
         ${StakingLogo("30")} Stake
@@ -24,14 +24,14 @@ export function createProposalPage() {
       <button
         class="labelButton light-shadow"
         id="approve-stake-spend"
-        title="Approve 3000 OneRIC to allow staking "
+        title="Approve 3000 PolyRIC to allow staking "
         disabled
       >
         ${SpendLogo()} Approve
       </button>
       <hr />
       <div class="labelButton center">
-        ${TokenLogoIcon()}<span id="ricBalance"></span> OneRIC
+        ${TokenLogoIcon()}<span id="ricBalance"></span> PolyRIC
       </div>
     </div>
     <h4 id="rankHeader"></h4>

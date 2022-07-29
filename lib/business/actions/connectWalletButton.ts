@@ -37,7 +37,7 @@ export async function connectWalletButton(props) {
     }
     registerEthereumProviderEvents(props);
 
-    await switchNetwork(ChainName.Harmony, 0, currentNetwork);
+    await switchNetwork(ChainName.Polygon, 0, currentNetwork);
 
     dispatch_setPage(PageState.Menu);
     OnQueryRedirect();

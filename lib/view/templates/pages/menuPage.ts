@@ -68,7 +68,7 @@ export const MenuPage = (state: State) => {
       >
         ${VotingLogo()}
       </button>
-      <div class="text-align-enter">
+      <!-- <div class="text-align-enter">
         <button
           title="Token Sale"
           class="lightSlateGray-shadow labelButton"
@@ -76,7 +76,7 @@ export const MenuPage = (state: State) => {
         >
           ${TokenSaleLogo()}
         </button>
-      </div>
+      </div> -->
       <div class="text-align-center">
         <button
           title="Fees"

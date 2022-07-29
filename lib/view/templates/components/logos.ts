@@ -146,6 +146,20 @@ export const PolygonLogo = () => html` <style>
     src="https://arweave.net/u6KwvG9la-LHGmRdF-4_DPAeRUa-nMGMCmTVKAHRGBw"
   />`;
 
+export const PolygonLogoSizeable = (size: string) => html` <style>
+    .polygon-logo {
+      margin-right: 10px;
+      vertical-align: middle;
+      display: inline-block;
+    }
+  </style>
+  <img
+    width="${size}"
+    height="${size}"
+    class="polygon-logo"
+    src="https://arweave.net/u6KwvG9la-LHGmRdF-4_DPAeRUa-nMGMCmTVKAHRGBw"
+  />`;
+
 export const BackLogo = () => html` <style>
     .backLogo {
       margin-bottom: 2px;

@@ -23,6 +23,11 @@ export const NetworkDropdown = () => html`
 
   <ul>
     <li>
+      <button id="polygon-network" class="dropdown-button">
+        ${PolygonLogo()} <small>Polygon</small>
+      </button>
+    </li>
+    <li>
       <button id="network-hmny-mainnet-shard0" class="dropdown-button">
         ${HarmonyLogo()} <small>Harmony Mainnet Shard 0</small>
       </button>
@@ -42,11 +47,7 @@ export const NetworkDropdown = () => html`
         ${BSCLogo()} <small>Binance Smart Chain</small>
       </button>
     </li>
-    <li>
-      <button id="polygon-network" class="dropdown-button">
-        ${PolygonLogo()} <small>Polygon</small>
-      </button>
-    </li>
+
     <li>
       <hr />
     </li>

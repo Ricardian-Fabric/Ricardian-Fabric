@@ -20,31 +20,31 @@ import { Marquee } from "../components/marquee";
 
 export const dashBoardElementsTitles: DashboardUIElement[] = [
   {
-    title: "Total Supply (OneRIC)",
+    title: "Total Supply (PolyRIC)",
     id: "ric-total-supply",
     desc: "All the tokens were created and it's not possible to mint more.",
     logo: GoldBarsLogo(),
   },
   {
-    title: "Locked in Vault (OneRIC)",
+    title: "Locked in Vault (PolyRIC)",
     id: "ric-in-vault",
-    desc: "The amount of OneRIC currently locked in the vault.",
+    desc: "The amount of PolyRIC currently locked in the vault.",
     logo: CryptoVaultLogo(),
   },
   {
-    title: "For sale (OneRIC)",
+    title: "For sale (PolyRIC)",
     id: "ric-left-for-sale",
-    desc: "Join the community by purchasing the native token, OneRIC.",
+    desc: "Join the community by purchasing the native token, PolyRIC.",
     logo: CardLookingLogo(),
   },
   {
     title: "Token Sale Rate",
     id: "ric-sale-rate",
-    desc: "The amount of OneRIC for 1 ONE.",
+    desc: "The amount of PolyRIC for 1 MATIC.",
     logo: RateLogo(),
   },
   {
-    title: "Contributor Rewards (OneRIC)",
+    title: "Contributor Rewards (PolyRIC)",
     id: "available-reward-amount",
     desc: "The rewards available for the catalog contributors!",
     logo: Rewardhand(),
@@ -62,15 +62,15 @@ export const dashBoardElementsTitles: DashboardUIElement[] = [
     logo: AllProposalsLogo(),
   },
   {
-    title: "Contributor Stake (OneRIC)",
+    title: "Contributor Stake (PolyRIC)",
     id: "total-staking-amount",
-    desc: "The amount of OneRIC securing the catalog.",
+    desc: "The amount of PolyRIC securing the catalog.",
     logo: StakingLogo("50"),
   },
   {
-    title: "ONE Fees",
+    title: "Polygon Fees",
     id: "fees-collected-amount",
-    desc: "Total amount of Harmony ONE Fees collected by the catalog apps that were submitted by the contributors.",
+    desc: "Total amount of Polygon MATIC Fees collected by the catalog apps that were submitted by the contributors.",
     logo: contractFeesLogo(),
   },
   {

@@ -1,7 +1,11 @@
 import { html } from "lit-html";
 import { SelectedRewardDetails, TokenWithBalance } from "../../../types";
 import { getBlockie } from "../components/getBlockies";
-import { HarmonyLogoSizeable, SpendLogo } from "../components/logos";
+import {
+  HarmonyLogoSizeable,
+  PolygonLogoSizeable,
+  SpendLogo,
+} from "../components/logos";
 import { balanceDisplay } from "./tokenSalePage";
 
 export const CollectRewardsPage = () => html`${CollectRewardsContent()}`;
@@ -12,12 +16,12 @@ export const CollectRewardsContent = () => html` <h3>Collect Rewards</h3>
     >Fees from deployed smart contracts accumulate in the Fee Dao
     contract.</small
   >
-  <small>You can withdraw some in exchange for locking up OneRIC.</small>
+  <small>You can withdraw some in exchange for locking up PolyRIC.</small>
   <table>
     <tr>
       <td><label for="ricAmount">Lock </label></td>
       <td><input id="ricAmount" type="number" value="ricAmount" /></td>
-      <td><label for="ricAmount">OneRIC </label></td>
+      <td><label for="ricAmount">PolyRIC </label></td>
       <td>
         <button
           class="labelButton light-shadow"
@@ -105,8 +109,8 @@ function renderTokens(
     >
       <hr />
       <div class="text-align-center">
-        ${tokenName === "ONE"
-          ? HarmonyLogoSizeable("50px")
+        ${tokenName === "Polygon"
+          ? PolygonLogoSizeable("50px")
           : getBlockie(tokenAddress, "50px", "")}
       </div>
       <div class="text-align-center overflow-auto">
@@ -130,8 +134,8 @@ export function DraggedReward(token: {
   >
     <hr />
     <div class="text-align-center">
-      ${token.name === "ONE"
-        ? HarmonyLogoSizeable("50px")
+      ${token.name === "Polygon"
+        ? PolygonLogoSizeable("50px")
         : getBlockie(token.address, "50px", "")}
     </div>
     <div class="text-align-center">

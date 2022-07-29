@@ -1299,7 +1299,7 @@ export function enableStakingButtons(
   }
 
   if (stakingdisabled) {
-    stakingButtonEl.title = "You need 3000 OneRIC to stake!";
+    stakingButtonEl.title = "You need 3000 PolyRIC to stake!";
   }
 
   stakingButtonEl.disabled = stakingdisabled;
@@ -1321,9 +1321,9 @@ export function tokenSaleInit(
   ricLeftEl.classList.remove("placeholder-item");
   rateEl.classList.remove("placeholder-item");
 
-  ricLeftEl.textContent = ricLeft + " OneRIC";
+  ricLeftEl.textContent = ricLeft + " PolyRIC";
 
-  rateEl.textContent = rate + " OneRIC/ONE";
+  rateEl.textContent = rate + " PolyRIC/ONE";
 
   if (tokensSold === "2000000") {
     ricLeftEl.textContent = "SALE FINISHED";

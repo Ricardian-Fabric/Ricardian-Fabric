@@ -56,7 +56,7 @@ export function StakerDetails(
   }
 
   return html`<div>
-    Stake: ${staker.stakeAmount} OneRIC
+    Stake: ${staker.stakeAmount} PolyRIC
     ${staker.isStaking
       ? html`<button
           id="unstake-button"

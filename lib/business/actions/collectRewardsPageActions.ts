@@ -29,8 +29,7 @@ import { Contract } from "web3-eth-contract";
 import { dispatch_setPage } from "../../dispatch/stateChange";
 import Web3 from "web3";
 import { getError } from "../../wallet/errors";
-
-export const HARMONYONEREWARDADDRESS = "Harmony ONE";
+const MATICREWARDADDRESS = "Polygon Matic"; // Native token so address is not specified
 
 export async function collectRewardsPageActions(props: State) {
   const feeDaoOptions = await OptionsBuilder(() => getFeeDaoContract());
@@ -63,9 +62,9 @@ export async function collectRewardsPageActions(props: State) {
 
   const tokenBalances = [
     {
-      name: "ONE",
+      name: "Polygon",
       balance: currentBalanceOpts.data,
-      address: HARMONYONEREWARDADDRESS,
+      address: MATICREWARDADDRESS,
     },
   ];
   const tokens = tokensOpts.data as Token[];
@@ -239,7 +238,7 @@ async function getWithdraw(
   myaddress: string
 ) {
   let withdraw = "";
-  if (tokenaddress === HARMONYONEREWARDADDRESS) {
+  if (tokenaddress === MATICREWARDADDRESS) {
     const canWithdrawOpts = await OptionsBuilder(() =>
       calculateETHWithdraw(feeDao, ricAmount, myaddress)
     );
@@ -307,7 +306,7 @@ export async function tokenWithdrawActions(props: State, selected: string) {
 
     const tokenaddress = withdrawRewardButton.dataset.address;
 
-    if (tokenaddress === HARMONYONEREWARDADDRESS) {
+    if (tokenaddress === MATICREWARDADDRESS) {
       await withdrawETH(
         feeDaoOpts.data,
         Web3.utils.toWei(ricAmountEl.value),

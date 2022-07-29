@@ -4,12 +4,12 @@ import {
 } from "../../dispatch/stateChange";
 import { PopupState, State } from "../../types";
 import { getById } from "../../view/utils";
-import { switchToHarmony } from "../../wallet/web3";
+import { switchToPolygon } from "./menuActions";
 
 export function wrongNetworkActions(props: State) {
-  const switchButton = getById("switch-to-harmony");
+  const switchButton = getById("switch-network");
   switchButton.onclick = async function () {
-    await switchToHarmony(0, "Mainnet");
+    await switchToPolygon();
     dispatch_setPage(props.pageState);
     dispatch_setPopupState(PopupState.NONE);
   };

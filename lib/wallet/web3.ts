@@ -15,19 +15,19 @@ import {
 import { getSimpleTermsAbi } from "./abi/SimpleTerms";
 // THIS IS HARMONY MAINNET
 export const SIGNUPADDRESS = "0xE1fe19295EcE29eCE8a25969aDf5D5650a10b914";
-export const CATALOGDAOADDRESS = "0x30E072A9dfF6A38fC626fb58326683F6C74e37ca";
+export const CATALOGDAOADDRESS = "0x1FEA72213C853EF9a44A71c1267e018e17f7F5c9";
 export const RICADDRESS = "0x7FDFBBb392d17774CF95F761a843a4408965f2a8";
 export const RICSALEADDRESS = "0x0e1a755B1DA431a8e0dc37c5DD8C23B8f7f23C41";
 
-export const DAOSTAKINGADDRESS = "0x484205757e7f5e376a40Cf378eeedF75089B42A5";
-export const FEEDAOADDRESS = "0xdBB2543b6Ef7e8480b51bE37f87fDd099b14cf86";
-export const RICVAULTADDRESS = "0x1d87b41128B645250e71EE546AC944062F7D46c3";
+export const DAOSTAKINGADDRESS = "0x0e1a755B1DA431a8e0dc37c5DD8C23B8f7f23C41";
+export const FEEDAOADDRESS = "0xFB41AF36eB2065A520Fd4C215170A2aE3f8a7B90";
+export const RICVAULTADDRESS = "0xdBB2543b6Ef7e8480b51bE37f87fDd099b14cf86";
 
-export const HARMONYRPCURL = "https://harmony-0-rpc.gateway.pokt.network";
+export const PolygonRPCURL = "https://polygon-rpc.com";
 export const VOTINGPERIODBLOCKS = 259200; //The blocks passing in the voting period. 302400 on Harmony, 10 on Hardhat
 
 export const metamask_web3 = new Web3(window.ethereum);
-export const rpc_web3 = new Web3(HARMONYRPCURL);
+export const rpc_web3 = new Web3(PolygonRPCURL);
 
 export const currentNetwork: NetworkType = "Mainnet";
 

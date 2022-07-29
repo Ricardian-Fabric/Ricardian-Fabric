@@ -44,10 +44,6 @@ import {
   newTab,
 } from "../../view/utils";
 import MetaMaskOnboarding from "@metamask/onboarding";
-import {
-  getTrailDetails,
-  getTrailsContractWithRPC,
-} from "../../wallet/trails/contractCalls";
 import { BlockCountry } from "../countryBlock";
 import { getSignupContractWithoutWallet } from "../../wallet/signup/contractCalls";
 import { acceptedTerms, getTerms } from "../../wallet/catalogDAO/contractCalls";
