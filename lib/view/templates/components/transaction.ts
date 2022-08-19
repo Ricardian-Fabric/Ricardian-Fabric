@@ -10,23 +10,6 @@ export const transactionUrl = (props: any, url: string) => {
         flex-direction: column;
         overflow: hidden;
       }
-
-      .permapin-button {
-        border-radius: 20px;
-        border: none;
-        cursor: pointer;
-        background: black;
-        color: white;
-        max-width: 200px;
-        margin: 0 auto;
-        padding: 5px;
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-      .permapin-button:hover {
-        background-color: #ccc;
-        transform: scale(1.01);
-      }
       .transaction-button-row {
         display: flex;
         flex-direction: row;
@@ -51,23 +34,6 @@ export const transactionUrl = (props: any, url: string) => {
         >Link copied to clipboard</a
       >
       <hr />
-      <div class="transaction-button-row">
-        ${props.contracttype === ContractTypes.create
-          ? html`
-              <button id="permapin-deployed-button" class="permapin-button">
-                Permapin to Arweave!
-              </button>
-            `
-          : nothing}
-        ${props.contracttype === ContractTypes.acceptable
-          ? html`<a
-              target="_blank"
-              rel="noopener"
-              href="${props.creatorAppLink + "?pin=" + props.ipfsHash}"
-              title="Permapin the content on arweave"
-              >${pinLogo()}</a
-            >`
-          : nothing}
         ${props.contracttype === ContractTypes.create
           ? html`
               <hr />
@@ -76,7 +42,6 @@ export const transactionUrl = (props: any, url: string) => {
               </button>
             `
           : nothing}
-      </div>
       <hr />
     </div>
   `;
