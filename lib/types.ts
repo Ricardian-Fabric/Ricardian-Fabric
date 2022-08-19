@@ -61,8 +61,6 @@ export enum RenderType {
   renderAddress = "renderAddress",
   disableCreateInputs = "disableCreateInputs",
   enableCreateInputs = "enableCreateInputs",
-  disableAcceptableInputs = "disableAcceptableInputs",
-  enableAcceptableInputs = "enableAcceptableInputs",
   deployAgain = "deployAgain",
   catalogPage = "catalogPage",
   SCDeploySelected = "SCDeploySelected",
@@ -184,8 +182,6 @@ export type Renderer = {
   [RenderType.promptErrorDOCX]: RenderFunction;
   [RenderType.disableCreateInputs]: RenderFunction;
   [RenderType.enableCreateInputs]: RenderFunction;
-  [RenderType.disableAcceptableInputs]: RenderFunction;
-  [RenderType.enableAcceptableInputs]: RenderFunction;
   [RenderType.deployAgain]: RenderFunction;
   [RenderType.catalogPage]: RenderFunction;
   [RenderType.SCDeploySelected]: RenderFunction;

@@ -1,5 +1,4 @@
 import {
-  dispatch_enableAcceptableInputs,
   dispatch_enableCreateInputs,
   dispatch_noButtonPressed,
   dispatch_removeError,
@@ -18,7 +17,6 @@ export function deployAgainButtonActions(props: State) {
     dispatch_enableCreateInputs();
     dispatch_noButtonPressed(props);
     dispatch_enableCreateInputs();
-    dispatch_enableAcceptableInputs();
     dispatch_removeError();
   };
 }

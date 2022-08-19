@@ -222,19 +222,6 @@ export function dispatch_enableCreateInputs() {
   });
 }
 
-export function dispatch_disableAcceptableInputs() {
-  dispatch(Events.render, {
-    type: RenderType.disableAcceptableInputs,
-    props: {},
-  });
-}
-export function dispatch_enableAcceptableInputs() {
-  dispatch(Events.render, {
-    type: RenderType.enableAcceptableInputs,
-    props: {},
-  });
-}
-
 export function dispatch_deployAgain(props: State) {
   dispatch(Events.render, {
     type: RenderType.deployAgain,

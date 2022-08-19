@@ -1,6 +1,5 @@
 import {
   dispatch_deployAgain,
-  dispatch_enableAcceptableInputs,
   dispatch_enableCreateInputs,
   dispatch_noButtonPressed,
   dispatch_renderError,
@@ -19,7 +18,6 @@ export function areYouSureButtons(props: State) {
   noButton.onclick = function () {
     dispatch_noButtonPressed(props);
     dispatch_enableCreateInputs();
-    dispatch_enableAcceptableInputs();
   };
   // Are you sure buttons are only for create page only!
   yesButton.onclick = async function () {
