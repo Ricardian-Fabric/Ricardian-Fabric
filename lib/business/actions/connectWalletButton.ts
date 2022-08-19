@@ -4,18 +4,14 @@ import {
 } from "../../dispatch/render";
 import { getById, parseQueryString } from "../../view/utils";
 import {
-  currentNetwork,
   requestAccounts,
-  switchNetwork,
   web3Injected,
 } from "../../wallet/web3";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import {
   dispatch_setPage,
-  dispatch_setPopupState,
-  dispatch_stashIpfsCID,
 } from "../../dispatch/stateChange";
-import { ChainName, PageState, PopupState, QueryStrings } from "../../types";
+import { PageState, QueryStrings } from "../../types";
 import { registerEthereumProviderEvents } from "../utils";
 
 export async function connectWalletButton(props) {
@@ -36,8 +32,6 @@ export async function connectWalletButton(props) {
       return;
     }
     registerEthereumProviderEvents(props);
-
-    await switchNetwork(ChainName.Polygon, 0, currentNetwork);
 
     dispatch_setPage(PageState.Menu);
     OnQueryRedirect();
@@ -61,11 +55,7 @@ export function OnQueryRedirect() {
   } else if (queryStrings.verify !== undefined) {
     dispatch_setPage(PageState.VerifyContract);
     dispatch_navigateTo(QueryStrings.verify, queryStrings.verify);
-  } else if (queryStrings.pin !== undefined) {
-    dispatch_setPage(PageState.CreateRicardian);
-    dispatch_stashIpfsCID(queryStrings.pin);
-    dispatch_setPopupState(PopupState.Permapin);
   } else {
-    dispatch_setPage(PageState.Dashboard);
+    dispatch_setPage(PageState.CreateRicardian);
   }
 }
