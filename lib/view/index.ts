@@ -51,7 +51,6 @@ import {
   renderUploadFile,
   renderUploadSummary,
   hideElement,
-  renderPermapinPopup,
   renderWalletPopup,
   emptyWalletDropper,
   renderAddNewAccountPopup,
@@ -59,7 +58,6 @@ import {
   renderSwitchAccounts,
   renderTransferPage,
   renderTransferSummaryPage,
-  renderPermapinSummaryPage,
   renderTxId,
   renderVerifyContractPopup,
   renderVerificationState,
@@ -86,7 +84,6 @@ import {
   renderConnectYourWallet,
   renderDashboard,
   renderLoadedValue,
-  pinnedDashboardData,
   enableStakingButtons,
   renderFeeProposalsPage,
   renderTokenSalePage,
@@ -108,7 +105,6 @@ import {
   renderArweaveSummaryTx,
   renderTrailDataPage,
   navigateToQueryString,
-  renderIpfsConfigPage,
   renderSmartContractProposalTable,
   renderMyProposalsSmartContractContent,
   renderContractDisplayPage,
@@ -132,6 +128,7 @@ import {
   contractDeployedData,
   setCommentPopup,
   render_uploadFrontendPopup,
+  assignSmartContractAddress,
 } from "./render";
 import { renderAcceptTools } from "./render";
 import { areYouSureButtons } from "../business/actions/areYouSureButtons";
@@ -155,10 +152,7 @@ import {
 import { templateSelectActions } from "../business/actions/templateSelectActions";
 import {
   AddNewAccountActions,
-  permapinPopupActions,
-  permapinSummaryActions,
   permawebSelectActions,
-  permawebTransactionAction,
   showAccountActions,
   switchAccountsActions,
   transferPageActions,
@@ -217,7 +211,6 @@ import {
   trailDetailsActions,
   trailsPageActions,
 } from "../business/actions/trailsPageActions";
-import { ipfsConfigActions } from "../business/actions/ipfsConfigActions";
 import { votingOnContractActions } from "../business/actions/VotingOnContractActions";
 import {
   contractDisplayActions,
@@ -264,7 +257,6 @@ const Render: Renderer = {
     templateSelectActions(props);
 
     handleDropdownClosing();
-
     renderAccordionOpener();
   },
   [RenderType.sidebar]: (props: State) => {
@@ -285,7 +277,6 @@ const Render: Renderer = {
   },
   [RenderType.transaction]: (props: any) => {
     renderTransaction(props, props.url);
-    permawebTransactionAction(props, props.ipfsHash);
   },
   [RenderType.renderError]: (props: { message: string }) => {
     renderError(props.message);
@@ -422,10 +413,6 @@ const Render: Renderer = {
   [RenderType.discardFile]: (props: State) => {
     discardFile();
   },
-  [RenderType.permapinPopup]: (props: State) => {
-    renderPermapinPopup();
-    permapinPopupActions(props);
-  },
   [RenderType.walletPopup]: (props: State) => {
     renderWalletPopup();
     walletCreateActions(props);
@@ -440,7 +427,6 @@ const Render: Renderer = {
   [RenderType.showAccountPopup]: (props: RenderDispatchArgs) => {
     renderShowAccount(props.tmp.address, props.tmp.balance);
     showAccountActions(props);
-    permawebTransactionAction(props, props.ipfsCID);
   },
   [RenderType.switchAccounts]: (props: State) => {
     renderSwitchAccounts();
@@ -453,19 +439,6 @@ const Render: Renderer = {
   [RenderType.transferSummaryPage]: (props: RenderDispatchArgs) => {
     renderTransferSummaryPage(props.tmp);
     transferSummaryPageActions(props);
-  },
-  [RenderType.permapinSummaryPage]: (props: RenderDispatchArgs) => {
-    //permapin summary page actions
-    renderPermapinSummaryPage({
-      permapinTx: props.tmp.pinTransaction,
-      sendTip: props.tmp.sendTip,
-      tipTx: props.tmp.tipTransaction,
-    });
-    permapinSummaryActions({
-      permapinTx: props.tmp.pinTransaction,
-      sendTip: props.tmp.sendTip,
-      tipTx: props.tmp.tipTransaction,
-    });
   },
   [RenderType.hidePopup]: ({}) => {
     removePopup();
@@ -643,9 +616,6 @@ const Render: Renderer = {
   [RenderType.renderLoadedValue]: (props: RenderDispatchArgs) => {
     renderLoadedValue(props.tmp.loadedValue, props.tmp.renderTo);
   },
-  [RenderType.pinnedDashboardData]: (props: RenderDispatchArgs) => {
-    pinnedDashboardData(props.ipfs.v2Url, props.tmp.nodes);
-  },
   [RenderType.stakingButtons]: (props: RenderDispatchArgs) => {
     enableStakingButtons(
       props.tmp.enableStakingButton,
@@ -753,10 +723,6 @@ const Render: Renderer = {
       props.tmp.value,
       props.tmp.secondValue
     );
-  },
-  [RenderType.renderIpfsConfig]: (props: RenderDispatchArgs) => {
-    renderIpfsConfigPage(props);
-    ipfsConfigActions(props);
   },
   [RenderType.emptyPopup]: (props: RenderDispatchArgs) => {
     setBannerDisplayBlock();
@@ -867,6 +833,9 @@ const Render: Renderer = {
     render_uploadFrontendPopup(props.tmp.url);
     uploadFrontEndPopupActions(props, props.tmp.url);
   },
+  [RenderType.assignSmartContractAddress]: (props: RenderDispatchArgs) =>{
+    assignSmartContractAddress(props.tmp.address);
+  }
 };
 
 document.body.addEventListener(Events.render, async (e: any) => {
