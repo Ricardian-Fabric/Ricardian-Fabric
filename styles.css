@@ -527,17 +527,17 @@ hr {
   width: 100%;
 }
 
-#input-table {
+.input-table {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
 
-#input-table tr {
+.input-table tr {
   background-color: white;
 }
 
-#input-table th {
+.input-table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
