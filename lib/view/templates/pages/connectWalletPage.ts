@@ -4,7 +4,7 @@ import { ConnectWalletLogo, MetamaskLogo } from "../components/logos";
 export const ConnectWalletPage = () =>
   html`
     <div class="intro-logo">
-      <div class="">Ricardian Fabric DAO</div>
+      <div class="">Ricardian Fabric</div>
 
       <div class="center height200">
         <button
