@@ -10,9 +10,7 @@ import {
   dispatch_emptyPopup,
   dispatch_feeProposals,
   dispatch_hidePopup,
-  dispatch_ipfsConfig,
   dispatch_manageProposals,
-  dispatch_permapinPopup,
   dispatch_permawebselectActions,
   dispatch_renderAcceptButton,
   dispatch_renderAddress,
@@ -46,6 +44,7 @@ import {
   StateProperties,
 } from "../types";
 import ScreenSizeDetector from "screen-size-detector";
+import { dispatch_setPage } from "../dispatch/stateChange";
 
 export const setStateHook = {
   [StateProperties.init]: (args: SetHookArgs) => {
@@ -57,7 +56,6 @@ export const setStateHook = {
       dispatch_renderAcceptButton(clone);
     }
   },
-  [StateProperties.ipfs]: (args: SetHookArgs) => {},
   [StateProperties.createRicardianPageProps]: (args: SetHookArgs) => {},
   [StateProperties.editor]: (args: SetHookArgs) => {},
   [StateProperties.balance]: (args: SetHookArgs) => {
@@ -80,21 +78,10 @@ export const setStateHook = {
     // This happens only on acceptable pages
     dispatch_renderAcceptButton(cloneState(args.obj));
   },
-  [StateProperties.selectedWallet]: (args: SetHookArgs) => {
-    //TODO: REMOVE!!
-
-    if (args.obj.contracttype === ContractTypes.create) {
-      const clone = cloneState(args.obj);
-      //TODO: This is not used  right now,
-      // there could be a bug if used because createPage has the editor locally and this will reinitialize it/
-      // dispatch_renderCreateButton(clone);
-    }
-  },
   [StateProperties.Account]: (args: SetHookArgs) => {
     const clone: State = cloneState(args.obj);
     dispatch_permawebselectActions(clone);
   },
-  [StateProperties.ipfsCID]: (args: SetHookArgs) => {},
   [StateProperties.popupState]: (args: SetHookArgs) => {
     const clone = cloneState(args.obj);
     switch (args.value) {
@@ -105,6 +92,13 @@ export const setStateHook = {
         dispatch_renderDocXDropper(clone);
         break;
       case PopupState.ShowAccount:
+
+         // If the current page is createRicardian then the page should be saved in memory and reloaded later
+
+         if(clone.pageState === PageState.CreateRicardian){
+
+         }
+
         dispatch_showAccountPopup(
           clone,
           clone.Account.balance,
@@ -124,9 +118,6 @@ export const setStateHook = {
         break;
       case PopupState.UploadFile:
         dispatch_renderUploadFilePopup(clone);
-        break;
-      case PopupState.Permapin:
-        dispatch_permapinPopup(clone, clone.ipfsCID);
         break;
       case PopupState.UploadProposal:
         dispatch_uploadProposal(clone, PopupState.UploadProposal);
@@ -220,10 +211,7 @@ export const setStateHook = {
       case PageState.rewards:
         dispatch_collectRewardPage(clone);
         break;
-      case PageState.ipfsConfig:
-        dispatch_ipfsConfig(clone);
-        break;
-      default:
+     default:
         break;
     }
   },
@@ -242,6 +230,14 @@ function cloneState(state: State) {
 
 export function beforePageSetHook(prevPageState: PageState) {
   if (prevPageState === PageState.CreateRicardian) {
+    saveCreatePageData();
+  }
+}
+
+export function popupSetHook(prevPopupState: PopupState,currentPopupState : PopupState, currentPage :PageState ){
+  if(prevPopupState === PopupState.ShowAccount && currentPopupState === PopupState.NONE && currentPage === PageState.CreateRicardian){
+    dispatch_setPage(PageState.CreateRicardian);
+} else if (prevPopupState === PopupState.NONE && currentPopupState === PopupState.ShowAccount && currentPage === PageState.CreateRicardian){
     saveCreatePageData();
   }
 }
