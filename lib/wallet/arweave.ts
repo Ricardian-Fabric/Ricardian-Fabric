@@ -15,6 +15,8 @@ export const ARWAEVECONFIG = {
   logger: console.log,
 };
 
+export const geArweaveIdUrl = (id) => `https://arweave.net/${id}`;
+
 const arweave = Arweave.init(ARWAEVECONFIG);
 
 // The address that deploys the javascript dependency.
@@ -38,6 +40,25 @@ export async function createFileTransaction(
   transaction.addTag("App-Name", "Ricardian Fabric");
 
   await arweave.transactions.sign(transaction, key);
+  return transaction;
+}
+
+export async function createContractIssueingTransaction(
+  data: any,
+  version: string, 
+  key: any, 
+  tags: { issuer: string, network: string, contractType: string }) {
+
+  const transaction = await arweave.createTransaction({ data }, key);
+
+  transaction.addTag("Issuer", tags.issuer);
+  transaction.addTag("Network", tags.network);
+  transaction.addTag("Contract-Type", tags.contractType);
+  transaction.addTag("App-Version", version);
+  transaction.addTag("App-Name", "Ricardian Fabric");
+  transaction.addTag("Content-Type","text/html");
+  await arweave.transactions.sign(transaction,key);
+  
   return transaction;
 }
 
@@ -237,6 +258,7 @@ export async function getDecodedTagsFromTX(id: string) {
   tags.forEach((tag) => {
     let key = tag.get("name", { decode: true, string: true });
     let value = tag.get("value", { decode: true, string: true });
+    //@ts-ignore
     txTags.push({ [key]: value });
   });
   return txTags;
