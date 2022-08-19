@@ -22,7 +22,6 @@ export enum ChainName {
 
 export enum QueryStrings {
   verify = "verify", // acceptable contract to verify
-  pin = "pin", // Ipfs content to pin
   trail = "trail", // Trail to find
   item = "item", // Catalog Item
 }
@@ -75,7 +74,6 @@ export enum RenderType {
   uploadSummary = "uploadSummary",
   uploadStatus = "uploadStatus",
   discardFile = "discardFile",
-  permapinPopup = "permapinPopup",
   walletPopup = "walletPopup",
   emptyWalletDropper = "emptyWalletDropper",
   addNewAccountPopup = "addNewAccountPopup",
@@ -83,7 +81,6 @@ export enum RenderType {
   switchAccounts = "switchAccounts",
   transferPage = "transferPage",
   transferSummaryPage = "transferSummaryPage",
-  permapinSummaryPage = "permapinSummaryPage",
   hidePopup = "hidePopup",
   hideElement = "hideElement",
   txId = "txId",
@@ -111,7 +108,6 @@ export enum RenderType {
   renderReviewAcceptedProposals = "renderReviewAcceptedProposals",
   renderReviewRemovalProposals = "renderReviewRemovalProposals",
   renderLoadedValue = "renderLoadedValue",
-  pinnedDashboardData = "pinnedDashboardData",
   stakingButtons = "stakingButtons",
   feeProposalsPage = "feeProposalsPage",
   tokenSalePage = "tokenSalePage",
@@ -133,7 +129,6 @@ export enum RenderType {
   arweaveTxSummary = "arweaveTxSummary",
   trailDataPage = "trailDataPage",
   navigateToQueryString = "navigateToQueryString",
-  renderIpfsConfig = "renderIpfsConfig",
   emptyPopup = "emptyPopup",
   renderContractDisplay = "renderContractDisplayPage",
   teardownContractDisplay = "teardownContractDisplay",
@@ -153,6 +148,7 @@ export enum RenderType {
   contractDeployedData = "contractDeployedData",
   setCommentPopup = "setCommentPopup",
   uploadFrontendPopup = "uploadFrontendPopup",
+  assignSmartContractAddress = "assignSmartContractAddress"
 }
 
 // TODO refactor to RenderDispatchArgs for specifying the dispatch arguments
@@ -200,7 +196,6 @@ export type Renderer = {
   [RenderType.uploadSummary]: RenderFunction;
   [RenderType.uploadStatus]: RenderFunction;
   [RenderType.discardFile]: RenderFunction;
-  [RenderType.permapinPopup]: RenderFunction;
   [RenderType.walletPopup]: RenderFunction;
   [RenderType.emptyWalletDropper]: RenderFunction;
   [RenderType.addNewAccountPopup]: RenderFunction;
@@ -208,7 +203,6 @@ export type Renderer = {
   [RenderType.switchAccounts]: RenderFunction;
   [RenderType.transferPage]: RenderFunction;
   [RenderType.transferSummaryPage]: RenderFunction;
-  [RenderType.permapinSummaryPage]: RenderFunction;
   [RenderType.hidePopup]: RenderFunction;
   [RenderType.hideElement]: RenderFunction;
   [RenderType.txId]: RenderFunction;
@@ -234,7 +228,6 @@ export type Renderer = {
   [RenderType.renderReviewSmartContractProposals]: RenderFunction;
   [RenderType.renderReviewRemovalProposals]: RenderFunction;
   [RenderType.renderLoadedValue]: RenderFunction;
-  [RenderType.pinnedDashboardData]: RenderFunction;
   [RenderType.stakingButtons]: RenderFunction;
   [RenderType.feeProposalsPage]: RenderFunction;
   [RenderType.tokenSalePage]: RenderFunction;
@@ -256,7 +249,6 @@ export type Renderer = {
   [RenderType.arweaveTxSummary]: RenderFunction;
   [RenderType.trailDataPage]: RenderFunction;
   [RenderType.navigateToQueryString]: RenderFunction;
-  [RenderType.renderIpfsConfig]: RenderFunction;
   [RenderType.emptyPopup]: RenderFunction;
   [RenderType.renderContractDisplay]: RenderFunction;
   [RenderType.teardownContractDisplay]: RenderFunction;
@@ -276,6 +268,7 @@ export type Renderer = {
   [RenderType.contractDeployedData]: RenderFunction;
   [RenderType.setCommentPopup]: RenderFunction;
   [RenderType.uploadFrontendPopup]: RenderFunction;
+  [RenderType.assignSmartContractAddress] : RenderFunction;
 };
 
 export enum VerificationState {
@@ -286,7 +279,6 @@ export enum VerificationState {
 
 export enum EventType {
   init = "init",
-  setIPFS = "setIPFS",
   setEditor = "setEditor",
   setBalance = "setBalance",
   setWalletAddress = "setWalletAddress",
@@ -298,7 +290,6 @@ export enum EventType {
   setSelectedWallet = "setSelectedWallet",
   setNewAccount = "setNewAccount",
   setPopupState = "setPopupState",
-  setIpfsCID = "setIpfsCID",
   setEditFinished = "setEditFinished",
   setPageState = "setPageState",
   setCreateRicardianPageProps = "setCreateRicardianPageProps",
@@ -308,7 +299,6 @@ export enum EventType {
 
 export enum StateProperties {
   init = "init",
-  ipfs = "ipfs",
   createRicardianPageProps = "createRicardianPageProps",
   balance = "balance",
   address = "address",
@@ -320,7 +310,6 @@ export enum StateProperties {
   Account = "Account",
   popupState = "popupState",
   previousPopupState = "previousPopupState",
-  ipfsCID = "ipfsCID",
   editFinished = "editFinished",
   editor = "editor",
   pageState = "pageState",
@@ -354,14 +343,9 @@ export type StashedDetails = {
   signature: string;
   network: string;
   smartContract: string;
+  arweaveTx: any
 };
 
-export type IPFSParams = {
-  host: string;
-  v2Url: string;
-  port: number;
-  protocol: string;
-};
 
 export type ERC20Params = {
   name: string;
@@ -387,8 +371,6 @@ export enum PopupState {
   SwitchAccount,
   UploadFile,
   UploadSummary, // Upload summary is not used in state because it get's passed a signed transaction
-  Permapin,
-  PermapinSummary, //Same as upload summary...
   UploadProposal,
   UploadProposalStep2,
   UploadProposalStep3,
@@ -414,13 +396,11 @@ export enum PageState {
   tokenSale,
   vault,
   trails,
-  rewards,
-  ipfsConfig,
+  rewards
 }
 
 export type State = {
   init: boolean;
-  ipfs: IPFSParams;
   Account: Account;
   editor: any;
   domParser: DOMParser;
@@ -450,7 +430,6 @@ export type State = {
   smartcontract: string;
   position: GeolocationPosition;
   isERC20: ERC20Params;
-  ipfsCID: string;
   editFinished: boolean;
   blockPollTimer: NodeJS.Timer;
   creatorAppLink: string;
@@ -504,7 +483,6 @@ export type AcceptablePageProps = {
   creatorAppLink: string;
   relatedtrail: string;
   trailAddress: string;
-  ipfsParams: IPFSParams;
 };
 
 export type FulfilledPageProps = {
