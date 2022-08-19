@@ -3,16 +3,15 @@ import {
   AppType,
   ContractTypes,
   ERC20Params,
-  IPFSParams,
   SelectedWallet,
 } from "../types";
 
 export function getRedirectToDataProp(page: HTMLElement): string {
-  return page.dataset.redirectto;
+  return page.dataset.redirectto as string;
 }
 
 export function getIssuerDataProp(page: HTMLElement): string {
-  return page.dataset.issuer;
+  return page.dataset.issuer as string;
 }
 
 export function getCurrentPageDataProp(page: HTMLElement) {
@@ -22,43 +21,43 @@ export function getCurrentPageDataProp(page: HTMLElement) {
 }
 
 export function getPriceFromDataProp(page: HTMLElement): string {
-  return page.dataset.price;
+  return page.dataset.price as string;
 }
 
 export function getCreatedDateFromDataProp(page: HTMLElement): string {
-  return page.dataset.created;
+  return page.dataset.created as string;
 }
 
 export function getExpiresFromDataProp(page: HTMLElement): string {
-  return page.dataset.expires;
+  return page.dataset.expires as string;
 }
 
 export function getVersionFromDataProp(page: HTMLElement): string {
-  return page.dataset.version;
+  return page.dataset.version as string;
 }
 
 export function getOnlySignerFromDataProp(page: HTMLElement): string {
-  return page.dataset.onlysigner;
+  return page.dataset.onlysigner as string;
 }
 
 export function getSourceFromDataProp(page: HTMLElement): string {
-  return page.dataset.dependency;
+  return page.dataset.dependency as string;
 }
 
 export function getNetworkFromDataProp(page: HTMLElement): string {
-  return page.dataset.network;
+  return page.dataset.network as string;
 }
 
 export function getHashFromDataProp(page: HTMLElement): string {
-  return page.dataset.hash;
+  return page.dataset.hash as string;
 }
 
 export function getIssuerSignatureFromDataProp(page: HTMLElement): string {
-  return page.dataset.issuersignature;
+  return page.dataset.issuersignature as string;
 }
 
 export function getSmartContractFromDataProp(page: HTMLElement): string {
-  return page.dataset.smartcontract;
+  return page.dataset.smartcontract as string;
 }
 
 export function getIsERC20FromDataProp(page: HTMLElement): ERC20Params {
@@ -66,7 +65,7 @@ export function getIsERC20FromDataProp(page: HTMLElement): ERC20Params {
   if (erc20 === undefined) {
     return {} as ERC20Params;
   }
-  return JSON.parse(page.dataset.erc20) as ERC20Params;
+  return JSON.parse(page.dataset.erc20 as string) as ERC20Params;
 }
 
 export function getAppTypeFromDataProp(page: HTMLElement): AppType {
@@ -98,9 +97,6 @@ export function getSelectedWalletFromDataProp(
 }
 
 export function getCreatorAppLinkFromDataProp(page: HTMLElement): string {
-  return page.dataset.creatorapplink;
+  return page.dataset.creatorapplink as string;
 }
 
-export function getIPFSConfig(page: HTMLElement): IPFSParams {
-  return JSON.parse(page.dataset.ipfs) as IPFSParams;
-}
