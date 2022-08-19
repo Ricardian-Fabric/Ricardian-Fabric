@@ -1,27 +1,22 @@
-import { getFulfilledPage, getLocation, isBlocked } from "../utils";
+import { getLocation, handlePost, isBlocked } from "../utils";
 import {
   dispatch_disableButton,
   dispatch_enableButton,
   dispatch_removeError,
   dispatch_renderError,
 } from "../../dispatch/render";
+import { State, Status } from "../../types";
 import {
-  dispatch_stashDetails,
-  dispatch_stashPage,
-} from "../../dispatch/stateChange";
-import { State } from "../../types";
-import {
+  acceptAgreement,
   canAgree,
   getAddress,
   getNetwork,
   requestAccounts,
-  signHash,
+  watchAsset,
   web3Injected,
 } from "../../wallet/web3";
 import {
-  getAcceptableContract,
   getById,
-  getFromUrl,
   newTab,
 } from "../../view/utils";
 import MetaMaskOnboarding from "@metamask/onboarding";
@@ -77,61 +72,39 @@ export function renderAcceptOnCLick(props: State) {
       return;
     }
 
-    if (props.smartcontract !== "NONE") {
-      const canAccept = await canAgree(props.smartcontract, participant);
-      if (!canAccept) {
-        dispatch_renderError("Already accepted this contract");
-        return;
+    const canAccept = await canAgree(props.smartcontract, participant);
+    if (!canAccept) {
+      dispatch_renderError("Already accepted this contract");
+      return;
+    }
+
+    const hash = <string>await getRecomputedHash(props);
+
+    const onError = (error, receipt) => {
+      dispatch_renderError(error.message);
+      dispatch_enableButton(props);
+    };
+
+    const onReceipt = async (receipt) => {
+
+      await handlePost(props);
+      
+      if (props.isERC20 !== null) {
+        await watchAsset(props.isERC20, () => {
+          dispatch_renderError(
+            "Failed to add " + props.isERC20.name + " token to wallet."
+          );
+        });
       }
     }
 
-    const hash = await getRecomputedHash(props);
-
-    const signingSuccess = async (participantSignature: string) => {
-      const page = await getFulfilledPage({
-        version: props.version,
-        signedDate: new Date().toISOString(),
-        createdDate: props.createdDate,
-        issuer: props.issuer,
-        legalContract: getAcceptableContract(),
-        parentUrl: getFromUrl(),
-        domParser: props.domParser,
-        expires: props.expires,
-        redirectto: props.redirectto,
-        network: props.network,
-        issuerSignature: props.issuerSignature,
-        participant: participant,
-        participantSignature: participantSignature,
-        smartContract: props.smartcontract,
-        ERC20: JSON.stringify(props.isERC20),
-        blockedAddresses: props.blockedAddresses,
-        blockedCountries: props.blockedCountries,
-      });
-
-      dispatch_stashDetails({
-        hash,
-        signerAddress: participant,
-        signature: participantSignature,
-        network: props.network,
-        smartContract: props.smartcontract,
-      });
-
-      dispatch_stashPage(page);
-    };
-    const signingFailure = async (msg: string) => {
-      dispatch_enableButton(props);
-      dispatch_renderError(msg);
-    };
-
-    await signHash(
-      hash,
-      participant,
-      network,
-      props.smartcontract,
-      signingSuccess,
-      signingFailure
-    );
     dispatch_disableButton(props);
+
+    const options = await acceptAgreement({ hash, contractAddress: props.smartcontract, signerAddress: participant, onError, onReceipt });
+
+    if (options.status === Status.Failure) {
+      dispatch_renderError(options.error);
+    }
   };
 }
 
