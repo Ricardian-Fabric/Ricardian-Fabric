@@ -211,7 +211,9 @@ export function renderTrailsPage(props: State) {
 
 export function renderAcceptTools(props: State) {
   const actionContainer = getById("action-container");
+  const adblockerNotification = getById("adblocker-notification");
   render(acceptTools(props), actionContainer);
+  adblockerNotification.style.display = "none";
 }
 
 export function renderAcceptButton(props: State) {
@@ -259,7 +261,7 @@ export function renderredirect() {
   const counterEl = getById("redirect-display");
   const acceptButton = getById("accept-button");
   render(redirectButton, counterEl);
-  hideElement(acceptButton,true);
+  hideElement(acceptButton, true);
 }
 
 export function enableButton(props: State) {
@@ -352,6 +354,9 @@ export function renderTooltips() {
   const erc20SymbolTooltip = getById("erc20-symbol-tooltip");
   const erc20DecimalTooltip = getById("erc20-decimal-tooltip");
   const erc20Address = getById("erc20-address-tooltip");
+  const burnerWalletTooltip = getById("burner-wallet-tooltip");
+
+  render(helperTooltips("The password of your burner wallet!"), burnerWalletTooltip);
 
   render(
     helperTooltips(
@@ -447,6 +452,9 @@ export function disableCreateInputs() {
   const erc20Decimals = getById("erc20-decimals") as HTMLInputElement;
   const erc20SmartContract = getById("erc20-address") as HTMLInputElement;
   const sameButton = getById("same-contract-button") as HTMLButtonElement;
+  const burnerWalletPassword = getById("wallet-password") as HTMLInputElement;
+
+  disable(burnerWalletPassword);
   disable(erc20Checkbox);
   disable(erc20Name);
   disable(erc20Symbol);
@@ -530,6 +538,10 @@ export function enableCreateInputs() {
   const erc20Decimals = getById("erc20-decimals") as HTMLInputElement;
   const erc20SmartContract = getById("erc20-address") as HTMLInputElement;
   const sameButton = getById("same-contract-button") as HTMLButtonElement;
+  const burnerWalletPassword = getById("wallet-password") as HTMLInputElement;
+
+  enable(burnerWalletPassword, Cursor.pointer);
+
   enable(erc20Checkbox, Cursor.pointer);
   enable(erc20Name, Cursor.auto);
   enable(erc20Symbol, Cursor.auto);
@@ -582,7 +594,7 @@ export function renderButtonSlotAlignment(center: boolean) {
   if (center) {
     buttonSlot.style.margin = "0 auto";
   } else {
-    buttonSlot.style.margin = null;
+    buttonSlot.style.margin = "";
   }
 }
 
@@ -985,19 +997,19 @@ export function renderMyRemovalProposals(
 export function renderAccordionOpener() {
   const acc = document.getElementsByClassName("accordion");
 
-const listener =  function () {
-  this.classList.toggle("active");
-      var panel = this.nextElementSibling;
-      if (panel.style.display === "block") {
-        panel.style.display = "none";
-      } else {
-        panel.style.display = "block";
-      }
-    };
+  const listener = function () {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  };
 
   for (let i = 0; i < acc.length; i++) {
-    const el  = acc[i] as HTMLElement;
-    el.onclick =  listener;
+    const el = acc[i] as HTMLElement;
+    el.onclick = listener;
   }
 }
 
@@ -1081,7 +1093,7 @@ export function setBlockedCountries(blockedCountries: BlockCountry[]) {
 
   for (let i = 0; i < countryCodeBoxes.length; i++) {
     const countryCodeBoxEl = countryCodeBoxes[i] as HTMLInputElement;
-    const countrycode = countryCodeBoxEl.dataset.countrycode;
+    const countrycode = countryCodeBoxEl.dataset.countrycode as string;
     const castedCountries = blockedCountries as string[];
     if (castedCountries.includes(countrycode)) {
       countryCodeBoxEl.checked = true;
@@ -1341,8 +1353,8 @@ function renderBlocksleft(currentBlock: number) {
   for (let i = 0; i < allBlocksLeft.length; i++) {
     const el = allBlocksLeft[i] as HTMLElement;
     const current = currentBlock;
-    const created = parseInt(el.dataset.created);
-    const forperiod = parseInt(el.dataset.forperiod);
+    const created = parseInt(el.dataset.created as string);
+    const forperiod = parseInt(el.dataset.forperiod as string);
     const released = el.dataset.released === "true" ? true : false;
     const index = el.dataset.index;
     if (!released) {
@@ -1682,7 +1694,20 @@ export function setCommentPopup(name: string, linkedTx: string) {
   linkedTransactionEl.value = linkedTx;
 }
 
-export function assignSmartContractAddress(address: string){
-const inputEl = getById("smartcontract-input") as HTMLInputElement;
+export function assignSmartContractAddress(address: string) {
+  const inputEl = getById("smartcontract-input") as HTMLInputElement;
   inputEl.value = address;
+}
+
+export function triggerConfiguration() {
+  const createPageOne = getById("create-page-one");
+  const createPageTwo = getById("create-page-two");
+
+  if (createPageOne.style.display === "none") {
+    createPageTwo.style.display = "none";
+    createPageOne.style.display = "block";
+  } else if (createPageOne.style.display === "block") {
+    createPageTwo.style.display = "block";
+    createPageOne.style.display = "none";
+  }
 }
