@@ -131,7 +131,7 @@ export function inputsEmpty(constructorElements, params): boolean {
 }
 
 export function prepareArguments(constructorElements, params) {
-  const preparedArgs = [];
+  const preparedArgs: any[] = [];
   params.forEach((par) => {
     const type = constructorElements[par.name].param.type;
     const value = constructorElements[par.name].el.value;
@@ -145,7 +145,7 @@ export function deploymentDoneActions() {
   const dismiss = getById("dismiss-popup-button");
   const headOver = getById("head-over-button");
   copyButton.onclick = async function () {
-    const address = copyButton.dataset.address;
+    const address = copyButton.dataset.address as string;
     await copyStringToClipboard(address);
   };
 
