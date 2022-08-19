@@ -129,6 +129,7 @@ import {
   setCommentPopup,
   render_uploadFrontendPopup,
   assignSmartContractAddress,
+  triggerConfiguration,
 } from "./render";
 import { renderAcceptTools } from "./render";
 import { areYouSureButtons } from "../business/actions/areYouSureButtons";
@@ -345,8 +346,6 @@ const Render: Renderer = {
     //If we deployed, this will remove the transaction when we want to deploy again
     removeTransaction();
   },
-  [RenderType.disableAcceptableInputs]: (props: {}) => {},
-  [RenderType.enableAcceptableInputs]: (props: {}) => {},
   [RenderType.deployAgain]: (props: State) => {
     deployAgainButtonActions(props);
   },
@@ -440,7 +439,7 @@ const Render: Renderer = {
     renderTransferSummaryPage(props.tmp);
     transferSummaryPageActions(props);
   },
-  [RenderType.hidePopup]: ({}) => {
+  [RenderType.hidePopup]: ({ }) => {
     removePopup();
   },
   [RenderType.hideElement]: (props: { el: HTMLElement; hide: boolean }) => {
@@ -833,8 +832,11 @@ const Render: Renderer = {
     render_uploadFrontendPopup(props.tmp.url);
     uploadFrontEndPopupActions(props, props.tmp.url);
   },
-  [RenderType.assignSmartContractAddress]: (props: RenderDispatchArgs) =>{
+  [RenderType.assignSmartContractAddress]: (props: RenderDispatchArgs) => {
     assignSmartContractAddress(props.tmp.address);
+  },
+  [RenderType.triggerConfiguration]: (props: RenderDispatchArgs) => {
+    triggerConfiguration();
   }
 };
 

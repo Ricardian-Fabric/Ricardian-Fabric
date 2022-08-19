@@ -1,4 +1,4 @@
-import { getAcceptablePage, hasError, OptionsBuilder } from "../utils";
+import { getAcceptablePage, hasError} from "../utils";
 import { decryptWallet, getHash } from "../../crypto";
 import {
   dispatch_disableButton,
@@ -9,16 +9,15 @@ import {
   dispatch_enableCreateInputs,
   dispatch_initializeCreateRicardian,
   dispatch_assignSmartContractAddress,
+  dispatch_triggerConfiguration,
 } from "../../dispatch/render";
 import {
   dispatch_stashPage,
   dispatch_stashDetails,
   dispatch_setCreateRicardianState,
-  dispatch_setPage,
 } from "../../dispatch/stateChange";
 import {
   CreateRicardianPageProps,
-  PageState,
   RenderType,
   State,
   Status,
@@ -47,6 +46,7 @@ import {
   getEditorElementInnerHTML,
   newTab,
   getDeployButton,
+  getConfigurationButton,
 } from "../../view/utils";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import { BlockCountry } from "../countryBlock";
@@ -71,6 +71,12 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   const sameButton = getSameAsAboveButton();
 
   const deployButton = getDeployButton();
+
+  const configButton = getConfigurationButton();
+
+  configButton.onclick = function(){
+    dispatch_triggerConfiguration();
+  }
 
   sameButton.onclick = function () {
     const smartC = getSmartContract();

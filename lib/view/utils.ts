@@ -233,6 +233,10 @@ export function getSameAsAboveButton(): HTMLButtonElement {
   return getById("same-contract-button") as HTMLButtonElement;
 }
 
+export function getConfigurationButton(): HTMLButtonElement{
+  return getById("toggle-configuration-page") as HTMLButtonElement;
+}
+
 export function getToMenuButton(): HTMLButtonElement {
   return getById("toMenuButton") as HTMLButtonElement;
 }
