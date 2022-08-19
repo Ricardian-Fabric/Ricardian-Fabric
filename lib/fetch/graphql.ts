@@ -275,32 +275,3 @@ export async function getProfitSharingTransactionsOf(
   return options;
 }
 
-export async function findPermapinned(CID: string) {
-  const options: Options<any> = {
-    status: Status.Success,
-    error: "",
-    data: "",
-  };
-
-  const query = `query {
-  transactions(
-    tags: [
-      { name: "IPFS-Add", values: ["${CID}"] }
-      { name: "App-Name", values: ["Ricardian Fabric"] }
-    ]
-  ) {
-    edges {
-      node {
-        id
-      }
-    }
-  }
-}`;
-
-  const result = await request(ARWEAVEAPI, query).catch((err) => {
-    options.error = err.message;
-    options.status = Status.Failure;
-  });
-  options.data = result;
-  return options;
-}
