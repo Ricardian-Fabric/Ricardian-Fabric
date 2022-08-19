@@ -94,7 +94,7 @@ function getFirstAndLastIndex(
   currentPage: number,
   lastIndex: number
 ): [firstIndexToFetch: number, lastIndexToFetch: number] {
-  let firstIndexToFetch = undefined;
+  let firstIndexToFetch  = undefined;
   let lastIndexToFetch = undefined;
 
   // find the first index to fetch
@@ -377,21 +377,12 @@ export function getLocation(props: State, acceptButton: HTMLElement) {
   }
 }
 
-export async function handlePost(props: State, id: string) {
+export async function handlePost(props: State) {
   const url = props.redirectto;
   if (url === "NONE") {
     return;
   }
-  const getURLWithId = (url: string, id: string) => {
-    // If the url ends with /
-    if (url.slice(-1) === "/") {
-      return url + id;
-    } else {
-      return url + "/" + id;
-    }
-  };
-
-  dispatch_redirect(getURLWithId(url, id));
+  dispatch_redirect(url);
 }
 
 export async function getFulfilledPage(props: FulfilledPageProps) {
