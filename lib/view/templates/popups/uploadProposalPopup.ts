@@ -127,7 +127,7 @@ export const UploadProposalStep2 = () => html` <div
       <td><input id="smartcontract-frontend" type="text" /></td>
       <td>
         ${helperTooltips(
-          "URL of the Smart contract front end, uploaded to ipfs or arweave."
+          "URL of the Smart contract front end, uploaded to Arweave."
         )}
       </td>
     </tr>
