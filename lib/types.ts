@@ -148,7 +148,8 @@ export enum RenderType {
   contractDeployedData = "contractDeployedData",
   setCommentPopup = "setCommentPopup",
   uploadFrontendPopup = "uploadFrontendPopup",
-  assignSmartContractAddress = "assignSmartContractAddress"
+  assignSmartContractAddress = "assignSmartContractAddress",
+  triggerConfiguration = "triggerConfiguration"
 }
 
 // TODO refactor to RenderDispatchArgs for specifying the dispatch arguments
@@ -269,6 +270,7 @@ export type Renderer = {
   [RenderType.setCommentPopup]: RenderFunction;
   [RenderType.uploadFrontendPopup]: RenderFunction;
   [RenderType.assignSmartContractAddress] : RenderFunction;
+  [RenderType.triggerConfiguration]: RenderFunction;
 };
 
 export enum VerificationState {
