@@ -1,4 +1,4 @@
-import { IPFSParams, Options, Status, TrailData } from "../types";
+import {  Options, Status } from "../types";
 
 export async function fetchGeoCodingCSV(): Promise<Options<string>> {
   const result: Options<string> = {
@@ -42,15 +42,6 @@ export async function fetchTransactionBy<T>(id): Promise<T> {
   const response = await fetch(`https://arweave.net/${id}`, { method: "get" });
   const result = await response.json();
   return result as T;
-}
-
-export async function fetchFromIPFS(
-  cid: string,
-  params: IPFSParams
-): Promise<string> {
-  const url = params.protocol + "://" + cid + "." + params.v2Url;
-  const response = await fetch(url, { method: "get" });
-  return response.text();
 }
 
 export async function fetchText(url: string): Promise<string> {
