@@ -1,4 +1,4 @@
-import { html, nothing } from "lit-html";
+import { html, nothing, TemplateResult } from "lit-html";
 import { ArweaveDataPage } from "../../../types";
 import { helperTooltips } from "../components/helperTooltips";
 import {
@@ -18,11 +18,11 @@ import {
 import DOMPurify from "dompurify";
 
 export const TrailsPage = () => html`
-  <div class="rowRight">
+  <h3>Trails</h3>
+    <div class="rowStart">
     <div id="permaweb-dropdown"></div>
   </div>
-  <h3>Trails</h3>
-  <hr />
+  
   <div class="center" id="search-container">${FindTrail()}</div>
 `;
 
@@ -166,7 +166,7 @@ export function getTrailPagingButtons(
   currentPage: number,
   cssselector: string
 ) {
-  let pageButtons = [];
+  let pageButtons : TemplateResult[] = [];
   const start = getPageButtonStartPoint(totalPages, currentPage);
   const end = getPageButtonEndPoint(totalPages, currentPage);
 
