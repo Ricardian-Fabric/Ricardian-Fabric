@@ -1,5 +1,5 @@
 import { getAcceptablePage, hasError, OptionsBuilder } from "../utils";
-import { getHash } from "../../crypto";
+import { decryptWallet, getHash } from "../../crypto";
 import {
   dispatch_disableButton,
   dispatch_removeError,
@@ -8,20 +8,24 @@ import {
   dispatch_enableButton,
   dispatch_enableCreateInputs,
   dispatch_initializeCreateRicardian,
+  dispatch_assignSmartContractAddress,
 } from "../../dispatch/render";
 import {
   dispatch_stashPage,
   dispatch_stashDetails,
   dispatch_setCreateRicardianState,
+  dispatch_setPage,
 } from "../../dispatch/stateChange";
 import {
   CreateRicardianPageProps,
+  PageState,
   RenderType,
   State,
   Status,
 } from "../../types";
 import {
   canUseContract,
+  deployContract,
   getAddress,
   getNetwork,
   requestAccounts,
@@ -42,11 +46,14 @@ import {
   getERC20Params,
   getEditorElementInnerHTML,
   newTab,
+  getDeployButton,
 } from "../../view/utils";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import { BlockCountry } from "../countryBlock";
 import { getSignupContractWithoutWallet } from "../../wallet/signup/contractCalls";
 import { acceptedTerms, getTerms } from "../../wallet/catalogDAO/contractCalls";
+import { createContractIssueingTransaction } from "../../wallet/arweave";
+import { getSimpleTermsAbi, getSimpleTermsByteCode } from "../../wallet/abi/SimpleTerms";
 
 export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   if (calledAt === RenderType.create) {
@@ -62,6 +69,8 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   const termsCheckbox = getTermsCheckbox();
 
   const sameButton = getSameAsAboveButton();
+
+  const deployButton = getDeployButton();
 
   sameButton.onclick = function () {
     const smartC = getSmartContract();
@@ -98,7 +107,11 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     }
   };
 
+  deployButton.onclick = deploySimpleTerms
+
   getById("save-contract").onclick = async function () {
+    const passwordEl = getById("wallet-password") as HTMLInputElement;
+
     dispatch_removeError();
     const expires = getExpires();
     const expired = didExpire(expires);
@@ -144,6 +157,17 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     const issuer = await getAddress();
     const smartContract = getSmartContract();
 
+    if (smartContract === "NONE") {
+      dispatch_renderError("You must connect a smart contract by adding the address in the contract configuration!");
+      return;
+    }
+
+
+    if (props.Account.data === null) {
+      dispatch_renderError("Open or Create the Permaweb Wallet to upload this contract!")
+      return;
+    }
+
     const trailEl = getById("trail-input") as HTMLInputElement;
 
     const trailArweaveAddressEl = getById(
@@ -184,7 +208,14 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
       smartContract,
       blockedAddresses: blockedAddressOptions.data,
       ERC20,
-    });
+    }) as string;
+
+    const password = passwordEl.value;
+
+    if (password.length < 8) {
+      dispatch_renderError("Missing password in Upload Configuation");
+      return;
+    }
 
     const signingSuccess = async (issuerSignature: string) => {
       const page = await getAcceptablePage({
@@ -205,10 +236,21 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
           ERC20,
           creatorAppLink: location.origin + location.pathname,
           relatedtrail: trailEl.value,
-          trailAddress: trailArweaveAddressEl.value,
-          ipfsParams: props.ipfs,
+          trailAddress: trailArweaveAddressEl.value
         },
       });
+
+
+
+      const decryptOptions = await decryptWallet(props.Account.data, password);
+
+      if (decryptOptions.status !== Status.Success) {
+        dispatch_renderError(decryptOptions.error);
+        dispatch_enableButton(props);
+        return;
+      }
+
+      const tx = await createContractIssueingTransaction(page, props.version, decryptOptions.data, { issuer, network, contractType: "Acceptable" })
 
       dispatch_stashDetails({
         hash,
@@ -216,6 +258,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
         signature: issuerSignature,
         network,
         smartContract,
+        arweaveTx: tx
       });
 
       dispatch_stashPage(page);
@@ -269,4 +312,23 @@ export function saveCreatePageData() {
   };
 
   dispatch_setCreateRicardianState(ricardianPageProps);
+}
+
+
+export async function deploySimpleTerms() {
+  const address = await getAddress();
+
+  const abi = getSimpleTermsAbi();
+  const bytecode = getSimpleTermsByteCode();
+
+  const onError = (err, receipt) => {
+    dispatch_renderError(err.message);
+  }
+
+  const onReceipt = (receipt) => {
+    dispatch_assignSmartContractAddress(receipt.contractAddress);
+  }
+
+  await deployContract(abi, bytecode, address, [], onError, onReceipt);
+
 }
