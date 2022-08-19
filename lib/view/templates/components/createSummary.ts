@@ -1,11 +1,13 @@
-import { html } from "lit-html";
+import { html, nothing } from "lit-html";
 import { ContractTypes, State } from "../../../types";
+import { WinstonToAr } from "../../../wallet/arweave";
+import { arweaveLogo } from "./logos";
 
 export const CreateSummary = (props: State) => {
   const centerText =
     props.contracttype === ContractTypes.create
       ? "Are you sure you want to deploy this agreement?"
-      : "Are you sure you want to deploy the proof of signing?";
+      : "Are you sure you want to sign this contract?";
 
   return html`
     <style>
@@ -51,6 +53,20 @@ export const CreateSummary = (props: State) => {
       }
     </style>
     <h3 class="centerText">${centerText}</h3>
+ <hr/>
+ ${props.contracttype === ContractTypes.create ? html`
+ <table class="center">
+  <tr>
+    <td>
+      <label>Arweave Transaction Fee: </label>
+    </td>
+    <td>
+      <label>${WinstonToAr(props.stashedDetails.arweaveTx.reward)} ${arweaveLogo()}</label>
+    </td>
+  </tr>
+</table>` : nothing}
+
+ <hr/>
     <div class="details-container">
 
       <div class="button-row">
