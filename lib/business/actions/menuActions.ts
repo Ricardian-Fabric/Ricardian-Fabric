@@ -45,7 +45,6 @@ export async function menuActions(props: State) {
   };
 
   trailsButton.onclick = async function () {
-    await switchToPolygon();
     dispatch_setPage(PageState.trails);
   };
 
