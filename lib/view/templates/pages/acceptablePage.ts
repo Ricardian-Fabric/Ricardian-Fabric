@@ -434,6 +434,9 @@ const acceptablePage = (props: AcceptablePageProps) => html`
     <div id="overlay">
       <div id="overlay-layout"></div>
     </div>
-    <div id="action-container" class="center">${loadingIndicator}</div>
+    <div id="action-container" class="center">${loadingIndicator}  </div>
+    <div class="center" id="adblocker-notification">
+        <small>Using adblocker can result in degraded performace. Make sure to turn it off.</small>
+    </div>
   </div>
 `;
