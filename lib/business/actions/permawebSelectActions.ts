@@ -11,7 +11,6 @@ import {
   dispatch_renderArweaveTxSummary,
   dispatch_renderError,
   dispatch_renderLoadingIndicator,
-  dispatch_renderPermapinSummaryPage,
   dispatch_renderTransferSummaryPage,
   dispatch_renderTxId,
   dispatch_renderUploadStatus,
@@ -50,14 +49,14 @@ import {
   readFile,
   readWalletFile,
 } from "../../view/utils";
-import { addHash } from "../../wallet/permapin/ipfsArweave";
+
 import { decryptWallet, encryptWallet } from "../../crypto";
 import { downloadBlob } from "../../view/render";
 import {
   dispatch_setNewAccount,
   dispatch_setPage,
   dispatch_setPopupState,
-  dispatch_stashIpfsCID,
+
 } from "../../dispatch/stateChange";
 import { hasError } from "../utils";
 import { getAddress } from "../../wallet/web3";
@@ -80,7 +79,6 @@ export function permawebSelectActions(props: State) {
   };
 
   const uploadFile = getById("upload-popup-button");
-  const permapin = getById("permapin-popup-button");
   const Account = getById("Account-popup-button");
   const uploadProposal = getById("upload-proposal-button");
   const comment = getById("upload-comment");
@@ -100,10 +98,10 @@ export function permawebSelectActions(props: State) {
     permawebCheckboxToggle.checked = false;
   };
 
-  permapin.onclick = function () {
-    dispatch_setPopupState(PopupState.Permapin);
-    permawebCheckboxToggle.checked = false;
-  };
+
+
+
+
 
   Account.onclick = async function () {
     if (props.Account === null) {
@@ -312,107 +310,7 @@ export function uploadSummaryActions(
   };
 }
 
-export function permapinPopupActions(props: any) {
-  const back = getById("permapin-back");
-  const proceed = getById("permapin-proceed") as HTMLButtonElement;
-  const CIDEl = getById("CID-input-permapin") as HTMLInputElement;
-  const passwordEl = getById("walletPassword") as HTMLInputElement;
-  const accountBttn = getById("permapin-account-button");
-  const termsEl = getById("permapin-terms-checkbox") as HTMLInputElement;
 
-  termsEl.onclick = async function () {
-    await handleTermsCheckbox(termsEl);
-  };
-  accountBttn.onclick = async function () {
-    dispatch_setPopupState(PopupState.ShowAccount);
-  };
-
-  if (props?.ipfsHash !== undefined) {
-    CIDEl.value = props.ipfsHash;
-  }
-
-  back.onclick = function () {
-    dispatch_setPopupState(PopupState.NONE);
-  };
-
-  proceed.onclick = async function () {
-    if (props.Account.data === null) {
-      dispatch_renderError("You must add an arweave key first!");
-      return;
-    }
-
-    if (CIDEl.value === "") {
-      dispatch_renderError("You must add an ipfs identifier!");
-      return;
-    }
-
-    if (termsEl.checked === false) {
-      dispatch_renderError("You must accept the terms!");
-      return;
-    }
-
-    if (passwordEl.value.length < 8) {
-      dispatch_renderError("Missing password");
-      return;
-    }
-    const password = passwordEl.value;
-
-    const decryptOptions = await decryptWallet(props.Account.data, password);
-
-    if (decryptOptions.status !== Status.Success) {
-      dispatch_renderError(decryptOptions.error);
-      return;
-    }
-
-    const ipfsHash = CIDEl.value;
-
-    dispatch_disableButtonElement(proceed, true);
-    dispatch_renderLoadingIndicator("permapin-loading-indicator");
-
-    const result = await addHash(ipfsHash, props.ipfs, decryptOptions.data);
-    dispatch_disableButtonElement(proceed, false);
-    dispatch_removeLoadingIndicator("permapin-loading-indicator");
-    if (result.status === Status.Failure) {
-      const err = result as HashWithIds;
-      dispatch_renderError(err.message);
-
-      return;
-    }
-    if (result.status === Status.AlreadyExists) {
-      const err = result as HashWithIds;
-      dispatch_renderError(err.message);
-    }
-
-    if (result.status === Status.Success) {
-      const txRes = result as HashWithTransaction;
-
-      const pstAddress = await getProfitSharingAddresses();
-      let tipTransaction;
-
-      if (pstAddress === undefined) {
-        dispatch_renderPermapinSummaryPage(props, txRes, false, tipTransaction);
-      } else {
-        // Dispatch the Permapin transaction and the TIP transaction summary Page!
-        tipTransaction = await getProfitSharingTransaction(
-          pstAddress.to,
-          decryptOptions.data,
-          props.version
-        );
-        dispatch_renderPermapinSummaryPage(props, txRes, true, tipTransaction);
-      }
-    }
-  };
-}
-
-export function permawebTransactionAction(props: State, hash: string) {
-  //This is called on the acceptable page, TODO: refactor
-
-  const permapinButton = getById("permapin-deployed-button");
-  permapinButton.onclick = function () {
-    dispatch_stashIpfsCID(hash);
-    dispatch_setPopupState(PopupState.Permapin);
-  };
-}
 
 export function walletCreateActions(props: State) {
   let accordionOpen = false;
@@ -568,7 +466,7 @@ export function AddNewAccountActions(
   proceedButton.onclick = async function () {
     const balance = await getWalletBalance(address);
     dispatch_setNewAccount({ data: Account, address, balance });
-    dispatch_setPopupState(PopupState.NONE);
+    dispatch_setPopupState(PopupState.ShowAccount);
   };
 }
 
@@ -588,12 +486,7 @@ export function showAccountActions(props: State) {
       dispatch_setPage(PageState.Catalog);
       return;
     }
-
-    if (props.previousPopupState === PopupState.Permapin) {
-      dispatch_setPopupState(PopupState.Permapin);
-    } else {
-      dispatch_setPopupState(PopupState.NONE);
-    }
+    dispatch_setPopupState(PopupState.NONE);
   };
 
   proceedButton.onclick = function () {
@@ -811,50 +704,6 @@ export function transferSummaryPageActions(props: RenderDispatchArgs) {
       dispatch_removeLoadingIndicator("transaction-loading");
       dispatch_renderError(firstTX.statusText);
       dispatch_hideElement(postIt, false);
-      return;
-    }
-  };
-}
-
-export function permapinSummaryActions(arg: {
-  permapinTx: any;
-  sendTip: boolean;
-  tipTx: any;
-}) {
-  const back = getById("permapinPost-back");
-  const next = getById("permapinPost-proceed");
-
-  const copyButton = getById("copy-transaction");
-  copyButton.onclick = async function () {
-    const txId = copyButton.dataset.txid;
-    await copyStringToClipboard(txId);
-  };
-  back.onclick = function () {
-    dispatch_setPopupState(PopupState.Permapin);
-  };
-
-  next.onclick = async function () {
-    dispatch_renderLoadingIndicator("transaction-loading");
-    dispatch_hideElement(next, true);
-    // I take the transaction and just post it
-    const firstTx = (await postTransaction(arg.permapinTx.tx).catch((err) => {
-      dispatch_renderError(err);
-    })) as { status: number; statusText: string; data: any };
-
-    if (arg.sendTip) {
-      const secondTx = await postTransaction(arg.tipTx).catch((err) => {
-        dispatch_renderError(err);
-      });
-    }
-    if (firstTx.status === 200) {
-      //I need to render the transaction id to the page
-      dispatch_removeLoadingIndicator("transaction-loading");
-      dispatch_renderTxId("transaction-loading", arg.permapinTx.tx.id);
-      dispatch_renderTxId("transaction-loading", arg.permapinTx.tx.id);
-    } else {
-      dispatch_renderError(firstTx.statusText);
-      dispatch_removeLoadingIndicator("transaction-loading");
-      dispatch_hideElement(next, false);
       return;
     }
   };
