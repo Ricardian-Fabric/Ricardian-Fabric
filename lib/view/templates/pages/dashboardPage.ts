@@ -52,7 +52,7 @@ export const dashBoardElementsTitles: DashboardUIElement[] = [
     title: "Available Contracts",
     id: "catalogue-contracts-amount",
     desc: "The amount of content in the smart contract catalog",
-    logo: AcceptedSmartContractLogo(),
+    logo: AcceptedSmartContractLogo("50"),
   },
   {
     title: "Submitted Proposals",

@@ -24,7 +24,7 @@ export const FeeDaoPage = () =>
     <small
       >Propose a new fee token
       <button id="proposeTokenPopupButton" class="labelButton">
-        ${Erc20Logo()}
+        ${Erc20Logo("24px","24px")}
       </button></small
     >
     <small
