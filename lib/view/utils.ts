@@ -225,6 +225,10 @@ export function getTermsCheckbox(): HTMLInputElement {
   return getById("terms-checkbox") as HTMLInputElement;
 }
 
+export function getDeployButton(): HTMLInputElement{
+  return getById("deploy-simpleterms") as HTMLInputElement;
+}
+
 export function getSameAsAboveButton(): HTMLButtonElement {
   return getById("same-contract-button") as HTMLButtonElement;
 }
