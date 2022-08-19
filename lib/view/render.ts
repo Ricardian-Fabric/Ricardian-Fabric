@@ -55,10 +55,6 @@ import {
   setBannerDisplayNone,
 } from "./utils";
 import {
-  PermapinPopup,
-  PermapinSummaryPage,
-} from "./templates/popups/permapinPopup";
-import {
   AddNewAccountPopup,
   ShowAccountPopup,
   SwitchAccounts,
@@ -103,7 +99,6 @@ import { ConnectWalletPage } from "./templates/pages/connectWalletPage";
 import {
   DashboardPage,
   loadedValueEl,
-  PermaPinnedData,
 } from "./templates/pages/dashboardPage";
 import {
   FeeDaoPage,
@@ -129,7 +124,6 @@ import {
   AddCommentTrail,
   UploadArweaveTxSummary,
 } from "./templates/popups/addComment";
-import { IpfsConfigPage } from "./templates/pages/ipfsConfigPage";
 import { BlockCountry } from "../business/countryBlock";
 import {
   contractDisplay,
@@ -214,10 +208,6 @@ export function renderTrailsPage(props: State) {
   render(TrailsPage(), page);
 }
 
-export function renderIpfsConfigPage(props: State) {
-  const page = getById("page");
-  render(IpfsConfigPage(props), page);
-}
 
 export function renderAcceptTools(props: State) {
   const actionContainer = getById("action-container");
@@ -267,7 +257,9 @@ export function removeError() {
 
 export function renderredirect() {
   const counterEl = getById("redirect-display");
+  const acceptButton = getById("accept-button");
   render(redirectButton, counterEl);
+  hideElement(acceptButton,true);
 }
 
 export function enableButton(props: State) {
@@ -376,7 +368,7 @@ export function renderTooltips() {
   );
   render(helperTooltips("The contract expires always at midnight"), expires);
   render(
-    helperTooltips("Redirects here with /{id}. Leave empty if not used"),
+    helperTooltips("A button to redirect here will appear on the signed contract. Leave empty if not used"),
     redirectto
   );
 
@@ -793,12 +785,6 @@ export function discardFile() {
   contentTypeEl.value = "";
 }
 
-export function renderPermapinPopup() {
-  setBannerDisplayBlock();
-  const layout = getById("overlay-layout");
-  render(PermapinPopup(), layout);
-}
-
 export function renderWalletPopup() {
   setBannerDisplayBlock();
   const layout = getById("overlay-layout");
@@ -843,15 +829,6 @@ export function renderTransferSummaryPage(arg: {
 }) {
   const layout = getById("overlay-layout");
   render(TransferSummaryPage(arg), layout);
-}
-
-export function renderPermapinSummaryPage(arg: {
-  permapinTx: any;
-  sendTip: boolean;
-  tipTx: any;
-}) {
-  const layout = getById("overlay-layout");
-  render(PermapinSummaryPage(arg), layout);
 }
 
 export function emptyWalletDropper() {
@@ -1008,16 +985,19 @@ export function renderMyRemovalProposals(
 export function renderAccordionOpener() {
   const acc = document.getElementsByClassName("accordion");
 
-  for (let i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function () {
-      this.classList.toggle("active");
+const listener =  function () {
+  this.classList.toggle("active");
       var panel = this.nextElementSibling;
       if (panel.style.display === "block") {
         panel.style.display = "none";
       } else {
         panel.style.display = "block";
       }
-    });
+    };
+
+  for (let i = 0; i < acc.length; i++) {
+    const el  = acc[i] as HTMLElement;
+    el.onclick =  listener;
   }
 }
 
@@ -1267,11 +1247,6 @@ export function renderRemovalProposalTable(
 export function renderLoadedValue(loadedValue: any, renderTo: HTMLElement) {
   renderTo.classList.remove("placeholder-item");
   render(loadedValueEl(loadedValue), renderTo);
-}
-
-export function pinnedDashboardData(ipfsV2Url, nodes: any) {
-  const slot = getById("permapinned-data-slot");
-  render(PermaPinnedData(ipfsV2Url, nodes), slot);
 }
 
 export function enableStakingButtons(
@@ -1705,4 +1680,9 @@ export function setCommentPopup(name: string, linkedTx: string) {
 
   trailNameEl.value = name;
   linkedTransactionEl.value = linkedTx;
+}
+
+export function assignSmartContractAddress(address: string){
+const inputEl = getById("smartcontract-input") as HTMLInputElement;
+  inputEl.value = address;
 }
