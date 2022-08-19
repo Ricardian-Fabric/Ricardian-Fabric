@@ -1,12 +1,9 @@
 import { html } from "lit-html";
 import { ContractTypes, PageState } from "../../../types";
 import {
-  accountLogo,
   arweaveLogo,
   BallotLogo,
   CommentLogo,
-  pinLogo,
-  SaveLogo,
   uploadLogo,
 } from "../components/logos";
 
@@ -49,11 +46,6 @@ function getDropdowns(contractType: ContractTypes, page: PageState) {
                 <small>${uploadLogo()} Upload File</small>
               </button>
             </li>
-            <li>
-              <button id="permapin-popup-button" class="dropdown-button">
-                <small>${pinLogo()} Permapin</small>
-              </button>
-            </li>
           `;
         case PageState.Proposals:
           return html`
@@ -84,11 +76,6 @@ function getDropdowns(contractType: ContractTypes, page: PageState) {
       }
       break;
     default:
-      return html`<li>
-        <button id="permapin-popup-button" class="dropdown-button">
-          <small>${pinLogo()} Permapin</small>
-        </button>
-      </li>`;
       break;
   }
 }
