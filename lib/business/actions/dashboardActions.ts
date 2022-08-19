@@ -1,10 +1,8 @@
 import {
   dispatch_renderLoadedValue,
-  dispatch_renderPermapinnedDashboardData,
 } from "../../dispatch/render";
-import { dispatch_setPage } from "../../dispatch/stateChange";
 import { getUploadedContracts } from "../../fetch/graphql";
-import { PageState, State } from "../../types";
+import { State } from "../../types";
 import { getById } from "../../view/utils";
 import {
   getAcceptedSmartContractIndex,
@@ -25,10 +23,7 @@ import {
 } from "../../wallet/feeDao/contractCalls";
 import { getRicContract, totalSupply } from "../../wallet/ric/contractCalls";
 import {
-  getCurrentRate,
   getRicSaleContract,
-  getTokensSold,
-  remainingTokens,
 } from "../../wallet/ricSale/contractCalls";
 import {
   getRicVaultContract,
@@ -41,7 +36,6 @@ import { verifyContractPageTrigger } from "./verifyContractActions";
 
 export async function dashboardActions(props: State) {
   verifyContractPageTrigger(props);
-  const ipfsButton = getById("configure-ipfs-button");
   const ricTotalSupplyEl = getById("ric-total-supply");
   const ricLeftEl = getById("ric-left-for-sale");
   const ricSaleRateEl = getById("ric-sale-rate");
@@ -68,10 +62,6 @@ export async function dashboardActions(props: State) {
   }
 
   termsAndConditionsLink.href = contractURLOptions.data;
-
-  ipfsButton.onclick = async function () {
-    dispatch_setPage(PageState.ipfsConfig);
-  };
 
   const addressOptions = await OptionsBuilder(() => getAddress());
 
@@ -262,10 +252,6 @@ export async function dashboardActions(props: State) {
     tokens.length + " Tokens",
     tokenFeesCollectedEl
   );
-
-  const uploadsOptions = await getUploadedContracts();
-  const last5Permapins = filterUploadOptions(uploadsOptions.data);
-  dispatch_renderPermapinnedDashboardData(props, last5Permapins);
 }
 
 function filterUploadOptions(data: any) {
