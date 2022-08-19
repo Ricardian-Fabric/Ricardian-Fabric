@@ -1,7 +1,7 @@
 import { html } from "lit-html";
 import { BackLogo } from "../components/logos";
 
-export function DaoTermsPopup(url: string) {
+export function DaoTermsPopup(url: string | null) {
   return html`<h4>You need to sign the proposal creation terms.</h4>
     <hr />
     <div>

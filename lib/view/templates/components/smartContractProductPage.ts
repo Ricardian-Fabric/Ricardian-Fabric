@@ -7,7 +7,7 @@ export function smartContractProductPage(
   arweaveTxId: string,
   proposal: ProposalFormat,
   preview: boolean,
-  index: string
+  index: string | null
 ) {
   let showFrontEnd = nothing;
 
