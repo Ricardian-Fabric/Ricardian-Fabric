@@ -1,5 +1,4 @@
 import {
-  ERC20Params,
   Events,
   EventType,
   Account,
@@ -9,7 +8,6 @@ import {
   PageState,
   CreateRicardianPageProps,
   ProposalFormat,
-  IPFSParams,
 } from "../types";
 import { dispatch } from "./dispatch";
 
@@ -20,12 +18,6 @@ export function dispatch_setInit() {
   });
 }
 
-export function dispatch_setIPFS(ipfsParams: IPFSParams) {
-  dispatch(Events.stateChange, {
-    type: EventType.setIPFS,
-    value: ipfsParams,
-  });
-}
 
 export function dispatch_setSelectedDate(date: Date | string) {
   dispatch(Events.stateChange, {
@@ -73,13 +65,6 @@ export function dispatch_setPopupState(to: PopupState) {
   dispatch(Events.stateChange, {
     type: EventType.setPopupState,
     value: to,
-  });
-}
-
-export function dispatch_stashIpfsCID(id) {
-  dispatch(Events.stateChange, {
-    type: EventType.setIpfsCID,
-    value: id,
   });
 }
 
