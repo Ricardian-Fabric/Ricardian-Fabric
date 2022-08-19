@@ -242,10 +242,11 @@ export async function setTerms(arg: {
 //I need to call an Accept function on a smart contract
 // Pass in the document,
 export async function acceptAgreement(arg: {
-  url: string;
   hash: string;
   contractAddress: string;
   signerAddress: string;
+  onError: any,
+  onReceipt: any
 }): Promise<Options<any>> {
   const options: Options<any> = {
     error: "",
@@ -263,7 +264,9 @@ export async function acceptAgreement(arg: {
     //TODO: handle onError, onReceipt
     const resp = await contract.methods
       .accept(arg.hash)
-      .send({ from: arg.signerAddress });
+      .send({ from: arg.signerAddress })
+      .on("error", arg.onError)
+      .on("receipt", arg.onReceipt);
   } catch (err) {
     options.status = Status.Failure;
     options.error = err.message;
