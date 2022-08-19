@@ -1069,3 +1069,10 @@ export function dispatch_assignSmartContractAddress(address){
     props:{tmp: {address}}
   })
 }
+
+export function dispatch_triggerConfiguration(){
+  dispatch(Events.render,{
+    type: RenderType.triggerConfiguration,
+    props: {}
+  })
+}
