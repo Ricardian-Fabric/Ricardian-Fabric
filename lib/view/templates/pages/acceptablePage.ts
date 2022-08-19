@@ -406,7 +406,6 @@ const acceptablePage = (props: AcceptablePageProps) => html`
     data-creatorapplink="${props.creatorAppLink}"
     data-relatedtrail="${props.relatedtrail}"
     data-trailAddress="${props.trailAddress}"
-    data-ipfs="${JSON.stringify(props.ipfsParams)}"
     id="page"
   >
     <div class="row">
