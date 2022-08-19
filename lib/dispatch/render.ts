@@ -89,12 +89,11 @@ export function dispatch_removeLoadingIndicator(from: string) {
 
 export function dispatch_renderTransaction(
   props: State,
-  url: string,
-  ipfsHash: string
+  url: string
 ) {
   dispatch(Events.render, {
     type: RenderType.transaction,
-    props: { ...props, url, ipfsHash },
+    props: { ...props, url },
   });
 }
 
@@ -368,13 +367,6 @@ export function dispatch_hideElement(el: HTMLElement, hide: boolean) {
   });
 }
 
-export function dispatch_permapinPopup(props: State, ipfsHash) {
-  dispatch(Events.render, {
-    type: RenderType.permapinPopup,
-    props: { ...props, ipfsHash },
-  });
-}
-
 export function dispatch_walletPopup(props: State) {
   dispatch(Events.render, {
     type: RenderType.walletPopup,
@@ -447,18 +439,6 @@ export function dispatch_renderTransferSummaryPage(
         jwk,
       },
     },
-  });
-}
-
-export function dispatch_renderPermapinSummaryPage(
-  props: State,
-  pinTransaction: any,
-  sendTip: boolean,
-  tipTransaction: any
-) {
-  dispatch(Events.render, {
-    type: RenderType.permapinSummaryPage,
-    props: { ...props, tmp: { pinTransaction, sendTip, tipTransaction } },
   });
 }
 
@@ -669,15 +649,6 @@ export function dispatch_renderLoadedValue(
   });
 }
 
-export function dispatch_renderPermapinnedDashboardData(
-  props: State,
-  nodes: any
-) {
-  dispatch(Events.render, {
-    type: RenderType.pinnedDashboardData,
-    props: { ...props, tmp: { nodes } },
-  });
-}
 
 export function dispatch_enableStakingButtons(
   props: State,
@@ -885,12 +856,6 @@ export function dispatch_navigateTo(
   });
 }
 
-export function dispatch_ipfsConfig(props: State) {
-  dispatch(Events.render, {
-    type: RenderType.renderIpfsConfig,
-    props,
-  });
-}
 
 export function dispatch_emptyPopup(props: State) {
   dispatch(Events.render, {
@@ -1096,4 +1061,11 @@ export function dispatch_uploadFrontendPopup(props: State, url: string) {
     type: RenderType.uploadFrontendPopup,
     props: { ...props, tmp: { url } },
   });
+}
+
+export function dispatch_assignSmartContractAddress(address){
+  dispatch(Events.render,{
+    type: RenderType.assignSmartContractAddress,
+    props:{tmp: {address}}
+  })
 }
