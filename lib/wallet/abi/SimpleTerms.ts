@@ -132,3 +132,7 @@ const SimpleTermsABIJSON = `{
 export const getSimpleTermsAbi = () => {
   return JSON.parse(SimpleTermsABIJSON).abi;
 };
+
+export const getSimpleTermsByteCode = () =>{
+  return JSON.parse(SimpleTermsABIJSON).bytecode;
+}
