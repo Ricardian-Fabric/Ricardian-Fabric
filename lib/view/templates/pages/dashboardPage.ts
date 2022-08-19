@@ -8,7 +8,6 @@ import {
   contractFeesLogo,
   CryptoVaultLogo,
   GoldBarsLogo,
-  IPFSLogo,
   RateLogo,
   Rewardhand,
   StakingLogo,
@@ -99,13 +98,6 @@ export const DashboardPage = () => html`
     >
       ${VerificationLogo()}
     </button>
-    <button
-      title="Configure IPFS"
-      class="labelButton"
-      id="configure-ipfs-button"
-    >
-      ${IPFSLogo()}
-    </button>
     <a
       title="Terms and conditions"
       class="labelButton"
@@ -115,7 +107,6 @@ export const DashboardPage = () => html`
       >${TandCLogo()}</a
     >
   </div>
-  <slot id="permapinned-data-slot"></slot>
 `;
 // The dashboard elements will have a loading indicator at the id, then the value.
 // It will side-effect like render it in an init function one by one as they fetch
@@ -141,43 +132,3 @@ export const dashEl = (
 `;
 
 export const loadedValueEl = (loadedValue) => html` <h4>${loadedValue}</h4>`;
-
-export const PermaPinnedData = (ipfsV2Url: string, nodes: any) => {
-  return html`
-    <div class="center"><h3>Latest pinned contracts</h3></div>
-    <div class="overflow-auto card-shadow">
-      <ul class="maxHeight-100px listStyleType-disclosureClosed">
-        ${nodes.map((node) => {
-          const [issuer, ipfsCID] = findTags(node.tags);
-          return html`<li class="marginTop-50">
-            <div class="column">
-              <a
-                href="https://${ipfsCID}.${ipfsV2Url}"
-                target="_blank"
-                rel="noopener"
-                >${ipfsCID}</a
-              >
-              <div><label>Issued by: ${issuer}</label></div>
-            </div>
-          </li>`;
-        })}
-      </ul>
-      <hr />
-    </div>
-  `;
-};
-function findTags(
-  tags: Array<{ name: string; value: string }>
-): [string, string] {
-  let issuer = "";
-  let ipfsCID = "";
-  for (let i = 0; i < tags.length; i++) {
-    if (tags[i].name === "Issuer") {
-      issuer = tags[i].value;
-    }
-    if (tags[i].name === "IPFS-Add") {
-      ipfsCID = tags[i].value;
-    }
-  }
-  return [issuer, ipfsCID];
-}
