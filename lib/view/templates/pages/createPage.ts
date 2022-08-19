@@ -5,6 +5,8 @@ import {
   Erc20Logo,
   importLogo,
   neverLogo,
+  SmartContractLogo,
+  uploadLogo,
 } from "../components/logos";
 
 export const CreatePage = () => html`
@@ -101,7 +103,7 @@ export const CreatePage = () => html`
       </tr>
       <tr>
         <td>
-          <label>Smart Contract:</label>
+          <label>Smart Contract (Required):</label>
         </td>
         <td>
           <input
@@ -112,6 +114,7 @@ export const CreatePage = () => html`
             placeholder="0x..."
             class="cursor-text"
           />
+          <button id="deploy-simpleterms" class="labelButton">${SmartContractLogo()} Deploy</button>
         </td>
         <td>
           <span id="smartcontract-tooltip"></span>
@@ -245,6 +248,18 @@ export const CreatePage = () => html`
   </div>
 
   <hr />
+<button class="accordion">
+ ${uploadLogo()}  Upload Configuration
+</button>
+<div class="panel">
+  <table class="center">
+      <tr>
+        <td><label>Burner Wallet Password:</label></td>
+        <td><input type="password" id="wallet-password" /></td>
+      </tr>
+    </table>
+</div>
+  <hr/>
   <div class="center marginBottom-10">
     <label id="terms-checkbox-label">I agree to the terms and agreements</label>
     <input
@@ -259,6 +274,6 @@ export const CreatePage = () => html`
     class="center"
     id="transaction-display"
   ></div>
-
+   
   <div id="button-slot"></div>
 `;
