@@ -4,6 +4,10 @@ import { WinstonToAr } from "../../../wallet/arweave";
 import { arweaveLogo } from "./logos";
 
 export const CreateSummary = (props: State) => {
+  let feeInWinston = parseFloat(props.stashedDetails?.arweaveTx.reward);
+  feeInWinston += parseFloat(props.stashedDetails?.tipTransaction.reward);
+  feeInWinston += parseFloat(props.stashedDetails?.tipTransaction.quantity);
+
   const centerText =
     props.contracttype === ContractTypes.create
       ? "Are you sure you want to deploy this agreement?"
@@ -61,7 +65,7 @@ export const CreateSummary = (props: State) => {
       <label>Arweave Transaction Fee: </label>
     </td>
     <td>
-      <label>${WinstonToAr(props.stashedDetails.arweaveTx.reward)} ${arweaveLogo()}</label>
+      <label>${WinstonToAr(feeInWinston.toString())} ${arweaveLogo()}</label>
     </td>
   </tr>
 </table>` : nothing}
