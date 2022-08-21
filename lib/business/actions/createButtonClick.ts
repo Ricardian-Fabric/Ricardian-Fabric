@@ -1,4 +1,4 @@
-import { getAcceptablePage, hasError} from "../utils";
+import { getAcceptablePage, hasError } from "../utils";
 import { decryptWallet, getHash } from "../../crypto";
 import {
   dispatch_disableButton,
@@ -52,7 +52,7 @@ import MetaMaskOnboarding from "@metamask/onboarding";
 import { BlockCountry } from "../countryBlock";
 import { getSignupContractWithoutWallet } from "../../wallet/signup/contractCalls";
 import { acceptedTerms, getTerms } from "../../wallet/catalogDAO/contractCalls";
-import { createContractIssueingTransaction } from "../../wallet/arweave";
+import { createContractIssueingTransaction, getProfitSharingAddresses, getProfitSharingTransaction } from "../../wallet/arweave";
 import { getSimpleTermsAbi, getSimpleTermsByteCode } from "../../wallet/abi/SimpleTerms";
 
 export function renderCreateButtonClick(props: State, calledAt: RenderType) {
@@ -74,7 +74,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
 
   const configButton = getConfigurationButton();
 
-  configButton.onclick = function(){
+  configButton.onclick = function () {
     dispatch_triggerConfiguration();
   }
 
@@ -190,7 +190,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     if (smartContract !== "NONE") {
       const canUse = await canUseContract(smartContract, issuer);
       if (!canUse) {
-        dispatch_renderError("Invalid smart contract");
+        dispatch_renderError("Invalid smart contract. Make sure you are on the correct network!");
         return;
       }
     }
@@ -248,15 +248,20 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
 
 
 
-      const decryptOptions = await decryptWallet(props.Account.data, password);
+      const decryptOptions = await decryptWallet(props.Account.data as ArrayBuffer, password);
 
       if (decryptOptions.status !== Status.Success) {
         dispatch_renderError(decryptOptions.error);
         dispatch_enableButton(props);
+        dispatch_enableCreateInputs();
         return;
       }
 
+      const pstAddress = await getProfitSharingAddresses()
+
       const tx = await createContractIssueingTransaction(page, props.version, decryptOptions.data, { issuer, network, contractType: "Acceptable" })
+
+      const tipTransaction = await getProfitSharingTransaction(pstAddress.to, decryptOptions.data, props.version)
 
       dispatch_stashDetails({
         hash,
@@ -264,7 +269,8 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
         signature: issuerSignature,
         network,
         smartContract,
-        arweaveTx: tx
+        arweaveTx: tx,
+        tipTransaction
       });
 
       dispatch_stashPage(page);
