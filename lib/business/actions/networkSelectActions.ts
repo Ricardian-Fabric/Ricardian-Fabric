@@ -63,6 +63,8 @@ export function addChainButtonListener(props: State) {
         await switchNetwork(ChainName.BSC, 0, "Mainnet"),
       [Chains.polygonMainnet]: async () =>
         await switchNetwork(ChainName.Polygon, 0, "Mainnet"),
+      [Chains.polygonTestnet]: async () => 
+      await switchNetwork(ChainName.Polygon, 0, "Testnet"),
       [Chains.harmonyTestnetShard0]: async () =>
         await switchNetwork(ChainName.Harmony, 0, "Testnet"),
       [Chains.harmonyMainnetShard0]: async () =>
