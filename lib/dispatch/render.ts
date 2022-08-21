@@ -118,7 +118,7 @@ export function dispatch_disableButton(props: State) {
 }
 
 export function dispatch_disableButtonElement(
-  el: HTMLButtonElement,
+  el: HTMLButtonElement | HTMLInputElement,
   disabled: boolean
 ) {
   dispatch(Events.render, {

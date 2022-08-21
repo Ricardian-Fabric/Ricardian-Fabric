@@ -385,7 +385,7 @@ export const acceptablePageLayout = (props: AcceptablePageProps) => html`
     }
   </style>
   <body>
-    ${acceptablePage(props)} ${mainDep(props.mainDep.src)}
+    ${acceptablePage(props)} ${mainDep(props?.mainDep?.src as string)}
   </body>
 `;
 const acceptablePage = (props: AcceptablePageProps) => html`
@@ -395,7 +395,7 @@ const acceptablePage = (props: AcceptablePageProps) => html`
     data-created="${props.createdDate}"
     data-expires="${props.expires}"
     data-redirectto="${props.redirectto}"
-    data-maindep="${props.mainDep.src}"
+    data-maindep="${props?.mainDep?.src}"
     data-blockedcountries="${JSON.stringify(props.blockedCountries)}"
     data-blockedaddresses="${JSON.stringify(props.blockedAddresses)}"
     data-network="${props.network}"

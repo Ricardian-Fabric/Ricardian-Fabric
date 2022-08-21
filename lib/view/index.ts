@@ -432,7 +432,7 @@ const Render: Renderer = {
     switchAccountsActions(props);
   },
   [RenderType.transferPage]: (props: RenderDispatchArgs) => {
-    renderTransferPage(props.Account.balance);
+    renderTransferPage(props.Account.balance as string);
     transferPageActions(props);
   },
   [RenderType.transferSummaryPage]: (props: RenderDispatchArgs) => {

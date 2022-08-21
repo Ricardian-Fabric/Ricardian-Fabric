@@ -77,7 +77,7 @@ export function getOnlySigner() {
 }
 
 export function getBlockedCountries() {
-  const blockedCountries = [];
+  const blockedCountries: BlockCountry[] = [];
 
   const ofec = getById("ofec_checkbox") as HTMLInputElement;
   const eu = getById("eu-checkbox") as HTMLInputElement;
@@ -101,8 +101,7 @@ export function getBlockedCountries() {
     const countryBoxEl = countryCodeBoxes[i] as HTMLInputElement;
 
     if (countryBoxEl.checked) {
-      const countrycode = countryBoxEl.dataset.countrycode;
-
+      const countrycode = countryBoxEl.dataset.countrycode as BlockCountry;
       blockedCountries.push(countrycode);
     }
   }
@@ -225,7 +224,7 @@ export function getTermsCheckbox(): HTMLInputElement {
   return getById("terms-checkbox") as HTMLInputElement;
 }
 
-export function getDeployButton(): HTMLInputElement{
+export function getDeployButton(): HTMLInputElement {
   return getById("deploy-simpleterms") as HTMLInputElement;
 }
 
@@ -233,7 +232,7 @@ export function getSameAsAboveButton(): HTMLButtonElement {
   return getById("same-contract-button") as HTMLButtonElement;
 }
 
-export function getConfigurationButton(): HTMLButtonElement{
+export function getConfigurationButton(): HTMLButtonElement {
   return getById("toggle-configuration-page") as HTMLButtonElement;
 }
 
@@ -256,7 +255,7 @@ export function readFile(file: File, getContent: CallableFunction) {
   reader.readAsArrayBuffer(file);
 
   reader.onloadend = function (event) {
-    getContent(event.target.result);
+    getContent(event.target?.result);
   };
 }
 
@@ -303,7 +302,7 @@ export function getERC20Params(): Options<ERC20Params | string> {
   const addressEl = getById("erc20-address") as HTMLInputElement;
   const options: Options<ERC20Params | string> = {
     error: "",
-    data: null,
+    data: "",
     status: Status.Success,
   };
   if (addToWallet.checked) {
@@ -348,7 +347,7 @@ export function getEditorElementInnerHTML() {
 
 export async function copyAddressToClipboard() {
   const addressEl = getById("arweave-address");
-  await copyStringToClipboard(addressEl.dataset.address);
+  await copyStringToClipboard(addressEl.dataset.address as string);
 }
 
 // THANKS TO https://gist.github.com/alisey/4552101
