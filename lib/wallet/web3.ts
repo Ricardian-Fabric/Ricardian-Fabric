@@ -13,7 +13,7 @@ import {
   Status,
 } from "../types";
 import { getSimpleTermsAbi } from "./abi/SimpleTerms";
-// THIS IS HARMONY MAINNET
+// These are polygon addresses
 export const SIGNUPADDRESS = "0xE1fe19295EcE29eCE8a25969aDf5D5650a10b914";
 export const CATALOGDAOADDRESS = "0x1FEA72213C853EF9a44A71c1267e018e17f7F5c9";
 export const RICADDRESS = "0x7FDFBBb392d17774CF95F761a843a4408965f2a8";
