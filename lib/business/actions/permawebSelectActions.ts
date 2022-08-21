@@ -17,8 +17,6 @@ import {
   dispatch_renderUploadSummary,
 } from "../../dispatch/render";
 import {
-  HashWithIds,
-  HashWithTransaction,
   PageState,
   PopupState,
   RenderDispatchArgs,
@@ -137,6 +135,12 @@ export function uploadFileListener(props: State) {
   };
 
   uploadButton.onclick = async function () {
+
+    if (fileInput.files === null) {
+      dispatch_renderError("You need to select a file to upload!");
+      return;
+    }
+
     if (fileInput.files.length !== 1) {
       dispatch_renderError("You need to select a single file to upload!");
       return;
@@ -154,7 +158,7 @@ export function uploadFileListener(props: State) {
       return;
     }
 
-    const decryptOptions = await decryptWallet(props.Account.data, password);
+    const decryptOptions = await decryptWallet(props.Account.data as ArrayBuffer, password);
 
     if (decryptOptions.status !== Status.Success) {
       dispatch_renderError(decryptOptions.error);
@@ -174,10 +178,12 @@ export function uploadFileListener(props: State) {
           decryptOptions.data
         );
 
+        const file = fileInput.files === null ? null : fileInput.files[0];
+
         const pstAddress = await getProfitSharingAddresses();
         if (pstAddress === undefined) {
           dispatch_renderUploadSummary(
-            fileInput.files[0],
+            file as File,
             tx,
             contentType,
             data,
@@ -192,7 +198,7 @@ export function uploadFileListener(props: State) {
             props.version
           );
           dispatch_renderUploadSummary(
-            fileInput.files[0],
+            file as File,
             tx,
             contentType,
             data,
@@ -221,7 +227,7 @@ export function onFileDropped() {
   };
 
   fileInput.onchange = function () {
-    if (fileInput.files.length === 1) {
+    if (fileInput?.files?.length === 1) {
       // It's valid
       dispatch_promptSuccess(fileInput.files[0]);
       contentTypeEl.value = fileInput.files[0].type;
@@ -244,7 +250,7 @@ export function onFileDropped() {
   dropZone.ondrop = function (e: DragEvent) {
     e.preventDefault();
 
-    if (e.dataTransfer.files.length === 1) {
+    if (e?.dataTransfer?.files.length === 1) {
       fileInput.files = e.dataTransfer.files;
       dispatch_promptSuccess(e.dataTransfer.files[0]);
       contentTypeEl.value = fileInput.files[0].type;
@@ -268,7 +274,7 @@ export function uploadSummaryActions(
   const transactiondisplay = getById("uploadSummary-tx");
   const copyButton = getById("copy-transaction");
   copyButton.onclick = async function () {
-    const txId = copyButton.dataset.txid;
+    const txId = copyButton.dataset.txid as string;
     await copyStringToClipboard(txId);
   };
 
@@ -375,6 +381,11 @@ export function walletCreateActions(props: State) {
       );
     };
 
+    if (fileInput.files === null) {
+      dispatch_renderError("You need to import one file");
+      return;
+    }
+
     if (fileInput.files.length > 0) {
       if (fileInput.files.length !== 1) {
         dispatch_renderError("You can import only one file");
@@ -415,9 +426,10 @@ export function onWalletFileDropped(props: State, type: WalletDropperType) {
   };
 
   walletInput.onchange = function () {
+    //@ts-ignore
     const file = walletInput.files[0];
 
-    if (walletInput.files.length === 1 && file.type === requiredType) {
+    if (walletInput?.files?.length === 1 && file.type === requiredType) {
       // It's valid
       dispatch_promptSuccess(walletInput.files[0]);
       dispatch_removeError();
@@ -439,8 +451,8 @@ export function onWalletFileDropped(props: State, type: WalletDropperType) {
 
   dropZone.ondrop = function (e: DragEvent) {
     e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (e.dataTransfer.files.length === 1 && file.type === requiredType) {
+    const file = e.dataTransfer?.files[0];
+    if (e.dataTransfer?.files.length === 1 && file?.type === requiredType) {
       walletInput.files = e.dataTransfer.files;
       dispatch_promptSuccess(e.dataTransfer.files[0]);
       dispatch_removeError();
@@ -514,8 +526,16 @@ export function switchAccountsActions(props: State) {
     const walletInput = getById("wallet-input") as HTMLInputElement;
     const passwordInput = getById("AccountPassword") as HTMLInputElement;
     // I need to check if a file was selected
+
+    const fileNotSelected = "You need to select the file.";
+
+    if (walletInput.files === null) {
+      dispatch_renderError(fileNotSelected)
+      return;
+    }
+
     if (walletInput.files.length !== 1) {
-      dispatch_renderError("You need to select the file.");
+      dispatch_renderError(fileNotSelected);
       return;
     }
     // I need to get the password
@@ -597,14 +617,14 @@ export async function transferPageActions(props: State) {
       dispatch_renderError("You must accept the terms.");
       return;
     }
-    const decryptOptions = await decryptWallet(props.Account.data, password);
+    const decryptOptions = await decryptWallet(props.Account.data as ArrayBuffer, password);
 
     if (decryptOptions.status !== Status.Success) {
       dispatch_renderError(decryptOptions.error);
       return;
     }
 
-    const balance = await getWalletBalance(props.Account.address);
+    const balance = await getWalletBalance(props.Account.address as string);
 
     const winstonToSend = ArToWinston(amount);
     let summaryInWinston = parseFloat(winstonToSend);
@@ -658,9 +678,9 @@ export async function transferPageActions(props: State) {
 
 export async function goToShowAccountPage(props: State) {
   dispatch_setNewAccount({
-    data: props.Account.data,
-    address: props.Account.address,
-    balance: await getWalletBalance(props.Account.address),
+    data: props.Account.data as ArrayBuffer,
+    address: props.Account.address as string,
+    balance: await getWalletBalance(props.Account.address as string),
   });
 
   dispatch_setPopupState(PopupState.ShowAccount);
