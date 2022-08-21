@@ -9,38 +9,38 @@ export const getPriceTemplate = (
   if (price !== "NONE") {
     const formattedPrice = price === "NONE" ? "" : `${price} Ar`;
     return html`<tr>
-        <td>
-          <label>Price:</label>
-        </td>
-        <td>
-          <div aria-label="price">${formattedPrice}</div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label>Fee:</label>
-        </td>
-        <td>${fee} Ar</td>
-      </tr>`;
+  <td>
+    <label>Price:</label>
+  </td>
+  <td>
+    <div aria-label="price">${formattedPrice}</div>
+  </td>
+</tr>
+<tr>
+  <td>
+    <label>Fee:</label>
+  </td>
+  <td>${fee} Ar</td>
+</tr>`;
   }
 };
 
 export const createdDateTemplate = (date: string) => {
   return html`<tr>
-    <td>
-      <label for="createdDate">Created:</label>
-    </td>
-    <td><label id="createdDate">${date}</label></td>
-  </tr>`;
+  <td>
+    <label for="createdDate">Created:</label>
+  </td>
+  <td><label id="createdDate">${date}</label></td>
+</tr>`;
 };
 
 export const signedDateTemplate = (date: string) => {
   return html`<tr>
-    <td>
-      <label for="signed-date">Signed on:</label>
-    </td>
-    <td><label id="signed-date">${date}</label></td>
-  </tr>`;
+  <td>
+    <label for="signed-date">Signed on:</label>
+  </td>
+  <td><label id="signed-date">${date}</label></td>
+</tr>`;
 };
 
 export const issuerTemplate = (address: string) => {
@@ -65,15 +65,15 @@ export const TrailTemplate = (
   const address =
     arweaveAddress.length === 0 ? "" : `&address=${arweaveAddress}`;
   const url = creatorAppLink + "?trail=" + relatedTrail + address;
-  return html` <tr>
-    <td>
-      <label for="Trail">Trail:</label>
-    </td>
-    <td>
-      <a href="${url}" rel="noopener" target="_blank">${relatedTrail}</a>
-    </td>
-    <td></td>
-  </tr>`;
+  return html`<tr>
+  <td>
+    <label for="Trail">Trail:</label>
+  </td>
+  <td>
+    <a href="${url}" rel="noopener" target="_blank">${relatedTrail}</a>
+  </td>
+  <td></td>
+</tr>`;
 };
 
 export const networkTemplate = (network: string, isFulfilled: boolean) => {
@@ -132,16 +132,14 @@ export const networkTemplate = (network: string, isFulfilled: boolean) => {
   const networkEl = chains[network];
 
   return html`<tr>
-    <td>
-      <label for="network-id">Network:</label>
-    </td>
-    <td>
-      <label id="network-id"
-        >${networkEl === undefined ? network : networkEl}</label
-      >
-    </td>
-    <td></td>
-  </tr>`;
+  <td>
+    <label for="network-id">Network:</label>
+  </td>
+  <td>
+    <label id="network-id">${networkEl === undefined ? network : networkEl}</label>
+  </td>
+  <td></td>
+</tr>`;
 };
 
 export function getChainButton(
@@ -155,8 +153,8 @@ export function getChainButton(
     return html`${getChainLogo(chains)} ${chainName} ${net} ${shard}`;
   } else {
     return html`<button class="network-button" id="addChainButton">
-      ${getChainLogo(chains)} <label>${chainName} ${net} ${shard}</label>
-    </button>`;
+  ${getChainLogo(chains)} <label>${chainName} ${net} ${shard} (Switch)</label>
+</button>`;
   }
 }
 
@@ -184,19 +182,19 @@ export function getChainLogo(chain: Chains) {
 export const onlySignerTemplate = (onlySigner: string) => {
   if (onlySigner !== "NONE") {
     return html`<tr>
-      <td>Only Signer:</td>
-      <td>${onlySigner}</td>
-      <td></td>
-    </tr>`;
+  <td>Only Signer:</td>
+  <td>${onlySigner}</td>
+  <td></td>
+</tr>`;
   }
 };
 
 export const hashTemplate = (hash: string) => {
   return html`<tr>
-    <td>Hash</td>
-    <td aria-label="Hash">${hash}</td>
-    <td></td>
-  </tr>`;
+  <td>Hash</td>
+  <td aria-label="Hash">${hash}</td>
+  <td></td>
+</tr>`;
 };
 
 export const expiryTemplate = (date: string) => html`<tr>
