@@ -114,7 +114,7 @@ import {
   TrailData,
   TrailsPage,
 } from "./templates/pages/trailsPage";
-import { ToyBlocks } from "./templates/components/logos";
+import { ManageAccountLogo, ToyBlocks } from "./templates/components/logos";
 import {
   CollectRewardsPage,
   getSelected,
@@ -1155,7 +1155,7 @@ export function proposalUpload(
     arweaveAddressEl,
   } = elements;
 
-  const proposalProps = props.uploadProposalProps;
+  const proposalProps = props.uploadProposalProps as ProposalFormat;
 
   nameEl.value = proposalProps.name;
   artifactEl.value = proposalProps.artifact;
@@ -1702,12 +1702,15 @@ export function assignSmartContractAddress(address: string) {
 export function triggerConfiguration() {
   const createPageOne = getById("create-page-one");
   const createPageTwo = getById("create-page-two");
+  const toggleConfigurationPage = getById("toggle-configuration-page");
 
   if (createPageOne.style.display === "none") {
     createPageTwo.style.display = "none";
     createPageOne.style.display = "block";
+    render(html`${ManageAccountLogo()} Configure`, toggleConfigurationPage);
   } else if (createPageOne.style.display === "block") {
-    createPageTwo.style.display = "block";
     createPageOne.style.display = "none";
+    render(html`${ManageAccountLogo()} Edit Contract`, toggleConfigurationPage);
+    createPageTwo.style.display = "block";
   }
 }
