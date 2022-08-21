@@ -265,7 +265,7 @@ export type Renderer = {
   [RenderType.contractDeployedData]: RenderFunction;
   [RenderType.setCommentPopup]: RenderFunction;
   [RenderType.uploadFrontendPopup]: RenderFunction;
-  [RenderType.assignSmartContractAddress] : RenderFunction;
+  [RenderType.assignSmartContractAddress]: RenderFunction;
   [RenderType.triggerConfiguration]: RenderFunction;
 };
 
@@ -341,7 +341,8 @@ export type StashedDetails = {
   signature: string;
   network: string;
   smartContract: string;
-  arweaveTx: any
+  arweaveTx: any,
+  tipTransaction: any
 };
 
 
@@ -399,7 +400,7 @@ export enum PageState {
 
 export type State = {
   init: boolean;
-  Account: Account;
+  Account: Account | { data: null, address: null, balance: null };
   editor: any;
   domParser: DOMParser;
   selectedDate: Date | string;
@@ -407,9 +408,9 @@ export type State = {
   previousPopupState: PopupState;
   pageState: PageState;
   createRicardianPageProps: CreateRicardianPageProps;
-  uploadProposalProps: ProposalFormat;
+  uploadProposalProps: ProposalFormat | null;
   stashedPage: string;
-  stashedDetails: StashedDetails;
+  stashedDetails: StashedDetails | undefined;
   selectedWallet: SelectedWallet;
   contracttype: ContractTypes;
   redirectto: string;
@@ -426,10 +427,10 @@ export type State = {
   participant: string;
   participantSignature: string;
   smartcontract: string;
-  position: GeolocationPosition;
+  position: GeolocationPosition | undefined;
   isERC20: ERC20Params;
   editFinished: boolean;
-  blockPollTimer: NodeJS.Timer;
+  blockPollTimer: NodeJS.Timer | undefined;
   creatorAppLink: string;
   appType: AppType;
 };
