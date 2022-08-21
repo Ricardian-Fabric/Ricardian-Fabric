@@ -1,10 +1,65 @@
 # Ricardian-Fabric DAO
 
+    >======>                                         >=>                                 >=======>             >=>                          
+    >=>    >=>    >>                                 >=>  >>                             >=>                   >=>               >>         
+    >=>    >=>          >==>    >=> >=>  >> >==>     >=>        >=> >=>  >==>>==>        >=>          >=> >=>  >=>      >> >==>        >==> 
+    >> >==>      >=>  >=>     >=>   >=>   >=>     >=>>=> >=>  >=>   >=>   >=>  >=>       >=====>    >=>   >=>  >=>>==>   >=>    >=>  >=>    
+    >=>  >=>     >=> >=>     >=>    >=>   >=>    >>  >=> >=> >=>    >=>   >=>  >=>       >=>       >=>    >=>  >=>  >=>  >=>    >=> >=>     
+    >=>    >=>   >=>  >=>     >=>   >=>   >=>    >>  >=> >=>  >=>   >=>   >=>  >=>       >=>        >=>   >=>  >=>  >=>  >=>    >=>  >=>    
+    >=>      >=> >=>    >==>   >==>>>==> >==>     >=>>=> >=>   >==>>>==> >==>  >=>       >=>         >==>>>==> >=>>==>  >==>    >=>    >==> 
+                                                                                                                                            
+
 ## DOCS
 
 Detailed docs on how to use it can be found at docs.ricadianfabric.com
 
-The latest version of ricadian fabric.
+
+## Use
+
+Run the front end
+
+`yarn run dev`
+
+## Deployment
+
+`yarn build`
+
+After the build, the js dependency must be separately deployed.
+
+The URL to access it must be placed into the data-dependency on page.
+The state must be configured for using this dataprop with getSourceFromDataProp(pageEl)
+
+Bump up the version in the data-version prop too.
+
+Then run `yarn inline`
+
+The final bundle.html is ready to be deployed!
+
+Upload these files using the Ricardian Fabric permaweb upload feature
+
+### IMPORTANT
+
+AppType property on the index.html #page is used to change menu options on the deployed app.
+
+use this for dao
+
+    data-apptype="dao"
+
+and this for contract deployments
+
+    data-apptype="deployments"
+
+
+## Latest Deployments
+
+- 0.0.13 MAINNET
+  Infura deprecated the IPFS API service broke all previous versions that used it so the next release fixes this issue by removing IPFS. 
+  It was a good experiment but the contracts are saved by spending AR from now on again. There is no free version, however the contract accepting has been refactored so contract signers only need to sign with metamask and there are no more deployments.
+
+  Deployments: https://gnszihbakzryaihgrqjum7a727a7wxggc2vwyp7abvxob7cxukpq.arweave.net/M2WUHCBWY4Ag5owTRnwf18H7XMYWq2w_4A1u4PxXop8
+
+  DAO: STILL REFACTORING 
+
 
 - 0.0.12 MAINNET
 
@@ -62,38 +117,3 @@ DEPLOYED on TESTNET:
 
 - 0.0.5 https://licyt5slcklm3hq6n5enxhqtg3zkddzaj3estirwvkpijmayju.arweave.net/WgWJ9ksSls2eHm9I254TNvKhjyBOySm-iNqqehLAYTU
 - 0.0.4 https://5sogpgw5uhq7a6lr3kkw7mxkq2mxvgikf66qujhhmte5zntm.arweave.net/7Jxn_mt2h4fB5cdqVb7L-qhpl6mQovvQok52TJ3LZsI
-
-## Use
-
-Run the front end
-
-`yarn run dev`
-
-## Deployment
-
-`yarn build`
-
-After the build, the js dependency must be separately deployed.
-
-The URL to access it must be placed into the data-dependency on page.
-The state must be configured for using this dataprop with getSourceFromDataProp(pageEl)
-
-Bump up the version in the data-version prop too.
-
-Then run `yarn inline`
-
-The final bundle.html is ready to be deployed!
-
-Upload these files using the Ricardian Fabric permaweb upload feature
-
-### IMPORTANT
-
-AppType property on the index.html #page is used to change menu options on the deployed app.
-
-use this for dao
-
-    data-apptype="dao"
-
-and this for contract deployments
-
-    data-apptype="deployments"
