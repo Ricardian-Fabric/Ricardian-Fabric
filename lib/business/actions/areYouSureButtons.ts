@@ -2,6 +2,7 @@ import {
   dispatch_deployAgain,
   dispatch_enableCreateInputs,
   dispatch_noButtonPressed,
+  dispatch_renderDashboard,
   dispatch_renderError,
   dispatch_renderLoadingIndicator,
   dispatch_renderTransaction,
@@ -24,15 +25,28 @@ export function areYouSureButtons(props: State) {
     dispatch_renderLoadingIndicator("transaction-display");
     dispatch_yesButtonPressed(props);
 
-    // Upload to Arweave 
-    await postTransaction(props.stashedDetails.arweaveTx);
+    try {
+      // Upload to Arweave 
+      await postTransaction(props.stashedDetails?.arweaveTx);
+    } catch (err) {
+      dispatch_renderError("Failed to upload the contract!");
+    }
 
-    const id = props.stashedDetails.arweaveTx.id;
+    try {
+      await postTransaction(props.stashedDetails?.tipTransaction);
+
+    } catch (err) {
+      dispatch_renderError("Failed to send profit sharing transaction!")
+    }
+
+
+
+    const id = props.stashedDetails?.arweaveTx.id;
     const url = geArweaveIdUrl(id);
 
     dispatch_renderTransaction(props, url);
 
-    const smartContract = props.stashedDetails.smartContract;
+    const smartContract = props.stashedDetails?.smartContract as string;
 
     if (props.contracttype === ContractTypes.create) {
       dispatch_deployAgain(props);
@@ -48,8 +62,8 @@ export async function smartContractActions(
   url: string,
   smartContract: string
 ) {
-  const hash = props.stashedDetails.hash;
-  const signerAddress = props.stashedDetails.signerAddress;
+  const hash = props.stashedDetails?.hash as string;
+  const signerAddress = props.stashedDetails?.signerAddress as string;
   const options = await setTerms({
     url,
     hash,
