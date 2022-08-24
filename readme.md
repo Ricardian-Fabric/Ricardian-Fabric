@@ -52,6 +52,11 @@ and this for contract deployments
 
 ## Latest Deployments
 
+- 0.0.14 MAINNET
+  Small updated, added logos to wallet connec button and when accepting contract. UI updates.
+
+  Deployments: https://ft6qu3qbcttheos6nuriqeopiow47flx2uyvra4s7sw33pdg7vha.arweave.net/LP0KbgEU5nI6Xm0iiBHPQ63PlXfVMViDkvytvbxm_U4
+
 - 0.0.13 MAINNET
   Infura deprecated the IPFS API service broke all previous versions that used it so the next release fixes this issue by removing IPFS. 
   It was a good experiment but the contracts are saved by spending AR from now on again. There is no free version, however the contract accepting has been refactored so contract signers only need to sign with metamask and there are no more deployments.
