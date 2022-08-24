@@ -274,8 +274,8 @@ export function enableButton(props: State) {
   } else if (currentPage === ContractTypes.acceptable) {
     const saveButton = getById("accept-button") as HTMLButtonElement;
     saveButton.disabled = false;
-    saveButton.style.backgroundColor = "black";
-    saveButton.style.color = "white";
+    saveButton.style.backgroundColor = "white";
+    saveButton.style.color = "black";
   }
 }
 
@@ -290,7 +290,7 @@ export function disableButton(props: State) {
     const saveButton = getById("accept-button") as HTMLButtonElement;
     saveButton.disabled = true;
     saveButton.style.backgroundColor = "";
-    saveButton.style.color = "";
+    saveButton.style.color = "white";
   }
 }
 
