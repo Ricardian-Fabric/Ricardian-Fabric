@@ -1,6 +1,7 @@
 import { html, nothing } from "lit-html";
 import { State } from "../../../types";
 import { didExpire } from "../../utils";
+import { SupportedWallets } from "../pages/connectWalletPage";
 
 export const acceptTools = (props: State) => {
   //Determine if expires is in the past or never
@@ -44,7 +45,7 @@ export const AcceptButton = (positionNeeded: boolean) => {
   This contract is not available in all countries.
 </div>`
     : nothing;
-  const buttonText = positionNeeded ? "Add location" : "Accept";
+  const buttonText = positionNeeded ? "Add location" : "Accept with ";
   return html`
     <style>
       .width-200 {
@@ -61,13 +62,17 @@ export const AcceptButton = (positionNeeded: boolean) => {
       }
       #accept-button{
         font-size: larger;
+        background-color: !important white;
+        color: !important black;
       }
     </style>
     <div class="ac-location">
       ${labelEl}
-      <button name="sign" id="accept-button" class="center width-200">
-        ${buttonText}
+      <button name="Accept contract" id="accept-button" class="center width-200">
+        ${buttonText}     ${SupportedWallets()}
+
       </button>
     </div>
+    <hr/>
   `;
 };
