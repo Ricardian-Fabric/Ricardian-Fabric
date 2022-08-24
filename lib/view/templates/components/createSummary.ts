@@ -10,7 +10,7 @@ export const CreateSummary = (props: State) => {
 
   const centerText =
     props.contracttype === ContractTypes.create
-      ? "Are you sure you want to deploy this agreement?"
+      ? "Are you sure you want to deploy this Ricardian Contract?"
       : "Are you sure you want to sign this contract?";
 
   return html`
