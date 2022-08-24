@@ -54,7 +54,7 @@ export function dispatch_setSelectedWallet(to: SelectedWallet) {
   });
 }
 
-export function dispatch_setNewAccount(value: Account) {
+export function dispatch_setNewAccount(value: Account | { data: null, address: "", balance: "" }) {
   dispatch(Events.stateChange, {
     type: EventType.setNewAccount,
     value,

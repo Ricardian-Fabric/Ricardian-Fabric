@@ -4,21 +4,26 @@ import { acceptablePageLayout } from "./templates/pages/acceptablePage";
 import { fulfilledPageLayout } from "./templates/pages/fulfilledPage";
 import { initialStringDom } from "./templates/components/initialDom";
 
+
+
+
 export async function getAcceptablePageFromVDOM(
   pageProps: AcceptablePageProps
 ): Promise<string> {
   const doc = parseDOMfromString(pageProps.domParser, initialStringDom);
   render(acceptablePageLayout(pageProps), doc.body);
   // The legal contract HTML is sanitized by the editor
-  doc.getElementById("contract-display").innerHTML = pageProps.legalContract;
-
+  const el = doc.getElementById("contract-display") as HTMLElement;
+  el.innerHTML = pageProps.legalContract;
   return serialize(doc);
 }
+
 
 export async function getFulfilledPagefromVDOM(pageProps: FulfilledPageProps) {
   const doc = parseDOMfromString(pageProps.domParser, initialStringDom);
   render(fulfilledPageLayout(pageProps), doc.body);
-  doc.getElementById("contract-display").innerHTML = pageProps.legalContract;
+  const el = doc.getElementById("contract-display") as HTMLElement;
+  el.innerHTML = pageProps.legalContract;
   return serialize(doc);
 }
 
