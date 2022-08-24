@@ -45,7 +45,7 @@ export const AcceptButton = (positionNeeded: boolean) => {
   This contract is not available in all countries.
 </div>`
     : nothing;
-  const buttonText = positionNeeded ? "Add location" : "Accept with ";
+  const buttonText = positionNeeded ? "Click here to add your location" : "Accept with ";
   return html`
     <style>
       .width-200 {
@@ -69,8 +69,7 @@ export const AcceptButton = (positionNeeded: boolean) => {
     <div class="ac-location">
       ${labelEl}
       <button name="Accept contract" id="accept-button" class="center width-200">
-        ${buttonText}     ${SupportedWallets()}
-
+        ${buttonText}     ${positionNeeded ? nothing : html`${SupportedWallets()}`}
       </button>
     </div>
     <hr/>
