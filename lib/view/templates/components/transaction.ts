@@ -38,7 +38,7 @@ export const transactionUrl = (props: any, url: string) => {
           ? html`
               <hr />
               <button class="deploy-again" id="deploy-again-button">
-                ${EditAgainLogo()}Edit page again
+                ${EditAgainLogo()}Edit Again
               </button>
             `
           : nothing}
