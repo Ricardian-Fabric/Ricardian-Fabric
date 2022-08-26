@@ -90,7 +90,7 @@ export const VaultItems = (
   currentPage: number,
   totalPages: number
 ) => {
-  let indexes = [];
+  let indexes : number[]= [];
   for (let i = firstIndex; i <= lastIndex; i++) {
     indexes.push(i);
   }
@@ -150,7 +150,7 @@ export function getVaultPagingButtons(
   currentPage: number,
   cssselector: string
 ) {
-  let pageButtons = [];
+  let pageButtons : any[]= [];
   const start = getPageButtonStartPoint(totalPages, currentPage);
   const end = getPageButtonEndPoint(totalPages, currentPage);
 

@@ -10,7 +10,7 @@ import { initialStringDom } from "./templates/components/initialDom";
 export async function getAcceptablePageFromVDOM(
   pageProps: AcceptablePageProps
 ): Promise<string> {
-  const doc = parseDOMfromString(pageProps.domParser, initialStringDom);
+  const doc = parseDOMfromString(pageProps.domParser, initialStringDom());
   render(acceptablePageLayout(pageProps), doc.body);
   // The legal contract HTML is sanitized by the editor
   const el = doc.getElementById("contract-display") as HTMLElement;
@@ -20,7 +20,7 @@ export async function getAcceptablePageFromVDOM(
 
 
 export async function getFulfilledPagefromVDOM(pageProps: FulfilledPageProps) {
-  const doc = parseDOMfromString(pageProps.domParser, initialStringDom);
+  const doc = parseDOMfromString(pageProps.domParser, initialStringDom());
   render(fulfilledPageLayout(pageProps), doc.body);
   const el = doc.getElementById("contract-display") as HTMLElement;
   el.innerHTML = pageProps.legalContract;

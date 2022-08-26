@@ -93,7 +93,7 @@ export function MyAcceptedSmartContratctProposalsTable(
   totalPages: number,
   currentPage: number
 ) {
-  let acceptedProposals = [];
+  let acceptedProposals: {smartContract: AcceptedSmartContractProposal, index: string }[] = [];
   // attaching the indexes
   for (let i = 0; i < indexes.length; i++) {
     if (indexes[i] !== "0") {
@@ -146,7 +146,7 @@ export function MyRemovalProposalTable(
   totalPages: number,
   currentPage: number
 ) {
-  let removalContractProposals = [];
+  let removalContractProposals : {removal: RemovalProposal, index: string}[] = [];
   for (let i = 0; i < indexes.length; i++) {
     if (indexes[i] !== "0") {
       removalContractProposals.push({
@@ -199,7 +199,7 @@ export function MySmartContractProposalTable(
   totalPages: number,
   currentPage: number
 ) {
-  let smartContractProposals = [];
+  let smartContractProposals: {smartContract: SmartContractProposal, index: string}[] = [];
   // attaching the indexes
   for (let i = 0; i < indexes.length; i++) {
     if (indexes[i] !== "0") {
@@ -252,7 +252,7 @@ export function MyRankProposalTable(
   totalPages: number,
   currentPage: number
 ) {
-  let rankProposalTRs = [];
+  let rankProposalTRs : {rank: RankProposal, index: string}[] = [];
 
   for (let i = 0; i < rankIndexes.length; i++) {
     if (rankIndexes[i] !== "0") {
@@ -331,7 +331,7 @@ function getPageButtons(
   cssselector: string,
   pageName: string
 ): Array<any> {
-  let pageButtons = [];
+  let pageButtons : any[]= [];
   const start = getPageButtonStartPoint(totalPages, currentPage);
   const end = getPageButtonEndPoint(totalPages, currentPage);
 
