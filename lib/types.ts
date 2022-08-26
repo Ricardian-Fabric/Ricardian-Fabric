@@ -269,6 +269,67 @@ export type Renderer = {
   [RenderType.triggerConfiguration]: RenderFunction;
 };
 
+export type CreatePageRenderer = {
+  [RenderType.connectYourWallet]: RenderFunction;
+  [RenderType.menu]: RenderFunction;
+  [RenderType.create]: RenderFunction;
+  [RenderType.sidebar]: RenderFunction;
+  [RenderType.acceptButton]: RenderFunction;
+  [RenderType.addLoadingIndicator]: RenderFunction;
+  [RenderType.removeLoadingIndicator]: RenderFunction;
+  [RenderType.transaction]: RenderFunction;
+  [RenderType.renderError]: RenderFunction;
+  [RenderType.removeError]: RenderFunction;
+  [RenderType.enableButton]: RenderFunction;
+  [RenderType.disableButton]: RenderFunction;
+  [RenderType.dateClickListener]: RenderFunction;
+  [RenderType.areYouSure]: RenderFunction;
+  [RenderType.noButtonPressed]: RenderFunction;
+  [RenderType.yesButtonPressed]: RenderFunction;
+  [RenderType.removeAcceptedButton]: RenderFunction;
+  [RenderType.promptSuccess]: RenderFunction;
+  [RenderType.promptError]: RenderFunction;
+  [RenderType.promptSuccessDOCX]: RenderFunction;
+  [RenderType.promptErrorDOCX]: RenderFunction;
+  [RenderType.disableCreateInputs]: RenderFunction;
+  [RenderType.enableCreateInputs]: RenderFunction;
+  [RenderType.deployAgain]: RenderFunction;
+  [RenderType.DocxDropper]: RenderFunction;
+  [RenderType.uploadFile]: RenderFunction;
+  [RenderType.uploadSummary]: RenderFunction;
+  [RenderType.uploadStatus]: RenderFunction;
+  [RenderType.discardFile]: RenderFunction;
+  [RenderType.walletPopup]: RenderFunction;
+  [RenderType.emptyWalletDropper]: RenderFunction;
+  [RenderType.addNewAccountPopup]: RenderFunction;
+  [RenderType.showAccountPopup]: RenderFunction;
+  [RenderType.switchAccounts]: RenderFunction;
+  [RenderType.transferPage]: RenderFunction;
+  [RenderType.transferSummaryPage]: RenderFunction;
+  [RenderType.hidePopup]: RenderFunction;
+  [RenderType.hideElement]: RenderFunction;
+  [RenderType.txId]: RenderFunction;
+  [RenderType.verifyContract]: RenderFunction;
+  [RenderType.verificationState]: RenderFunction;
+  [RenderType.permawebSelectActions]: RenderFunction;
+  [RenderType.initializeCreateRicardian]: RenderFunction;
+  [RenderType.dismissSidebar]: RenderFunction;
+  [RenderType.renderWrongNetworkPopup]: RenderFunction;
+  [RenderType.PSArweaveAddress]: RenderFunction;
+  [RenderType.trailsTabs]: RenderFunction;
+  [RenderType.trailsDetails]: RenderFunction;
+  [RenderType.addCommentPopup]: RenderFunction;
+  [RenderType.disableButtonElement]: RenderFunction;
+  [RenderType.arweaveTxSummary]: RenderFunction;
+  [RenderType.trailDataPage]: RenderFunction;
+  [RenderType.navigateToQueryString]: RenderFunction;
+  [RenderType.emptyPopup]: RenderFunction;
+  [RenderType.assignSmartContractAddress]: RenderFunction;
+  [RenderType.triggerConfiguration]: RenderFunction;
+  [RenderType.setCommentPopup]: RenderFunction;
+  [RenderType.trailsPage]: RenderFunction;
+}
+
 export enum VerificationState {
   success,
   failure,
