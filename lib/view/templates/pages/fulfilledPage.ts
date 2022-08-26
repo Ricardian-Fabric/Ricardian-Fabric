@@ -8,7 +8,8 @@ import {
   signedDateTemplate,
 } from "../components/components";
 
-export const fulfilledPageLayout = (props: FulfilledPageProps) => html`
+export function fulfilledPageLayout(props: FulfilledPageProps) {
+  return html`
   <style>
     body {
       background: radial-gradient(lightgrey 3px, transparent 4px),
@@ -110,27 +111,16 @@ export const fulfilledPageLayout = (props: FulfilledPageProps) => html`
   <body>
     ${fulfilledPage(props)}
   </body>
-`;
-export const fulfilledPage = (props: FulfilledPageProps) => html`
-  <div
-    data-contracttype="fulfilled"
-    data-version="${props.version}"
-    data-signedon="${props.signedDate}"
-    data-created="${props.createdDate}"
-    data-expires="${props.expires}"
-    data-redirectto="${props.redirectto}"
-    data-parentUrl="${props.parentUrl}"
-    data-network="${props.network}"
-    data-issuer="${props.issuer}"
-    data-issuersignature="${props.issuerSignature}"
-    data-participant="${props.participant}"
-    data-participantsignature="${props.participantSignature}"
-    data-smartcontract="${props.smartContract}"
-    data-erc20="${props.ERC20}"
-    data-blockedcountries="${JSON.stringify(props.blockedCountries)}"
-    data-blockedaddresses="${JSON.stringify(props.blockedAddresses)}"
-    id="page"
-  >
+`};
+export function fulfilledPage(props: FulfilledPageProps) {
+  return html`
+  <div data-contracttype="fulfilled" data-version="${props.version}" data-signedon="${props.signedDate}"
+    data-created="${props.createdDate}" data-expires="${props.expires}" data-redirectto="${props.redirectto}"
+    data-parentUrl="${props.parentUrl}" data-network="${props.network}" data-issuer="${props.issuer}"
+    data-issuersignature="${props.issuerSignature}" data-participant="${props.participant}"
+    data-participantsignature="${props.participantSignature}" data-smartcontract="${props.smartContract}"
+    data-erc20="${props.ERC20}" data-blockedcountries="${JSON.stringify(props.blockedCountries)}"
+    data-blockedaddresses="${JSON.stringify(props.blockedAddresses)}" id="page">
     <div id="contract-display"></div>
     <table id="display-table">
       <tr>
@@ -145,4 +135,4 @@ export const fulfilledPage = (props: FulfilledPageProps) => html`
     </table>
     <hr />
   </div>
-`;
+`};

@@ -1,4 +1,5 @@
-const catalogDAO = `{
+function catalogDAO() {
+  return `{
   "_format": "hh-sol-artifact-1",
   "contractName": "CatalogDao",
   "sourceName": "contracts/CatalogDao.sol",
@@ -2441,12 +2442,12 @@ const catalogDAO = `{
       ]
     }
   }
-}`;
+}`};
 
 export const getCatalogDAOAbi = () => {
-  return JSON.parse(catalogDAO).abi;
+  return JSON.parse(catalogDAO()).abi;
 };
 
 export const getCatalogDAOBytecode = () => {
-  return JSON.parse(catalogDAO).bytecode;
+  return JSON.parse(catalogDAO()).bytecode;
 };

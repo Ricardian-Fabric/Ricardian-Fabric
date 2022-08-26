@@ -12,7 +12,8 @@ import {
   uploadLogo,
 } from "../components/logos";
 
-export const CreatePage = () => html`
+export function CreatePage() {
+  return html`
   <h3>Create a Ricardian Contract</h3>
   <div class="row">
     <div id="network-dropdown"></div>
@@ -290,7 +291,7 @@ export const CreatePage = () => html`
   <div aria-label="transaction-display-slot" class="center" id="transaction-display"></div>
   
   <div id="button-slot"></div>
-`;
+`};
 
 
 function accordionButtonImageAligner(logo: any, text: any) {

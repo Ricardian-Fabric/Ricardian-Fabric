@@ -1,4 +1,5 @@
-const Ric = `{
+function Ric() {
+ return `{
   "_format": "hh-sol-artifact-1",
   "contractName": "Ric",
   "sourceName": "contracts/Ric.sol",
@@ -322,7 +323,7 @@ const Ric = `{
   "linkReferences": {},
   "deployedLinkReferences": {}
 }
-`;
+`};
 
-export const getRicAbi = () => JSON.parse(Ric).abi;
-export const getRicBytecode = () => JSON.parse(Ric).bytecode;
+export const getRicAbi = () => JSON.parse(Ric()).abi;
+export const getRicBytecode = () => JSON.parse(Ric()).bytecode;

@@ -1,7 +1,7 @@
 import { html } from "lit-html";
 import { helperTooltips } from "../components/helperTooltips";
 
-export const VerifyContract = () => {
+export function VerifyContract ()  {
   return html` <h3>Verify a contract</h3>
     <table>
       <thead>
@@ -38,7 +38,5 @@ export const VerifyContract = () => {
     <hr />`;
 };
 
-export const VerifySuccess = () =>
-  html`<p style="color: green">Verification Succeeded! Contract is valid.</p>`;
-export const VerifyFailure = () =>
-  html`<p style="color: red">Verification Failed!</p>`;
+export function VerifySuccess () {return html`<p style="color: green">Verification Succeeded! Contract is valid.</p>`};
+export function VerifyFailure () {return   html`<p style="color: red">Verification Failed!</p>`};

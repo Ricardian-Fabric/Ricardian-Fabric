@@ -11,7 +11,8 @@ import { mainDep } from "../components/dependencies";
 import { loadingIndicator } from "../components/loadingIndicator";
 import { verifyLogo } from "../components/logos";
 
-export const acceptablePageLayout = (props: AcceptablePageProps) => html`
+export function acceptablePageLayout(props: AcceptablePageProps) { 
+  return html`
   <style>
     body {
       background: radial-gradient(lightgrey 3px, transparent 4px),
@@ -387,8 +388,8 @@ export const acceptablePageLayout = (props: AcceptablePageProps) => html`
   <body>
     ${acceptablePage(props)} ${mainDep(props?.mainDep?.src as string)}
   </body>
-`;
-const acceptablePage = (props: AcceptablePageProps) => html`
+`};
+function acceptablePage (props: AcceptablePageProps) {return  html`
   <div
     data-contracttype="acceptable"
     data-version="${props.version}"
@@ -439,4 +440,4 @@ const acceptablePage = (props: AcceptablePageProps) => html`
         <small>Using adblocker can result in degraded performace. Make sure to turn it off.</small>
     </div>
   </div>
-`;
+`};

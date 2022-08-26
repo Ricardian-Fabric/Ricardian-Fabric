@@ -260,7 +260,7 @@ export function removeError() {
 export function renderredirect() {
   const counterEl = getById("redirect-display");
   const acceptButton = getById("accept-button");
-  render(redirectButton, counterEl);
+  render(redirectButton(), counterEl);
   hideElement(acceptButton, true);
 }
 
@@ -1587,6 +1587,7 @@ export function renderSCProposalDisplayPage(
 
   const termsContent = getById("termsContent");
   //If there are script tags injected by malicious user, FCK U
+  //@ts-ignore
   termsContent.innerHTML = DOMPurify.sanitize(proposal.terms);
 }
 export function renderRemovalProposalPopup(

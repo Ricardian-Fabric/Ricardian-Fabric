@@ -1,5 +1,6 @@
 import { html } from "lit-html";
 
-export const mainDep = (src: string) => html`
+export function mainDep(src: string) {
+  return html`
   <script id="main-script" src="${src}" crossorigin="anonymous"></script>
-`;
+`};

@@ -1,6 +1,7 @@
 //The initial DOM that get's fed to the parser
 
-export const initialStringDom = `  <!DOCTYPE html>
+export function initialStringDom() {
+  return `  <!DOCTYPE html>
   <html lang="en" dir="ltr">
     <head>
       <meta charset="UTF-8" />
@@ -13,4 +14,4 @@ export const initialStringDom = `  <!DOCTYPE html>
     <body>
     </body>
     </html>
-    `;
+    `};

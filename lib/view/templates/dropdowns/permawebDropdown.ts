@@ -7,10 +7,10 @@ import {
   uploadLogo,
 } from "../components/logos";
 
-export const PermawebDropdown = (
+export function PermawebDropdown(
   contractType: ContractTypes,
   page: PageState
-) => {
+) {
   return html`
     <input type="checkbox" id="permaweb_checkbox_toggle" class="dropdown_checkbox_toggle" />
     <button class="labelButton dropdown_checkbox_label lightCoral-shadow" id="permaweb_checkbox_button"

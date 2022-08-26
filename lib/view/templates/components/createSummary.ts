@@ -3,7 +3,7 @@ import { ContractTypes, State } from "../../../types";
 import { WinstonToAr } from "../../../wallet/arweave";
 import { arweaveLogo } from "./logos";
 
-export const CreateSummary = (props: State) => {
+export function CreateSummary(props: State) {
   let feeInWinston = parseFloat(props.stashedDetails?.arweaveTx.reward);
   feeInWinston += parseFloat(props.stashedDetails?.tipTransaction.reward);
   feeInWinston += parseFloat(props.stashedDetails?.tipTransaction.quantity);

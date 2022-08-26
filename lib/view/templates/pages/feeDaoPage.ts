@@ -13,8 +13,8 @@ import {
 import { GetStatus, getStatusCondition } from "./manageProposals";
 import { getExpiresElementTitle } from "./reviewAndVotePage";
 
-export const FeeDaoPage = () =>
-  html`
+export function FeeDaoPage() {
+  return html`
     <h3>Fee Dao</h3>
     <div class="row">
       <pre>${FEEDAOADDRESS}</pre>
@@ -36,7 +36,7 @@ export const FeeDaoPage = () =>
     <div id="tokenRow" class="tokenRow"></div>
     <hr />
     <div id="tokenProposals"></div>
-  `;
+  `};
 
 export function proposeTokenPopup() {
   return html`<div class="column width-400">

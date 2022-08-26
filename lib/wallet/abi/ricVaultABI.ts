@@ -1,4 +1,5 @@
-const RicVault = `{
+function RicVault() {
+  return `{
   "_format": "hh-sol-artifact-1",
   "contractName": "RicVault",
   "sourceName": "contracts/RicVault.sol",
@@ -313,7 +314,7 @@ const RicVault = `{
   "linkReferences": {},
   "deployedLinkReferences": {}
 }
-`;
+`};
 
-export const getRicVaultAbi = () => JSON.parse(RicVault).abi;
-export const getRicVaultBytecode = () => JSON.parse(RicVault).bytecode;
+export const getRicVaultAbi = () => JSON.parse(RicVault()).abi;
+export const getRicVaultBytecode = () => JSON.parse(RicVault()).bytecode;

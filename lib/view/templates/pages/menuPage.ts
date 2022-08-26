@@ -11,7 +11,7 @@ import {
   VotingLogo,
 } from "../components/logos";
 
-export const MenuPage = (state: State) => {
+export function MenuPage(state: State) {
   const DeploymentsPage = () => html`<hr />
 
 <div class="text-align-center">

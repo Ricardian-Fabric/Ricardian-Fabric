@@ -1,10 +1,12 @@
 import { html } from "lit-html";
 import { RedirectIcon } from "./logos";
 
-export const redirectCounter = (count: number) =>
-  html`<p>Redirecting in ${count}</p>`;
+export function redirectCounter(count: number) {
+  return html`<p>Redirecting in ${count}</p>`
+};
 
-export const redirectButton = html` <style>
+export function redirectButton() {
+  return html` <style>
     #redirect-button {
       font-size: larger;
     }
@@ -12,4 +14,4 @@ export const redirectButton = html` <style>
   <button class="labelButton" id="redirect-button">
     ${RedirectIcon()} Click here to redirect
   </button>
-  <hr />`;
+  <hr />`};

@@ -2,7 +2,7 @@ import { html, nothing } from "lit-html";
 import { ContractTypes } from "../../../types";
 import { EditAgainLogo, pinLogo } from "./logos";
 
-export const transactionUrl = (props: any, url: string) => {
+export function transactionUrl(props: any, url: string) {
   return html`
     <style>
       .transaction-layout {
@@ -35,29 +35,24 @@ export const transactionUrl = (props: any, url: string) => {
       >
       <hr />
         ${props.contracttype === ContractTypes.create
-          ? html`
+      ? html`
               <hr />
               <button class="deploy-again" id="deploy-again-button">
                 ${EditAgainLogo()}Edit Again
               </button>
             `
-          : nothing}
+      : nothing}
       <hr />
     </div>
   `;
 };
 
-export const TxId = (txId: string) =>
-  html`<hr />
-    <small>It might take a few minutes for the transaction to be mined.</small>
-    <hr />
-    <div class="text-align-center">
-      <a
-        href="https://viewblock.io/arweave/tx/${txId}"
-        class="transaction-layout"
-        target="_blank"
-        rel="noopener"
-        >Check it here.</a
-      >
-    </div>
-    <hr />`;
+export function TxId(txId: string) {
+  return html`<hr />
+<small>It might take a few minutes for the transaction to be mined.</small>
+<hr />
+<div class="text-align-center">
+  <a href="https://viewblock.io/arweave/tx/${txId}" class="transaction-layout" target="_blank" rel="noopener">Check it
+    here.</a>
+</div>
+<hr />`};

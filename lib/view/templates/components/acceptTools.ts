@@ -3,7 +3,7 @@ import { State } from "../../../types";
 import { didExpire } from "../../utils";
 import { SupportedWallets } from "../pages/connectWalletPage";
 
-export const acceptTools = (props: State) => {
+export function acceptTools(props: State) {
   //Determine if expires is in the past or never
   const expired = didExpire(props.expires);
 
@@ -39,7 +39,7 @@ export const acceptTools = (props: State) => {
   `;
 };
 
-export const AcceptButton = (positionNeeded: boolean) => {
+export function AcceptButton(positionNeeded: boolean) {
   const labelEl = positionNeeded
     ? html`<div class="accept-button-label">
   This contract is not available in all countries.

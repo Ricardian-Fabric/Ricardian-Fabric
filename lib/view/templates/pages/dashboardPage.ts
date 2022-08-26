@@ -79,7 +79,7 @@ export const dashBoardElementsTitles: DashboardUIElement[] = [
     logo: TokenPileLogo(),
   },
 ];
-export const DashboardPage = () => html`
+export function DashboardPage () {return  html`
   <hr />
   ${Marquee()}
   <h3>Dashboard</h3>
@@ -107,15 +107,15 @@ export const DashboardPage = () => html`
       >${TandCLogo()}</a
     >
   </div>
-`;
+`};
 // The dashboard elements will have a loading indicator at the id, then the value.
 // It will side-effect like render it in an init function one by one as they fetch
-export const dashEl = (
+export function dashEl(
   title: string,
   id: string,
   tooltip: string,
   logo: TemplateResult
-) => html`
+) {return  html`
   <div class="box rowSpacer">
     <div class="column width-100">${logo}</div>
     <div class="column">
@@ -129,6 +129,6 @@ export const dashEl = (
       ></div>
     </div>
   </div>
-`;
+`};
 
 export const loadedValueEl = (loadedValue) => html` <h4>${loadedValue}</h4>`;

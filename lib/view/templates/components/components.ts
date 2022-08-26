@@ -2,10 +2,10 @@ import { html } from "lit-html";
 import { Chains } from "../../../types";
 import { BSCLogo, EthLogo, HarmonyLogo, PolygonLogo } from "./logos";
 
-export const getPriceTemplate = (
+export function getPriceTemplate(
   price: string | number,
   fee: number | string
-) => {
+) {
   if (price !== "NONE") {
     const formattedPrice = price === "NONE" ? "" : `${price} Ar`;
     return html`<tr>
@@ -25,7 +25,7 @@ export const getPriceTemplate = (
   }
 };
 
-export const createdDateTemplate = (date: string) => {
+export function createdDateTemplate(date: string) {
   return html`<tr>
   <td>
     <label for="createdDate">Created:</label>
@@ -34,7 +34,7 @@ export const createdDateTemplate = (date: string) => {
 </tr>`;
 };
 
-export const signedDateTemplate = (date: string) => {
+export function signedDateTemplate(date: string) {
   return html`<tr>
   <td>
     <label for="signed-date">Signed on:</label>
@@ -43,7 +43,7 @@ export const signedDateTemplate = (date: string) => {
 </tr>`;
 };
 
-export const issuerTemplate = (address: string) => {
+export function issuerTemplate(address: string) {
   return html`
     <tr>
       <td>
@@ -57,11 +57,11 @@ export const issuerTemplate = (address: string) => {
   `;
 };
 
-export const TrailTemplate = (
+export function TrailTemplate(
   creatorAppLink: string,
   relatedTrail: string,
   arweaveAddress: string
-) => {
+) {
   const address =
     arweaveAddress.length === 0 ? "" : `&address=${arweaveAddress}`;
   const url = creatorAppLink + "?trail=" + relatedTrail + address;
@@ -76,7 +76,7 @@ export const TrailTemplate = (
 </tr>`;
 };
 
-export const networkTemplate = (network: string, isFulfilled: boolean) => {
+export function networkTemplate(network: string, isFulfilled: boolean) {
   const chains = {
     [Chains.Ropsten]: getChainButton(
       Chains.Ropsten,
@@ -179,7 +179,7 @@ export function getChainLogo(chain: Chains) {
   }
 }
 
-export const onlySignerTemplate = (onlySigner: string) => {
+export function onlySignerTemplate(onlySigner: string) {
   if (onlySigner !== "NONE") {
     return html`<tr>
   <td>Only Signer:</td>
@@ -189,7 +189,7 @@ export const onlySignerTemplate = (onlySigner: string) => {
   }
 };
 
-export const hashTemplate = (hash: string) => {
+export function hashTemplate(hash: string) {
   return html`<tr>
   <td>Hash</td>
   <td aria-label="Hash">${hash}</td>
@@ -197,15 +197,17 @@ export const hashTemplate = (hash: string) => {
 </tr>`;
 };
 
-export const expiryTemplate = (date: string) => html`<tr>
+export function expiryTemplate(date: string) {
+  return html`<tr>
   <td>
     <label for="expiresDate">Expires:</label>
   </td>
   <td id="expiresDate"><label>${date}</label></td>
   <td></td>
-</tr>`;
+</tr>`};
 
-export const getParticipantFromTemplate = (participant: string) => html`<tr>
+export function getParticipantFromTemplate(participant: string) {
+  return html`<tr>
   <td>
     <label for="participant">Participant:</label>
   </td>
@@ -213,9 +215,10 @@ export const getParticipantFromTemplate = (participant: string) => html`<tr>
     <label id="participant">${participant}</label>
   </td>
   <td></td>
-</tr>`;
+</tr>`};
 
-export const parentUrl = (url: string) => html`
+export function parentUrl(url: string) {
+  return html`
   <tr>
     <td>
       <label for="parent-url">Parent:</label>
@@ -225,4 +228,4 @@ export const parentUrl = (url: string) => html`
     </td>
     <td></td>
   </tr>
-`;
+`};

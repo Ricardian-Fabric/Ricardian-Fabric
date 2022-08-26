@@ -2,15 +2,15 @@ import { html } from "lit-html";
 import { SelectedRewardDetails, TokenWithBalance } from "../../../types";
 import { getBlockie } from "../components/getBlockies";
 import {
-  HarmonyLogoSizeable,
   PolygonLogoSizeable,
   SpendLogo,
 } from "../components/logos";
 import { balanceDisplay } from "./tokenSalePage";
 
-export const CollectRewardsPage = () => html`${CollectRewardsContent()}`;
+export function CollectRewardsPage() {return  html`${CollectRewardsContent()}`};
 
-export const CollectRewardsContent = () => html` <h3>Collect Rewards</h3>
+export function CollectRewardsContent() {
+  return  html` <h3>Collect Rewards</h3>
   ${balanceDisplay()}
   <small
     >Fees from deployed smart contracts accumulate in the Fee Dao
@@ -38,7 +38,7 @@ export const CollectRewardsContent = () => html` <h3>Collect Rewards</h3>
   <div id="rewardTokenRow" class="tokenRow placeholder-item"></div>
   <hr />
   <div id="rewardWithdrawSelected"></div>
-  <hr />`;
+  <hr />`};
 
 export function SelectedNone() {
   return html`  

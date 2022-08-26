@@ -1,7 +1,7 @@
-export const getPageButtonStartPoint = (
+export function getPageButtonStartPoint(
   totalPages: number,
   currentPage: number
-) => {
+) {
   if (totalPages <= 3) {
     return 1;
   } else {
@@ -16,10 +16,10 @@ export const getPageButtonStartPoint = (
   }
 };
 
-export const getPageButtonEndPoint = (
+export function getPageButtonEndPoint(
   totalPages: number,
   currentPage: number
-) => {
+) {
   if (totalPages <= 3) {
     return totalPages;
   } else {

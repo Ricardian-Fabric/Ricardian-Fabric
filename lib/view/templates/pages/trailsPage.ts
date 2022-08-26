@@ -17,16 +17,18 @@ import {
 } from "../components/paginations";
 import DOMPurify from "dompurify";
 
-export const TrailsPage = () => html`
+export function TrailsPage() {
+  return html`
   <h3>Trails</h3>
     <div class="rowStart">
     <div id="permaweb-dropdown"></div>
   </div>
   
   <div class="center" id="search-container">${FindTrail()}</div>
-`;
+`};
 
-export const FindTrail = () => html`<div class="column">
+export function FindTrail() {
+  return  html`<div class="column">
   <p>
     A Trail is just a name that helps search for and organize files uploaded to
     Arweave. You can comment on a trail, by adding the name to the upload and
@@ -55,9 +57,9 @@ export const FindTrail = () => html`<div class="column">
     <button class="labelButton width-100" id="trail-find">Find</button>
   </div>
   <div id="trail-search-result"></div>
-</div>`;
+</div>`};
 
-export const FoundTrail = (name: string, uploaderAddress: string) => {
+export function FoundTrail(name: string, uploaderAddress: string) {
   return html`<div class="column">
     <hr />
     <h2 class="center">${name}</h2>
@@ -89,7 +91,7 @@ export const FoundTrail = (name: string, uploaderAddress: string) => {
     <div id="trail-content-display" class="placeholder-item"></div>
   </div>`;
 };
-export const TrailData = (dataPage: ArweaveDataPage, creatorCalls: boolean) => {
+export function TrailData(dataPage: ArweaveDataPage, creatorCalls: boolean) {
   const url = "https://arweave.net/";
 
   const display = dataPage.currentContent.map(
@@ -142,7 +144,7 @@ export const TrailData = (dataPage: ArweaveDataPage, creatorCalls: boolean) => {
         <small class="overflow-auto">
           ${content.hadError
             ? "Error occurred while loading the transaction!"
-            : DOMPurify.sanitize(content.comment)}
+            : DOMPurify.sanitize(content.comment,{ USE_PROFILES: { html: true } })}
         </small>
       </div>
       <hr />

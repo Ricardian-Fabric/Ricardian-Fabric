@@ -1,6 +1,7 @@
 import { html } from "lit-html";
 
-export const helperTooltips = (message: string) => html`
+export function helperTooltips(message: string) {
+  return html`
   <style>
     .tooltip {
       position: relative;
@@ -31,4 +32,4 @@ export const helperTooltips = (message: string) => html`
     ?
     <span aria-label="Tooltip helptext" class="tooltiptext">${message}</span>
   </div>
-`;
+`};

@@ -50,7 +50,7 @@ export const SanctionsDropdown = (expand: boolean) => html`
 `;
 
 export function getLiFromAllCountries() {
-  return AllCountries.map(
+  return AllCountries().map(
     (c) => html` <li>
       <input
         aria-label="Block ${c.name}"

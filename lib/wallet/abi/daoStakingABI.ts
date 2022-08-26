@@ -1,4 +1,5 @@
-const daoStaking = `{
+function daoStaking() {
+  return `{
   "_format": "hh-sol-artifact-1",
   "contractName": "DaoStaking",
   "sourceName": "contracts/DaoStaking.sol",
@@ -492,11 +493,12 @@ const daoStaking = `{
   "linkReferences": {},
   "deployedLinkReferences": {}
 }`;
+}
 
 export const getDaoStakingABI = () => {
-  return JSON.parse(daoStaking).abi;
+  return JSON.parse(daoStaking()).abi;
 };
 
 export const getDaoStakingByteCode = () => {
-  return JSON.parse(daoStaking).bytecode;
+  return JSON.parse(daoStaking()).bytecode;
 };

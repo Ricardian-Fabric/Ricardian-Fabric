@@ -1,8 +1,8 @@
 import { html, nothing } from "lit-html";
 import { BraveLogo, ConnectWalletLogo, MathWalletLogo, MetamaskLogo } from "../components/logos";
 
-export const ConnectWalletPage = () =>
-  html`
+export function ConnectWalletPage() {
+  return html`
     <div class="intro-logo">
       <div class="">Ricardian Fabric</div>
     
@@ -14,7 +14,7 @@ export const ConnectWalletPage = () =>
         </button>
       </div>
     </div>
-  `;
+  `};
 
 export const SupportedWallets = () => html`
 <div class="column text-align-center">

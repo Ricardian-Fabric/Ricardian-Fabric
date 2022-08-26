@@ -7,7 +7,8 @@ import {
 } from "../components/logos";
 import { dashEl } from "./dashboardPage";
 
-export const TokenSalePage = () => html`<h3>Join the community</h3>
+export function TokenSalePage() {
+  return  html`<h3>Join the community</h3>
   ${balanceDisplay()}
 
   <div class="column">
@@ -43,12 +44,13 @@ export const TokenSalePage = () => html`<h3>Join the community</h3>
         <label>Add to Wallet</label>
       </button>
     </div>
-  </div> `;
+  </div> `};
 
-export const balanceDisplay = () => html`
+export function balanceDisplay() {
+  return  html`
   <div>
     Balance: ${TokenLogoIcon()}
     <span id="ricBalance" class="placeholder-item"></span>
     PolyRIC
   </div>
-`;
+`};
