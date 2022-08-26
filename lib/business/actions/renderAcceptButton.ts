@@ -26,7 +26,7 @@ export function renderAcceptOnCLick(props: State) {
   const acceptButton = getById("accept-button") as HTMLInputElement;
   const verifyButton = getById("verifyContract");
   verifyButton.onclick = function () {
-    const url = props.creatorAppLink + "?verify=" + location.origin;
+    const url = props.creatorAppLink + "?verify=" + location.href;
     newTab(url);
   };
 
@@ -88,7 +88,7 @@ export function renderAcceptOnCLick(props: State) {
     const onReceipt = async (receipt) => {
 
       await handlePost(props);
-      
+
       if (props.isERC20 !== null) {
         await watchAsset(props.isERC20, () => {
           dispatch_renderError(
