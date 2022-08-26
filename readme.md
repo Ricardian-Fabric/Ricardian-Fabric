@@ -52,8 +52,12 @@ and this for contract deployments
 
 ## Latest Deployments
 
+- 0.0.15 MAINNET
+- Refactored for better tree-shaking unused functions. DAO code is not bundled in the deployments anymore thanks to a new renderer object.
+- Deployments: https://uerbltns3zobfse6jwbig6fgicpbd2kosbred4g5dwzyjynkn5wq.arweave.net/oSIVzbLeXBLInk2Cg3imQJ4R6U6QYkHw3R2zhOGqb20
+
 - 0.0.14 MAINNET
-  Small updated, added logos to wallet connec button and when accepting contract. UI updates.
+  Small updates, added logos to wallet connec button and when accepting contract. UI updates.
 
   Deployments: https://ft6qu3qbcttheos6nuriqeopiow47flx2uyvra4s7sw33pdg7vha.arweave.net/LP0KbgEU5nI6Xm0iiBHPQ63PlXfVMViDkvytvbxm_U4
 
