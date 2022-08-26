@@ -328,6 +328,7 @@ export type CreatePageRenderer = {
   [RenderType.triggerConfiguration]: RenderFunction;
   [RenderType.setCommentPopup]: RenderFunction;
   [RenderType.trailsPage]: RenderFunction;
+  [RenderType.redirect]: RenderFunction;
 }
 
 export enum VerificationState {

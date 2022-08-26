@@ -3,7 +3,7 @@ import { attachExpiryClickAndListener } from "../business/actions/attachExpiryCl
 import { walletSelectListener } from "../business/actions/catalogActions";
 import { connectWalletButton } from "../business/actions/connectWalletButton";
 import { renderCreateButtonClick } from "../business/actions/createButtonClick";
-import { deployAgainButtonActions } from "../business/actions/deployAgainButton";
+import { deployAgainButtonActions, redirectAction } from "../business/actions/deployAgainButton";
 import { menuActions } from "../business/actions/menuActions";
 import { addChainButtonListener, networkSelectActions } from "../business/actions/networkSelectActions";
 import { docxImportBackButton, onDocFileDropped } from "../business/actions/onDocFileDropped";
@@ -15,7 +15,7 @@ import { verifyContractActions } from "../business/actions/verifyContractActions
 import { wrongNetworkActions } from "../business/actions/WrongNetworkActions";
 import { ContractTypes, CreatePageRenderer, Events, PopupState, RenderDispatchArgs, RenderType, State } from "../types";
 import { WinstonToAr } from "../wallet/arweave";
-import { assignSmartContractAddress, collapseSidebar, disableButton, disableButtonElement, disableCreateInputs, discardFile, emptyWalletDropper, enableButton, enableCreateInputs, handleDropdownClosing, hideElement, navigateToQueryString, openSidebarIfScreenIsBig, removeAcceptedButton, removeButtons, removeError, removeLoadingIndicator, removePopup, removeTransaction, renderAcceptButton, renderAcceptTools, renderAccordionOpener, renderAddCommentPopup, renderAddNewAccountPopup, renderArweaveSummaryTx, renderButtonSlotAlignment, renderConnectYourWallet, renderCreateButton, renderCreatePage, renderDocXDropper, renderError, renderLoadingIndicator, renderMenuPage, renderNetworkDropdown, renderPermawebDropdown, renderPSArweaveAddress, renderSanctionsDropdown, renderSelectedWallet, renderShowAccount, renderSidebar, renderSummary, renderSwitchAccounts, renderTemplatesDropdown, renderTooltips, renderTrailDataPage, renderTrailDetails, renderTrailsPage, renderTrailsTabs, renderTransaction, renderTransferPage, renderTransferSummaryPage, renderTxId, renderUploadFile, renderUploadStatus, renderUploadSummary, renderVerificationState, renderVerifyContractPopup, renderWalletPopup, render_wrongNetworkPopup, setCommentPopup, setCreatePageProps, triggerConfiguration, updatePromptError, updatePromptErrorDOCX, updatePromptSuccess, updatePromptSuccessDOCX } from "./render";
+import { assignSmartContractAddress, collapseSidebar, disableButton, disableButtonElement, disableCreateInputs, discardFile, emptyWalletDropper, enableButton, enableCreateInputs, handleDropdownClosing, hideElement, navigateToQueryString, openSidebarIfScreenIsBig, removeAcceptedButton, removeButtons, removeError, removeLoadingIndicator, removePopup, removeTransaction, renderAcceptButton, renderAcceptTools, renderAccordionOpener, renderAddCommentPopup, renderAddNewAccountPopup, renderArweaveSummaryTx, renderButtonSlotAlignment, renderConnectYourWallet, renderCreateButton, renderCreatePage, renderDocXDropper, renderError, renderLoadingIndicator, renderMenuPage, renderNetworkDropdown, renderPermawebDropdown, renderPSArweaveAddress, renderredirect, renderSanctionsDropdown, renderSelectedWallet, renderShowAccount, renderSidebar, renderSummary, renderSwitchAccounts, renderTemplatesDropdown, renderTooltips, renderTrailDataPage, renderTrailDetails, renderTrailsPage, renderTrailsTabs, renderTransaction, renderTransferPage, renderTransferSummaryPage, renderTxId, renderUploadFile, renderUploadStatus, renderUploadSummary, renderVerificationState, renderVerifyContractPopup, renderWalletPopup, render_wrongNetworkPopup, setCommentPopup, setCreatePageProps, triggerConfiguration, updatePromptError, updatePromptErrorDOCX, updatePromptSuccess, updatePromptSuccessDOCX } from "./render";
 import { changeContainerSlotStyle, setBannerDisplayBlock } from "./utils";
 
 function getCreateRenderer(): CreatePageRenderer {
@@ -299,6 +299,10 @@ function getCreateRenderer(): CreatePageRenderer {
         [RenderType.trailsPage]: async (props: RenderDispatchArgs) => {
             renderTrailsPage(props);
             await trailsPageActions(props);
+        },
+        [RenderType.redirect]: (props: { url: string }) => {
+            renderredirect();
+            redirectAction(props.url);
         },
     };
 }
