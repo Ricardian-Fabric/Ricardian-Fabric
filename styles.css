@@ -1228,3 +1228,7 @@ hr {
   display: flex;
   flex-direction: column;
 }
+
+#terms-checkbox-label{
+  cursor: pointer;
+}
