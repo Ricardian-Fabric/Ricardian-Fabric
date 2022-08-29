@@ -47,13 +47,21 @@ import {
   newTab,
   getDeployButton,
   getConfigurationButton,
+  getTermsCheckboxLabel,
 } from "../../view/utils";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import { BlockCountry } from "../countryBlock";
 import { getSignupContractWithoutWallet } from "../../wallet/signup/contractCalls";
 import { acceptedTerms, getTerms } from "../../wallet/catalogDAO/contractCalls";
-import { createContractIssueingTransaction, getProfitSharingAddresses, getProfitSharingTransaction } from "../../wallet/arweave";
-import { getSimpleTermsAbi, getSimpleTermsByteCode } from "../../wallet/abi/SimpleTerms";
+import {
+  createContractIssueingTransaction,
+  getProfitSharingAddresses,
+  getProfitSharingTransaction,
+} from "../../wallet/arweave";
+import {
+  getSimpleTermsAbi,
+  getSimpleTermsByteCode,
+} from "../../wallet/abi/SimpleTerms";
 
 export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   if (calledAt === RenderType.create) {
@@ -67,7 +75,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   }
 
   const termsCheckbox = getTermsCheckbox();
-
+  const termsCheckboxLabel = getTermsCheckboxLabel();
   const sameButton = getSameAsAboveButton();
 
   const deployButton = getDeployButton();
@@ -76,7 +84,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
 
   configButton.onclick = function () {
     dispatch_triggerConfiguration();
-  }
+  };
 
   sameButton.onclick = function () {
     const smartC = getSmartContract();
@@ -84,6 +92,12 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
       const ercSmartC = getERCSmartContractElement();
       ercSmartC.value = smartC;
     }
+  };
+
+  termsCheckboxLabel.onclick = async function (e) {
+    const signupContract = await getSignupContractWithoutWallet();
+    const contractURL = await getTerms(signupContract);
+    newTab(contractURL);
   };
 
   termsCheckbox.onclick = async function (e) {
@@ -113,7 +127,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     }
   };
 
-  deployButton.onclick = deploySimpleTerms
+  deployButton.onclick = deploySimpleTerms;
 
   getById("save-contract").onclick = async function () {
     const passwordEl = getById("wallet-password") as HTMLInputElement;
@@ -164,13 +178,16 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     const smartContract = getSmartContract();
 
     if (smartContract === "NONE") {
-      dispatch_renderError("You must connect a smart contract by adding the address in the contract configuration!");
+      dispatch_renderError(
+        "You must connect a smart contract by adding the address in the contract configuration!"
+      );
       return;
     }
 
-
     if (props.Account.data === null) {
-      dispatch_renderError("Open or Create the Permaweb Wallet to upload this contract!")
+      dispatch_renderError(
+        "Open or Create the Permaweb Wallet to upload this contract!"
+      );
       return;
     }
 
@@ -190,7 +207,9 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     if (smartContract !== "NONE") {
       const canUse = await canUseContract(smartContract, issuer);
       if (!canUse) {
-        dispatch_renderError("Invalid smart contract. Make sure you are on the correct network!");
+        dispatch_renderError(
+          "Invalid smart contract. Make sure you are on the correct network!"
+        );
         return;
       }
     }
@@ -202,7 +221,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     const ERC20 = JSON.stringify(ERC20ParamsOptions.data);
 
     //I need to create the hash from legalContract,createdDate,expires,redirectto,version,issuer,onlysigner,network
-    const hash = await getHash({
+    const hash = (await getHash({
       legalContract,
       createdDate,
       expires,
@@ -214,7 +233,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
       smartContract,
       blockedAddresses: blockedAddressOptions.data,
       ERC20,
-    }) as string;
+    })) as string;
 
     const password = passwordEl.value;
 
@@ -242,13 +261,14 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
           ERC20,
           creatorAppLink: location.origin + location.pathname,
           relatedtrail: trailEl.value,
-          trailAddress: trailArweaveAddressEl.value
+          trailAddress: trailArweaveAddressEl.value,
         },
       });
 
-
-
-      const decryptOptions = await decryptWallet(props.Account.data as ArrayBuffer, password);
+      const decryptOptions = await decryptWallet(
+        props.Account.data as ArrayBuffer,
+        password
+      );
 
       if (decryptOptions.status !== Status.Success) {
         dispatch_renderError(decryptOptions.error);
@@ -257,11 +277,20 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
         return;
       }
 
-      const pstAddress = await getProfitSharingAddresses()
+      const pstAddress = await getProfitSharingAddresses();
 
-      const tx = await createContractIssueingTransaction(page, props.version, decryptOptions.data, { issuer, network, contractType: "Acceptable" })
+      const tx = await createContractIssueingTransaction(
+        page,
+        props.version,
+        decryptOptions.data,
+        { issuer, network, contractType: "Acceptable" }
+      );
 
-      const tipTransaction = await getProfitSharingTransaction(pstAddress.to, decryptOptions.data, props.version)
+      const tipTransaction = await getProfitSharingTransaction(
+        pstAddress.to,
+        decryptOptions.data,
+        props.version
+      );
 
       dispatch_stashDetails({
         hash,
@@ -270,7 +299,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
         network,
         smartContract,
         arweaveTx: tx,
-        tipTransaction
+        tipTransaction,
       });
 
       dispatch_stashPage(page);
@@ -326,7 +355,6 @@ export function saveCreatePageData() {
   dispatch_setCreateRicardianState(ricardianPageProps);
 }
 
-
 export async function deploySimpleTerms() {
   const address = await getAddress();
 
@@ -335,12 +363,11 @@ export async function deploySimpleTerms() {
 
   const onError = (err, receipt) => {
     dispatch_renderError(err.message);
-  }
+  };
 
   const onReceipt = (receipt) => {
     dispatch_assignSmartContractAddress(receipt.contractAddress);
-  }
+  };
 
   await deployContract(abi, bytecode, address, [], onError, onReceipt);
-
 }

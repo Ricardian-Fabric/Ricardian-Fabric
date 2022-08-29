@@ -224,6 +224,10 @@ export function getTermsCheckbox(): HTMLInputElement {
   return getById("terms-checkbox") as HTMLInputElement;
 }
 
+export function getTermsCheckboxLabel(): HTMLInputElement {
+  return getById("terms-checkbox-label") as HTMLInputElement;
+}
+
 export function getDeployButton(): HTMLInputElement {
   return getById("deploy-simpleterms") as HTMLInputElement;
 }
