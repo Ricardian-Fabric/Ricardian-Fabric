@@ -15,7 +15,7 @@ export const ARWAEVECONFIG = {
   logger: console.log,
 };
 
-export const geArweaveIdUrl = (id) => `https://arweave.net/${id}`;
+export const geArweaveIdUrl = (id) => `https://app.ricardianfabric.com/${id}`;
 
 const arweave = Arweave.init(ARWAEVECONFIG);
 
@@ -45,10 +45,10 @@ export async function createFileTransaction(
 
 export async function createContractIssueingTransaction(
   data: any,
-  version: string, 
-  key: any, 
-  tags: { issuer: string, network: string, contractType: string }) {
-
+  version: string,
+  key: any,
+  tags: { issuer: string; network: string; contractType: string }
+) {
   const transaction = await arweave.createTransaction({ data }, key);
 
   transaction.addTag("Issuer", tags.issuer);
@@ -56,9 +56,9 @@ export async function createContractIssueingTransaction(
   transaction.addTag("Contract-Type", tags.contractType);
   transaction.addTag("App-Version", version);
   transaction.addTag("App-Name", "Ricardian Fabric");
-  transaction.addTag("Content-Type","text/html");
-  await arweave.transactions.sign(transaction,key);
-  
+  transaction.addTag("Content-Type", "text/html");
+  await arweave.transactions.sign(transaction, key);
+
   return transaction;
 }
 
