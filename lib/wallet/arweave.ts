@@ -15,7 +15,8 @@ export const ARWAEVECONFIG = {
   logger: console.log,
 };
 
-export const geArweaveIdUrl = (id) => `https://app.ricardianfabric.com/${id}`;
+export const geArweaveIdUrl = (id) =>
+  `https://app.ricardianfabric.com/contract/${id}`;
 
 const arweave = Arweave.init(ARWAEVECONFIG);
 
