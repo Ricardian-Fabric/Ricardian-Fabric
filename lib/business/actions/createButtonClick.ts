@@ -17,6 +17,7 @@ import {
   dispatch_setCreateRicardianState,
 } from "../../dispatch/stateChange";
 import {
+  ChainName,
   CreateRicardianPageProps,
   RenderType,
   State,
@@ -29,6 +30,7 @@ import {
   getNetwork,
   requestAccounts,
   signHash,
+  switchNetwork,
   web3Injected,
 } from "../../wallet/web3";
 import {
@@ -48,6 +50,7 @@ import {
   getDeployButton,
   getConfigurationButton,
   getTermsCheckboxLabel,
+  getUploadingWalletCheckboxes,
 } from "../../view/utils";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import { BlockCountry } from "../countryBlock";
@@ -62,6 +65,7 @@ import {
   getSimpleTermsAbi,
   getSimpleTermsByteCode,
 } from "../../wallet/abi/SimpleTerms";
+import { getContractIssueingTags, initialiseBundlr } from "../../wallet/bundlr";
 
 export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   if (calledAt === RenderType.create) {
@@ -73,6 +77,8 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     //Initialize the rest of the page!!
     dispatch_initializeCreateRicardian(props, props.createRicardianPageProps);
   }
+
+  const [bundlrCheckbox, burnerCheckbox] = getUploadingWalletCheckboxes();
 
   const termsCheckbox = getTermsCheckbox();
   const termsCheckboxLabel = getTermsCheckboxLabel();
@@ -184,11 +190,28 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
       return;
     }
 
-    if (props.Account.data === null) {
+    if (!bundlrCheckbox.checked && !burnerCheckbox.checked) {
       dispatch_renderError(
-        "Open or Create the Permaweb Wallet to upload this contract!"
+        "You need to select bundlr network or burner wallet in the upload configuration!"
       );
       return;
+    }
+
+    if (burnerCheckbox.checked) {
+      if (props.Account.data === null) {
+        dispatch_renderError(
+          "Open or Create the Permaweb Wallet to upload this contract!"
+        );
+        return;
+      }
+    }
+
+    if (bundlrCheckbox.checked) {
+      await switchNetwork(ChainName.Polygon, 0, "Mainnet").catch((err) => {
+        dispatch_renderError(
+          "You can only upload with Bundlr if you are connected to the Polygon Network."
+        );
+      });
     }
 
     const trailEl = getById("trail-input") as HTMLInputElement;
@@ -237,9 +260,11 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
 
     const password = passwordEl.value;
 
-    if (password.length < 8) {
-      dispatch_renderError("Missing password in Upload Configuation");
-      return;
+    if (burnerCheckbox.checked) {
+      if (password.length < 8) {
+        dispatch_renderError("Missing password in Upload Configuation");
+        return;
+      }
     }
 
     const signingSuccess = async (issuerSignature: string) => {
@@ -264,45 +289,32 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
           trailAddress: trailArweaveAddressEl.value,
         },
       });
-
-      const decryptOptions = await decryptWallet(
-        props.Account.data as ArrayBuffer,
-        password
-      );
-
-      if (decryptOptions.status !== Status.Success) {
-        dispatch_renderError(decryptOptions.error);
-        dispatch_enableButton(props);
-        dispatch_enableCreateInputs();
-        return;
+      if (burnerCheckbox.checked) {
+        await uploadWithBurnerWallet(
+          props,
+          password,
+          page,
+          issuer,
+          network,
+          hash,
+          issuerSignature,
+          smartContract
+        );
+      } else if (bundlrCheckbox.checked) {
+        try {
+          await uploadWithBundlr(
+            props,
+            page,
+            issuer,
+            network,
+            hash,
+            issuer,
+            smartContract
+          );
+        } catch (err) {
+          onSigningFailure(err.message);
+        }
       }
-
-      const pstAddress = await getProfitSharingAddresses();
-
-      const tx = await createContractIssueingTransaction(
-        page,
-        props.version,
-        decryptOptions.data,
-        { issuer, network, contractType: "Acceptable" }
-      );
-
-      const tipTransaction = await getProfitSharingTransaction(
-        pstAddress.to,
-        decryptOptions.data,
-        props.version
-      );
-
-      dispatch_stashDetails({
-        hash,
-        signerAddress: issuer,
-        signature: issuerSignature,
-        network,
-        smartContract,
-        arweaveTx: tx,
-        tipTransaction,
-      });
-
-      dispatch_stashPage(page);
     };
 
     const onSigningFailure = async (msg: string) => {
@@ -323,6 +335,116 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     dispatch_disableButton(props);
     dispatch_disableCreateInputs();
   };
+}
+
+async function uploadWithBundlr(
+  props: State,
+  page: string,
+  issuer: string,
+  network: string,
+  hash: string,
+  issuerSignature: string,
+  smartContract: string
+) {
+  const bundlrOptions = await initialiseBundlr();
+  if (bundlrOptions.status === Status.Failure) {
+    throw new Error("Unable to connect to bundlr network!");
+  }
+  const bundlr = bundlrOptions.data;
+
+  const tags = getContractIssueingTags(props.version, {
+    issuer,
+    network,
+    contractType: "Acceptable",
+  });
+  try {
+    const price = await bundlr.getPrice(page.length);
+    const balance = await bundlr.getLoadedBalance();
+    // Lazy Fund If you don't have enough balance for the upload
+    if (balance.isLessThan(price)) {
+      console.log("Balance is less than price");
+      throw new Error(
+        "Invalid Bundlr Balance. Top up using the Permaweb dropdown!"
+      );
+    }
+
+    const tx = bundlr.createTransaction(page, { tags });
+
+    await tx.sign();
+
+    dispatch_stashDetails({
+      hash,
+      signerAddress: issuer,
+      signature: issuerSignature,
+      network,
+      smartContract,
+      arweaveTx: tx,
+      isBundlr: true,
+      bundlr,
+      tipTransaction: null,
+      bundlrTxPrice: price,
+    });
+
+    dispatch_stashPage(page);
+  } catch (err) {
+    console.log(err);
+    throw new Error(
+      "Unable to create Bundlr transaction! Error: " + err.message
+    );
+  }
+}
+
+async function uploadWithBurnerWallet(
+  props: State,
+  password: string,
+  page: string,
+  issuer: string,
+  network: string,
+  hash: string,
+  issuerSignature: string,
+  smartContract: string
+) {
+  const decryptOptions = await decryptWallet(
+    props.Account.data as ArrayBuffer,
+    password
+  );
+
+  if (decryptOptions.status !== Status.Success) {
+    dispatch_renderError(decryptOptions.error);
+    dispatch_enableButton(props);
+    dispatch_enableCreateInputs();
+    return;
+  }
+
+  const pstAddress = await getProfitSharingAddresses();
+
+  const tx = await createContractIssueingTransaction(
+    page,
+    props.version,
+    decryptOptions.data,
+    { issuer, network, contractType: "Acceptable" }
+  );
+
+  const tipTransaction = await getProfitSharingTransaction(
+    pstAddress.to,
+    decryptOptions.data,
+    props.version
+  );
+
+  dispatch_stashDetails({
+    hash,
+    signerAddress: issuer,
+    signature: issuerSignature,
+    network,
+    smartContract,
+    arweaveTx: tx,
+    tipTransaction,
+    isBundlr: false,
+    bundlr: null,
+    bundlrTxPrice: null,
+  });
+
+  dispatch_stashPage(page);
 }
 
 export function saveCreatePageData() {
