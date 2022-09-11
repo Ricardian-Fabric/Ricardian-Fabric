@@ -244,6 +244,16 @@ export function getToMenuButton(): HTMLButtonElement {
   return getById("toMenuButton") as HTMLButtonElement;
 }
 
+export function getUploadingWalletCheckboxes(): [
+  HTMLInputElement,
+  HTMLInputElement
+] {
+  return [
+    getById("bundlrNetworkCheckbox") as HTMLInputElement,
+    getById("burnerWalletCheckbox") as HTMLInputElement,
+  ];
+}
+
 export function changeContainerSlotStyle(to: boolean) {
   const container = getById("action-container");
 
