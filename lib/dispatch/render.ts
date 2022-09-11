@@ -87,10 +87,7 @@ export function dispatch_removeLoadingIndicator(from: string) {
   });
 }
 
-export function dispatch_renderTransaction(
-  props: State,
-  url: string
-) {
+export function dispatch_renderTransaction(props: State, url: string) {
   dispatch(Events.render, {
     type: RenderType.transaction,
     props: { ...props, url },
@@ -636,7 +633,6 @@ export function dispatch_renderLoadedValue(
   });
 }
 
-
 export function dispatch_enableStakingButtons(
   props: State,
   enableStakingButton: boolean,
@@ -842,7 +838,6 @@ export function dispatch_navigateTo(
     props: { tmp: { secondValue, value, queryStrings } },
   });
 }
-
 
 export function dispatch_emptyPopup(props: State) {
   dispatch(Events.render, {
@@ -1050,16 +1045,32 @@ export function dispatch_uploadFrontendPopup(props: State, url: string) {
   });
 }
 
-export function dispatch_assignSmartContractAddress(address){
-  dispatch(Events.render,{
+export function dispatch_assignSmartContractAddress(address) {
+  dispatch(Events.render, {
     type: RenderType.assignSmartContractAddress,
-    props:{tmp: {address}}
-  })
+    props: { tmp: { address } },
+  });
 }
 
-export function dispatch_triggerConfiguration(){
-  dispatch(Events.render,{
+export function dispatch_triggerConfiguration() {
+  dispatch(Events.render, {
     type: RenderType.triggerConfiguration,
-    props: {}
-  })
+    props: {},
+  });
+}
+export function dispatch_bundlrNetworkPopup(props: State) {
+  dispatch(Events.render, {
+    type: RenderType.bundlrNetworkPopup,
+    props: { ...props },
+  });
+}
+
+export function dispatch_bundlrNetworkDetails(
+  props: State,
+  values: { loadedBalance: string; bundlr: any }
+) {
+  dispatch(Events.render, {
+    type: RenderType.bundlrNetworkDetails,
+    props: { ...props, tmp: { values } },
+  });
 }
