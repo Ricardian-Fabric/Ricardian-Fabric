@@ -54,7 +54,6 @@ import {
   dispatch_setNewAccount,
   dispatch_setPage,
   dispatch_setPopupState,
-
 } from "../../dispatch/stateChange";
 import { hasError } from "../utils";
 import { getAddress } from "../../wallet/web3";
@@ -78,8 +77,14 @@ export function permawebSelectActions(props: State) {
 
   const uploadFile = getById("upload-popup-button");
   const Account = getById("Account-popup-button");
+  const bundlr = getById("bundlr-popup-button");
   const uploadProposal = getById("upload-proposal-button");
   const comment = getById("upload-comment");
+
+  bundlr.onclick = function () {
+    dispatch_setPopupState(PopupState.bundlrNetwork);
+    permawebCheckboxToggle.checked = false;
+  };
 
   comment.onclick = function () {
     dispatch_setPopupState(PopupState.AddComment);
@@ -95,11 +100,6 @@ export function permawebSelectActions(props: State) {
     dispatch_setPopupState(PopupState.UploadFile);
     permawebCheckboxToggle.checked = false;
   };
-
-
-
-
-
 
   Account.onclick = async function () {
     if (props.Account === null) {
@@ -135,7 +135,6 @@ export function uploadFileListener(props: State) {
   };
 
   uploadButton.onclick = async function () {
-
     if (fileInput.files === null) {
       dispatch_renderError("You need to select a file to upload!");
       return;
@@ -158,7 +157,10 @@ export function uploadFileListener(props: State) {
       return;
     }
 
-    const decryptOptions = await decryptWallet(props.Account.data as ArrayBuffer, password);
+    const decryptOptions = await decryptWallet(
+      props.Account.data as ArrayBuffer,
+      password
+    );
 
     if (decryptOptions.status !== Status.Success) {
       dispatch_renderError(decryptOptions.error);
@@ -315,8 +317,6 @@ export function uploadSummaryActions(
     }
   };
 }
-
-
 
 export function walletCreateActions(props: State) {
   let accordionOpen = false;
@@ -530,7 +530,7 @@ export function switchAccountsActions(props: State) {
     const fileNotSelected = "You need to select the file.";
 
     if (walletInput.files === null) {
-      dispatch_renderError(fileNotSelected)
+      dispatch_renderError(fileNotSelected);
       return;
     }
 
@@ -617,7 +617,10 @@ export async function transferPageActions(props: State) {
       dispatch_renderError("You must accept the terms.");
       return;
     }
-    const decryptOptions = await decryptWallet(props.Account.data as ArrayBuffer, password);
+    const decryptOptions = await decryptWallet(
+      props.Account.data as ArrayBuffer,
+      password
+    );
 
     if (decryptOptions.status !== Status.Success) {
       dispatch_renderError(decryptOptions.error);
