@@ -51,6 +51,7 @@ import {
   getById,
   getPromptEl,
   getPromptElDOCX,
+  getUploadingWalletCheckboxes,
   setBannerDisplayBlock,
   setBannerDisplayNone,
 } from "./utils";
@@ -96,10 +97,7 @@ import {
 import { WrongNetworkPopup } from "./templates/popups/WrongNetworkPopup";
 import { DaoTermsPopup } from "./templates/popups/DaoTermsPopup";
 import { ConnectWalletPage } from "./templates/pages/connectWalletPage";
-import {
-  DashboardPage,
-  loadedValueEl,
-} from "./templates/pages/dashboardPage";
+import { DashboardPage, loadedValueEl } from "./templates/pages/dashboardPage";
 import {
   FeeDaoPage,
   proposeTokenPopup,
@@ -114,7 +112,12 @@ import {
   TrailData,
   TrailsPage,
 } from "./templates/pages/trailsPage";
-import { ManageAccountLogo, ToyBlocks } from "./templates/components/logos";
+import {
+  contractConfigLogo,
+  ContractConfigurationLogo,
+  ManageAccountLogo,
+  ToyBlocks,
+} from "./templates/components/logos";
 import {
   CollectRewardsPage,
   getSelected,
@@ -132,6 +135,10 @@ import {
 import { smartContractProductPage } from "./templates/components/smartContractProductPage";
 import DOMPurify from "dompurify";
 import { uploadNewFrontEndTemplate } from "./templates/popups/uploadFrontend";
+import {
+  BundlerLoadedPopup,
+  BundlerNetworkLoadingPopup,
+} from "./templates/popups/bundlerWallet";
 
 export function renderConnectYourWallet(props: State) {
   const page = getById("page");
@@ -183,6 +190,20 @@ export function renderSidebar(props: State) {
 export function renderCreatePage() {
   const page = getById("page");
   render(CreatePage(), page);
+  const [bundlrCheckbox, burnerCheckbox] = getUploadingWalletCheckboxes();
+  const walletPasswordInput = getById("wallet-password") as HTMLInputElement;
+  bundlrCheckbox.onclick = function () {
+    if (bundlrCheckbox.checked) {
+      burnerCheckbox.checked = false;
+      walletPasswordInput.disabled = true;
+    }
+  };
+  burnerCheckbox.onclick = function () {
+    if (burnerCheckbox.checked) {
+      bundlrCheckbox.checked = false;
+      walletPasswordInput.disabled = false;
+    }
+  };
 }
 
 export function renderCatalogPage() {
@@ -207,7 +228,6 @@ export function renderTrailsPage(props: State) {
   const page = getById("page");
   render(TrailsPage(), page);
 }
-
 
 export function renderAcceptTools(props: State) {
   const actionContainer = getById("action-container");
@@ -356,7 +376,10 @@ export function renderTooltips() {
   const erc20Address = getById("erc20-address-tooltip");
   const burnerWalletTooltip = getById("burner-wallet-tooltip");
 
-  render(helperTooltips("The password of your burner wallet!"), burnerWalletTooltip);
+  render(
+    helperTooltips("The password of your burner wallet!"),
+    burnerWalletTooltip
+  );
 
   render(
     helperTooltips(
@@ -373,7 +396,9 @@ export function renderTooltips() {
   );
   render(helperTooltips("The contract expires always at midnight"), expires);
   render(
-    helperTooltips("A button to redirect here will appear on the signed contract. Leave empty if not used"),
+    helperTooltips(
+      "A button to redirect here will appear on the signed contract. Leave empty if not used"
+    ),
     redirectto
   );
 
@@ -802,6 +827,14 @@ export function renderWalletPopup() {
   const layout = getById("overlay-layout");
   render(WalletPopup(), layout);
 }
+export function renderBundlrPopup() {
+  setBannerDisplayBlock();
+  const layout = getById("overlay-layout");
+  console.log("bundlr network popup rendering");
+  render(html`nothing`, layout);
+  render(BundlerNetworkLoadingPopup(), layout);
+}
+
 export function renderAddNewAccountPopup(account: Blob, address: string) {
   const layout = getById("overlay-layout");
   render(AddNewAccountPopup(address), layout);
@@ -1708,10 +1741,21 @@ export function triggerConfiguration() {
   if (createPageOne.style.display === "none") {
     createPageTwo.style.display = "none";
     createPageOne.style.display = "block";
-    render(html`${ManageAccountLogo()} Configure`, toggleConfigurationPage);
+    render(
+      html`${contractConfigLogo("30")} Configure`,
+      toggleConfigurationPage
+    );
   } else if (createPageOne.style.display === "block") {
     createPageOne.style.display = "none";
-    render(html`${ManageAccountLogo()} Edit Contract`, toggleConfigurationPage);
+    render(
+      html`${contractConfigLogo("30")} Edit Contract`,
+      toggleConfigurationPage
+    );
     createPageTwo.style.display = "block";
   }
+}
+
+export function renderBundlrDetails(loadedBalance: string) {
+  const containerEl = getById("detailsContainer");
+  render(BundlerLoadedPopup(loadedBalance), containerEl);
 }
