@@ -2,10 +2,10 @@ import { html } from "lit-html";
 import {
   AcceptedSmartContractLogo,
   ContentPasteLogo,
+  contractConfigLogo,
   Erc20Logo,
   HourglassLogo,
   importLogo,
-  ManageAccountLogo,
   neverLogo,
   SmartContractLogo,
   TrailsLogo,
@@ -20,7 +20,7 @@ export function CreatePage() {
       <div id="permaweb-dropdown"></div>
       <hr />
       <button id="toggle-configuration-page" class="labelButton light-shadow">
-        ${ManageAccountLogo()} Configure
+        ${contractConfigLogo("30")} Configure
       </button>
       <button id="import-docx-trigger" class="labelButton">
         ${importLogo()} Import template
@@ -360,8 +360,19 @@ export function CreatePage() {
             <th></th>
           </tr>
           <tr>
-            <td><label>Burner Wallet Password:</label></td>
-            <td><input type="password" id="wallet-password" /></td>
+            <td>
+              <label>Bundlr Network: </label
+              ><input id="bundlrNetworkCheckbox" checked type="checkbox" />
+            </td>
+            <td></td>
+            <td><span id="bundlr-network-tooltip" /></td>
+          </tr>
+          <tr>
+            <td>
+              <label>Burner Wallet Password: </label>
+              <input id="burnerWalletCheckbox" type="checkbox" />
+            </td>
+            <td><input disabled type="password" id="wallet-password" /></td>
             <td><span id="burner-wallet-tooltip"></span></td>
           </tr>
           <tr>
