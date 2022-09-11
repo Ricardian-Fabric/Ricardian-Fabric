@@ -147,7 +147,9 @@ export enum RenderType {
   setCommentPopup = "setCommentPopup",
   uploadFrontendPopup = "uploadFrontendPopup",
   assignSmartContractAddress = "assignSmartContractAddress",
-  triggerConfiguration = "triggerConfiguration"
+  triggerConfiguration = "triggerConfiguration",
+  bundlrNetworkPopup = "bundlrNetworkPopup",
+  bundlrNetworkDetails = "bundlrNetworkDetails",
 }
 
 // TODO refactor to RenderDispatchArgs for specifying the dispatch arguments
@@ -267,6 +269,8 @@ export type Renderer = {
   [RenderType.uploadFrontendPopup]: RenderFunction;
   [RenderType.assignSmartContractAddress]: RenderFunction;
   [RenderType.triggerConfiguration]: RenderFunction;
+  [RenderType.bundlrNetworkPopup]: RenderFunction;
+  [RenderType.bundlrNetworkDetails]: RenderFunction;
 };
 
 export type CreatePageRenderer = {
@@ -329,7 +333,9 @@ export type CreatePageRenderer = {
   [RenderType.setCommentPopup]: RenderFunction;
   [RenderType.trailsPage]: RenderFunction;
   [RenderType.redirect]: RenderFunction;
-}
+  [RenderType.bundlrNetworkPopup]: RenderFunction;
+  [RenderType.bundlrNetworkDetails]: RenderFunction;
+};
 
 export enum VerificationState {
   success,
@@ -403,10 +409,12 @@ export type StashedDetails = {
   signature: string;
   network: string;
   smartContract: string;
-  arweaveTx: any,
-  tipTransaction: any
+  arweaveTx: any;
+  tipTransaction: any;
+  isBundlr: boolean;
+  bundlr: any;
+  bundlrTxPrice: string | null;
 };
-
 
 export type ERC20Params = {
   name: string;
@@ -441,6 +449,7 @@ export enum PopupState {
   AddComment,
   emptyPopup,
   contractDeployed,
+  bundlrNetwork,
 }
 
 export enum PageState {
@@ -457,12 +466,12 @@ export enum PageState {
   tokenSale,
   vault,
   trails,
-  rewards
+  rewards,
 }
 
 export type State = {
   init: boolean;
-  Account: Account | { data: null, address: null, balance: null };
+  Account: Account | { data: null; address: null; balance: null };
   editor: any;
   domParser: DOMParser;
   selectedDate: Date | string;
