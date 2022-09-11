@@ -131,6 +131,7 @@ import {
   render_uploadFrontendPopup,
   assignSmartContractAddress,
   triggerConfiguration,
+  renderBundlrPopup,
 } from "./render";
 import { renderAcceptTools } from "./render";
 import { areYouSureButtons } from "../business/actions/areYouSureButtons";
@@ -223,6 +224,7 @@ import {
   onRewardTokenRowClicks,
   tokenWithdrawActions,
 } from "../business/actions/collectRewardsPageActions";
+import { bundlrNetworkActions } from "../business/actions/bundlerNetworkActions";
 
 function Render(): Renderer {
   return {
@@ -441,7 +443,7 @@ function Render(): Renderer {
       renderTransferSummaryPage(props.tmp);
       transferSummaryPageActions(props);
     },
-    [RenderType.hidePopup]: ({ }) => {
+    [RenderType.hidePopup]: ({}) => {
       removePopup();
     },
     [RenderType.hideElement]: (props: { el: HTMLElement; hide: boolean }) => {
@@ -566,7 +568,9 @@ function Render(): Renderer {
         props.tmp.page[2].proposals
       );
     },
-    [RenderType.renderMyRemovalProposals]: async (props: RenderDispatchArgs) => {
+    [RenderType.renderMyRemovalProposals]: async (
+      props: RenderDispatchArgs
+    ) => {
       renderMyRemovalProposals(
         props.tmp.page[0],
         props.tmp.page[1],
@@ -741,7 +745,9 @@ function Render(): Renderer {
     [RenderType.teardownContractDisplay]: (props: RenderDispatchArgs) => {
       renderTeardownContractDisplay();
     },
-    [RenderType.renderVoteOnSmartContract]: async (props: RenderDispatchArgs) => {
+    [RenderType.renderVoteOnSmartContract]: async (
+      props: RenderDispatchArgs
+    ) => {
       renderVoteOnSmartContract(props.tmp.accepted, props.tmp.contractIndex);
       await votingOnContractActions(
         props,
@@ -790,7 +796,9 @@ function Render(): Renderer {
       );
       catalogContentActions(props);
     },
-    [RenderType.catalogContentLoadingIndicator]: (props: RenderDispatchArgs) => {
+    [RenderType.catalogContentLoadingIndicator]: (
+      props: RenderDispatchArgs
+    ) => {
       renderCatalogContentLoadingIndicator();
     },
     [RenderType.feeTokenRow]: (props: RenderDispatchArgs) => {
@@ -839,9 +847,14 @@ function Render(): Renderer {
     },
     [RenderType.triggerConfiguration]: (props: RenderDispatchArgs) => {
       triggerConfiguration();
-    }
-  }
-};
+    },
+    [RenderType.bundlrNetworkPopup]: async (props: RenderDispatchArgs) => {
+      renderBundlrPopup();
+      await bundlrNetworkActions(props);
+    },
+    [RenderType.bundlrNetworkDetails]: async (props: RenderDispatchArgs) => {},
+  };
+}
 
 export function RenderAll() {
   document.body.addEventListener(Events.render, async (e: any) => {
@@ -850,4 +863,3 @@ export function RenderAll() {
     await Render[type](props);
   });
 }
-
