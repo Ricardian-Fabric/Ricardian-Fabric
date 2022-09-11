@@ -3,14 +3,12 @@ import { ContractTypes, PageState } from "../../../types";
 import {
   arweaveLogo,
   BallotLogo,
+  bundlrNetworkLogo,
   CommentLogo,
   uploadLogo,
 } from "../components/logos";
 
-export function PermawebDropdown(
-  contractType: ContractTypes,
-  page: PageState
-) {
+export function PermawebDropdown(contractType: ContractTypes, page: PageState) {
   return html`
     <input type="checkbox" id="permaweb_checkbox_toggle" class="dropdown_checkbox_toggle" />
     <button class="labelButton dropdown_checkbox_label lightCoral-shadow" id="permaweb_checkbox_button"
@@ -23,10 +21,11 @@ export function PermawebDropdown(
           <span class="fire">🔥</span>
           <small> Burner Wallet</small>
       </li>
+      
       ${getDropdowns(contractType, page)}
     </ul>
   `;
-};
+}
 
 function getDropdowns(contractType: ContractTypes, page: PageState) {
   switch (contractType) {
@@ -34,6 +33,12 @@ function getDropdowns(contractType: ContractTypes, page: PageState) {
       switch (page) {
         case PageState.CreateRicardian:
           return html`
+            <li>
+              <button id="bundlr-popup-button" class="dropdown-button">
+                <span class="">${bundlrNetworkLogo("15")}</span>
+                <small> Bundlr Network</small>
+              </button>
+            </li>
             <li>
               <button id="upload-popup-button" class="dropdown-button">
                 <small>${uploadLogo("24px", "24px")} Upload File</small>
@@ -55,15 +60,15 @@ function getDropdowns(contractType: ContractTypes, page: PageState) {
           `;
         case PageState.trails:
           return html`<li>
-  <button id="upload-popup-button" class="dropdown-button">
-    <small>${uploadLogo("24px", "24px")} Upload File</small>
-  </button>
-</li>
-<li>
-  <button class="dropdown-button" id="upload-comment">
-    <small>${CommentLogo()} Add Comment</small>
-  </button>
-</li>`;
+              <button id="upload-popup-button" class="dropdown-button">
+                <small>${uploadLogo("24px", "24px")} Upload File</small>
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-button" id="upload-comment">
+                <small>${CommentLogo()} Add Comment</small>
+              </button>
+            </li>`;
         default:
           break;
       }
