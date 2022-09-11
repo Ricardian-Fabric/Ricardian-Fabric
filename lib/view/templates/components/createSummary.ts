@@ -1,17 +1,45 @@
 import { html, nothing } from "lit-html";
 import { ContractTypes, State } from "../../../types";
 import { WinstonToAr } from "../../../wallet/arweave";
-import { arweaveLogo } from "./logos";
+import { arweaveLogo, bundlrNetworkLogo } from "./logos";
 
 export function CreateSummary(props: State) {
-  let feeInWinston = parseFloat(props.stashedDetails?.arweaveTx.reward);
-  feeInWinston += parseFloat(props.stashedDetails?.tipTransaction.reward);
-  feeInWinston += parseFloat(props.stashedDetails?.tipTransaction.quantity);
-
   const centerText =
     props.contracttype === ContractTypes.create
       ? "Are you sure you want to deploy this Ricardian Contract?"
       : "Are you sure you want to sign this contract?";
+
+  const burnerWalletTransaction = () => {
+    let feeInWinston = parseFloat(props.stashedDetails?.arweaveTx.reward);
+    feeInWinston += parseFloat(props.stashedDetails?.tipTransaction.reward);
+    feeInWinston += parseFloat(props.stashedDetails?.tipTransaction.quantity);
+
+    return html`<tr>
+      <td>
+        <label>Arweave Transaction Fee: </label>
+      </td>
+      <td>
+        <label>${WinstonToAr(feeInWinston.toString())} ${arweaveLogo()}</label>
+      </td>
+    </tr>`;
+  };
+
+  const bundlrTransaction = () => {
+    const price = props.stashedDetails?.bundlrTxPrice as any;
+    const bundlr = props.stashedDetails?.bundlr as any;
+    const eth = bundlr.utils.unitConverter(price);
+
+    return html`
+      <tr>
+        <td>
+          <label>Bundlr Transaction Fee: (Matic)</label>
+        </td>
+        <td>
+          <label>${eth}${bundlrNetworkLogo("40")}</label>
+        </td>
+      </tr>
+    `;
+  };
 
   return html`
     <style>
@@ -34,9 +62,9 @@ export function CreateSummary(props: State) {
         background: black;
         color: white;
       }
-      #yes-button:hover{
-       transform: scale(1.01);
-       background-color: #ccc;
+      #yes-button:hover {
+        transform: scale(1.01);
+        background-color: #ccc;
       }
 
       .details-container {
@@ -57,26 +85,21 @@ export function CreateSummary(props: State) {
       }
     </style>
     <h3 class="centerText">${centerText}</h3>
- <hr/>
- ${props.contracttype === ContractTypes.create ? html`
- <table class="center">
-  <tr>
-    <td>
-      <label>Arweave Transaction Fee: </label>
-    </td>
-    <td>
-      <label>${WinstonToAr(feeInWinston.toString())} ${arweaveLogo()}</label>
-    </td>
-  </tr>
-</table>` : nothing}
+    <hr />
+    ${props.contracttype === ContractTypes.create
+      ? html` <table class="center">
+          ${props.stashedDetails?.isBundlr
+            ? bundlrTransaction()
+            : burnerWalletTransaction()}
+        </table>`
+      : nothing}
 
- <hr/>
+    <hr />
     <div class="details-container">
-
       <div class="button-row">
         <button id="no-button" class="width-100">No</button>
         <button class="width-100" id="yes-button">Yes</button>
       </div>
     </div>
   `;
-};
+}
