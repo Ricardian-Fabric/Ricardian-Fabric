@@ -2,6 +2,7 @@ import { saveCreatePageData } from "../business/actions/createButtonClick";
 import {
   dispatch_addCommentPopup,
   dispatch_attachDateClickListener,
+  dispatch_bundlrNetworkPopup,
   dispatch_catalogPage,
   dispatch_collectRewardPage,
   dispatch_ConnectYourWalletPage,
@@ -92,17 +93,15 @@ export const setStateHook = {
         dispatch_renderDocXDropper(clone);
         break;
       case PopupState.ShowAccount:
-
-         // If the current page is createRicardian then the page should be saved in memory and reloaded later
-
-         if(clone.pageState === PageState.CreateRicardian){
-
-         }
+        // If the current page is createRicardian then the page should be saved in memory and reloaded later
+        // TODO:
+        if (clone.pageState === PageState.CreateRicardian) {
+        }
 
         dispatch_showAccountPopup(
           clone,
-          clone.Account.balance,
-          clone.Account.address
+          clone.Account.balance as string,
+          clone.Account.address as string
         );
         break;
       case PopupState.NewAccount:
@@ -142,6 +141,9 @@ export const setStateHook = {
         break;
       case PopupState.contractDeployed:
         dispatch_contractDeployedPopup(clone);
+        break;
+      case PopupState.bundlrNetwork:
+        dispatch_bundlrNetworkPopup(clone);
         break;
       default:
         break;
@@ -211,7 +213,7 @@ export const setStateHook = {
       case PageState.rewards:
         dispatch_collectRewardPage(clone);
         break;
-     default:
+      default:
         break;
     }
   },
@@ -234,10 +236,22 @@ export function beforePageSetHook(prevPageState: PageState) {
   }
 }
 
-export function popupSetHook(prevPopupState: PopupState,currentPopupState : PopupState, currentPage :PageState ){
-  if(prevPopupState === PopupState.ShowAccount && currentPopupState === PopupState.NONE && currentPage === PageState.CreateRicardian){
+export function popupSetHook(
+  prevPopupState: PopupState,
+  currentPopupState: PopupState,
+  currentPage: PageState
+) {
+  if (
+    prevPopupState === PopupState.ShowAccount &&
+    currentPopupState === PopupState.NONE &&
+    currentPage === PageState.CreateRicardian
+  ) {
     dispatch_setPage(PageState.CreateRicardian);
-} else if (prevPopupState === PopupState.NONE && currentPopupState === PopupState.ShowAccount && currentPage === PageState.CreateRicardian){
+  } else if (
+    prevPopupState === PopupState.NONE &&
+    currentPopupState === PopupState.ShowAccount &&
+    currentPage === PageState.CreateRicardian
+  ) {
     saveCreatePageData();
   }
 }
