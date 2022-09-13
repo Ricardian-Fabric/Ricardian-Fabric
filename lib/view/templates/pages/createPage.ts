@@ -1,12 +1,15 @@
 import { html } from "lit-html";
 import {
   AcceptedSmartContractLogo,
+  arweaveLogo,
+  bundlrNetworkLogo,
   ContentPasteLogo,
   contractConfigLogo,
   Erc20Logo,
   HourglassLogo,
   importLogo,
   neverLogo,
+  PolygonLogoSizeable,
   SmartContractLogo,
   TrailsLogo,
   uploadLogo,
@@ -361,7 +364,9 @@ export function CreatePage() {
           </tr>
           <tr>
             <td>
-              <label>Bundlr Network: </label
+              <label
+                >Bundlr Network: ${bundlrNetworkLogo("20")}
+                ${PolygonLogoSizeable("30")}</label
               ><input id="bundlrNetworkCheckbox" checked type="checkbox" />
             </td>
             <td></td>
@@ -369,7 +374,7 @@ export function CreatePage() {
           </tr>
           <tr>
             <td>
-              <label>Burner Wallet Password: </label>
+              <label>Burner Wallet Password: ${arweaveLogo()}</label>
               <input id="burnerWalletCheckbox" type="checkbox" />
             </td>
             <td><input disabled type="password" id="wallet-password" /></td>
