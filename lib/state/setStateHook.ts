@@ -7,6 +7,7 @@ import {
   dispatch_collectRewardPage,
   dispatch_ConnectYourWalletPage,
   dispatch_contractDeployedPopup,
+  dispatch_createMissingContractDeployPopup,
   dispatch_dismissSidebar,
   dispatch_emptyPopup,
   dispatch_feeProposals,
@@ -144,6 +145,9 @@ export const setStateHook = {
         break;
       case PopupState.bundlrNetwork:
         dispatch_bundlrNetworkPopup(clone);
+        break;
+      case PopupState.confirmContractDeployment:
+        dispatch_createMissingContractDeployPopup(clone);
         break;
       default:
         break;

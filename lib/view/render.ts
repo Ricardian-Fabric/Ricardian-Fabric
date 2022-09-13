@@ -139,6 +139,7 @@ import {
   BundlerLoadedPopup,
   BundlerNetworkLoadingPopup,
 } from "./templates/popups/bundlerWallet";
+import { missingContractPopup } from "./templates/popups/deployMissingContractPopup";
 
 export function renderConnectYourWallet(props: State) {
   const page = getById("page");
@@ -375,7 +376,9 @@ export function renderTooltips() {
   const erc20DecimalTooltip = getById("erc20-decimal-tooltip");
   const erc20Address = getById("erc20-address-tooltip");
   const burnerWalletTooltip = getById("burner-wallet-tooltip");
+  const bundlrWalletTooltip = getById("bundlr-network-tooltip");
 
+  render(helperTooltips("Currently only supports MATIC"), bundlrWalletTooltip);
   render(
     helperTooltips("The password of your burner wallet!"),
     burnerWalletTooltip
@@ -830,7 +833,6 @@ export function renderWalletPopup() {
 export function renderBundlrPopup() {
   setBannerDisplayBlock();
   const layout = getById("overlay-layout");
-  console.log("bundlr network popup rendering");
   render(html`nothing`, layout);
   render(BundlerNetworkLoadingPopup(), layout);
 }
@@ -1758,4 +1760,11 @@ export function triggerConfiguration() {
 export function renderBundlrDetails(loadedBalance: string) {
   const containerEl = getById("detailsContainer");
   render(BundlerLoadedPopup(loadedBalance), containerEl);
+}
+
+export function renderMissingContractDeployPopup() {
+  setBannerDisplayBlock();
+  const layout = getById("overlay-layout");
+
+  render(missingContractPopup(), layout);
 }

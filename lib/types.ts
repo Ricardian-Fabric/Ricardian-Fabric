@@ -150,6 +150,7 @@ export enum RenderType {
   triggerConfiguration = "triggerConfiguration",
   bundlrNetworkPopup = "bundlrNetworkPopup",
   bundlrNetworkDetails = "bundlrNetworkDetails",
+  createMissingContractDeployPopup = "createMissingContractDeployPopup",
 }
 
 // TODO refactor to RenderDispatchArgs for specifying the dispatch arguments
@@ -335,6 +336,7 @@ export type CreatePageRenderer = {
   [RenderType.redirect]: RenderFunction;
   [RenderType.bundlrNetworkPopup]: RenderFunction;
   [RenderType.bundlrNetworkDetails]: RenderFunction;
+  [RenderType.createMissingContractDeployPopup]: RenderFunction;
 };
 
 export enum VerificationState {
@@ -450,6 +452,7 @@ export enum PopupState {
   emptyPopup,
   contractDeployed,
   bundlrNetwork,
+  confirmContractDeployment,
 }
 
 export enum PageState {

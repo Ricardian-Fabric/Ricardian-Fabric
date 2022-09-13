@@ -1074,3 +1074,10 @@ export function dispatch_bundlrNetworkDetails(
     props: { ...props, tmp: { values } },
   });
 }
+
+export function dispatch_createMissingContractDeployPopup(props: State) {
+  dispatch(Events.render, {
+    type: RenderType.createMissingContractDeployPopup,
+    props: { ...props },
+  });
+}

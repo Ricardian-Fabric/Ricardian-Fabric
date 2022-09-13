@@ -10,6 +10,7 @@ import {
   dispatch_initializeCreateRicardian,
   dispatch_assignSmartContractAddress,
   dispatch_triggerConfiguration,
+  dispatch_createMissingContractDeployPopup,
 } from "../../dispatch/render";
 import {
   dispatch_stashPage,
@@ -27,7 +28,9 @@ import {
   canUseContract,
   deployContract,
   getAddress,
+  getChainid,
   getNetwork,
+  isPolygonMainnet,
   requestAccounts,
   signHash,
   switchNetwork,
@@ -183,13 +186,6 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     const issuer = await getAddress();
     const smartContract = getSmartContract();
 
-    if (smartContract === "NONE") {
-      dispatch_renderError(
-        "You must connect a smart contract by adding the address in the contract configuration!"
-      );
-      return;
-    }
-
     if (!bundlrCheckbox.checked && !burnerCheckbox.checked) {
       dispatch_renderError(
         "You need to select bundlr network or burner wallet in the upload configuration!"
@@ -207,11 +203,29 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
     }
 
     if (bundlrCheckbox.checked) {
-      await switchNetwork(ChainName.Polygon, 0, "Mainnet").catch((err) => {
+      const chainId = await getChainid();
+      const correctChain = isPolygonMainnet(chainId);
+      if (!correctChain) {
         dispatch_renderError(
-          "You can only upload with Bundlr if you are connected to the Polygon Network."
+          "You can only use Bundlr network on Polygon! To use other network change your uploading configuration!"
         );
-      });
+
+        await switchNetwork(ChainName.Polygon, 0, "Mainnet").catch((err) => {
+          dispatch_renderError(
+            "You can only upload with Bundlr if you are connected to the Polygon Network."
+          );
+        });
+        return;
+      }
+    }
+    // The check for the smart contract is after the network switches to bundlr network so we don't end up deploying twice by accident!
+    if (smartContract === "NONE") {
+      dispatch_createMissingContractDeployPopup(props);
+
+      dispatch_renderError(
+        "You must connect a smart contract by adding the address in the contract configuration!"
+      );
+      return;
     }
 
     const trailEl = getById("trail-input") as HTMLInputElement;

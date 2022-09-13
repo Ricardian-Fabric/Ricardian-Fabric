@@ -12,6 +12,7 @@ import {
   redirectAction,
 } from "../business/actions/deployAgainButton";
 import { menuActions } from "../business/actions/menuActions";
+import { missingContractDeployActions } from "../business/actions/missingContractDeployActions";
 import {
   addChainButtonListener,
   networkSelectActions,
@@ -88,6 +89,7 @@ import {
   renderError,
   renderLoadingIndicator,
   renderMenuPage,
+  renderMissingContractDeployPopup,
   renderNetworkDropdown,
   renderPermawebDropdown,
   renderPSArweaveAddress,
@@ -428,6 +430,12 @@ function getCreateRenderer(): CreatePageRenderer {
     [RenderType.bundlrNetworkDetails]: async (props: RenderDispatchArgs) => {
       renderBundlrDetails(props.tmp.values.loadedBalance);
       bundlrDetailsActions(props, props.tmp.values.bundlr);
+    },
+    [RenderType.createMissingContractDeployPopup]: async (
+      props: RenderDispatchArgs
+    ) => {
+      renderMissingContractDeployPopup();
+      missingContractDeployActions();
     },
   };
 }
