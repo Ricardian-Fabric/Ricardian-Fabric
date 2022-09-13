@@ -35,6 +35,12 @@ export async function requestAccounts() {
   await window.ethereum.request({ method: "eth_requestAccounts" });
 }
 
+export async function getChainid() {
+  return await window.ethereum.request({
+    method: "eth_chainId",
+  });
+}
+
 export async function watchAsset(erc20Params: ERC20Params, onError: any) {
   await window.ethereum
     .request({
@@ -245,8 +251,8 @@ export async function acceptAgreement(arg: {
   hash: string;
   contractAddress: string;
   signerAddress: string;
-  onError: any,
-  onReceipt: any
+  onError: any;
+  onReceipt: any;
 }): Promise<Options<any>> {
   const options: Options<any> = {
     error: "",
@@ -363,28 +369,25 @@ export async function switchToBSC(type: NetworkType) {
 export async function switchToPolygon(type: NetworkType) {
   const chainId = type === "Mainnet" ? 137 : 80001;
   const hexchainId = "0x" + Number(chainId).toString(16);
-  const switched = await switch_to_Chain(hexchainId);
   const chainName = type === "Mainnet" ? "Polygon" : "Polygon testnet";
   const rpcUrls = ["https://rpc-mumbai.maticvigil.com/"];
   const blockExplorerUrls = ["https://mumbai.polygonscan.com/"];
-  if (!switched) {
-    await window.ethereum.request({
-      method: "wallet_addEthereumChain",
-      params: [
-        {
-          chainId: hexchainId,
-          chainName,
-          nativeCurrency: {
-            name: "MATIC",
-            symbol: "MATIC",
-            decimals: 18,
-          },
-          rpcUrls,
-          blockExplorerUrls,
+  await window.ethereum.request({
+    method: "wallet_addEthereumChain",
+    params: [
+      {
+        chainId: hexchainId,
+        chainName,
+        nativeCurrency: {
+          name: "MATIC",
+          symbol: "MATIC",
+          decimals: 18,
         },
-      ],
-    });
-  }
+        rpcUrls,
+        blockExplorerUrls,
+      },
+    ],
+  });
 }
 
 export async function switchToHarmony(shard: number, type: NetworkType) {
@@ -405,6 +408,7 @@ export async function switchToHarmony(shard: number, type: NetworkType) {
   const rpcUrls = getHarmonyRPCURLS(shard, type);
 
   const switched = await switch_to_Chain(hexchainId);
+  // if didn't switch add network..
   if (!switched) {
     await window.ethereum.request({
       method: "wallet_addEthereumChain",
@@ -535,4 +539,8 @@ export function prepareType(type: string, value: string) {
   } else {
     return value;
   }
+}
+
+export function isPolygonMainnet(hexId) {
+  return hexId === "0x89";
 }
