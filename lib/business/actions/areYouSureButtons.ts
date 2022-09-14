@@ -87,6 +87,7 @@ export async function smartContractActions(
 ) {
   const hash = props.stashedDetails?.hash as string;
   const signerAddress = props.stashedDetails?.signerAddress as string;
+  dispatch_renderError("Connect the Ricardian to the Smart Contract Now!")
   const options = await setTerms({
     url,
     hash,
