@@ -69,6 +69,7 @@ import {
   getSimpleTermsByteCode,
 } from "../../wallet/abi/SimpleTerms";
 import { getContractIssueingTags, initialiseBundlr } from "../../wallet/bundlr";
+import { WebBundlr } from "@bundlr-network/client";
 
 export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   if (calledAt === RenderType.create) {
@@ -364,7 +365,7 @@ async function uploadWithBundlr(
   if (bundlrOptions.status === Status.Failure) {
     throw new Error("Unable to connect to bundlr network!");
   }
-  const bundlr = bundlrOptions.data;
+  const bundlr = bundlrOptions.data as WebBundlr;
 
   const tags = getContractIssueingTags(props.version, {
     issuer,
@@ -376,10 +377,9 @@ async function uploadWithBundlr(
     const balance = await bundlr.getLoadedBalance();
     // Lazy Fund If you don't have enough balance for the upload
     if (balance.isLessThan(price)) {
-      console.log("Balance is less than price");
-      throw new Error(
-        "Invalid Bundlr Balance. Top up using the Permaweb dropdown!"
-      );
+      const fundingAmount = price.multipliedBy(1.1).toString();
+      dispatch_renderError("Your Bundlr balance is empty. Fund the account now!")
+      await bundlr.fund(parseInt(fundingAmount))
     }
 
     const tx = bundlr.createTransaction(page, { tags });
@@ -401,7 +401,6 @@ async function uploadWithBundlr(
 
     dispatch_stashPage(page);
   } catch (err) {
-    console.log(err);
     throw new Error(
       "Unable to create Bundlr transaction! Error: " + err.message
     );
