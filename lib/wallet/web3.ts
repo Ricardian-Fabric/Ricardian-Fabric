@@ -345,8 +345,8 @@ export async function switchToBSC(type: NetworkType) {
   const hexchainId = "0x" + Number(chainId).toString(16);
   const switched = await switch_to_Chain(hexchainId);
   const chainName = type === "Mainnet" ? "BSC" : "BSC testnet";
-  const rpcUrls = ["https://data-seed-prebsc-1-s1.binance.org:8545"];
-  const blockExplorerUrls = ["https://explorer.binance.org/smart-testnet"];
+  const rpcUrls = type === "Mainnet" ? ["https://bsc-dataseed.binance.org/"] : ["https://data-seed-prebsc-1-s1.binance.org:8545/"];
+  const blockExplorerUrls = type === "Mainnet" ? ["https://bscscan.com"] : ["https://testnet.bscscan.com"];
   if (!switched) {
     await window.ethereum.request({
       method: "wallet_addEthereumChain",
@@ -368,26 +368,29 @@ export async function switchToBSC(type: NetworkType) {
 }
 export async function switchToPolygon(type: NetworkType) {
   const chainId = type === "Mainnet" ? 137 : 80001;
-  const hexchainId = "0x" + Number(chainId).toString(16);
+  const hexchainId = Web3.utils.toHex(chainId);
   const chainName = type === "Mainnet" ? "Polygon" : "Polygon testnet";
-  const rpcUrls = ["https://rpc-mumbai.maticvigil.com/"];
-  const blockExplorerUrls = ["https://mumbai.polygonscan.com/"];
-  await window.ethereum.request({
-    method: "wallet_addEthereumChain",
-    params: [
-      {
-        chainId: hexchainId,
-        chainName,
-        nativeCurrency: {
-          name: "MATIC",
-          symbol: "MATIC",
-          decimals: 18,
+  const rpcUrls = ["https://polygon-rpc.com"];
+  const blockExplorerUrls = ["https://polygonscan.com/"];
+  const switched = await switch_to_Chain(hexchainId);
+  if (!switched) {
+    await window.ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          chainId: hexchainId,
+          chainName,
+          nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18,
+          },
+          rpcUrls,
+          blockExplorerUrls,
         },
-        rpcUrls,
-        blockExplorerUrls,
-      },
-    ],
-  });
+      ],
+    });
+  }
 }
 
 export async function switchToHarmony(shard: number, type: NetworkType) {
@@ -431,11 +434,18 @@ export async function switchToHarmony(shard: number, type: NetworkType) {
 
 async function switch_to_Chain(chainId: string) {
   try {
+    let errorOccured = false;
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
       params: [{ chainId }],
-    });
-    return true;
+    }).catch(err => {
+      errorOccured = true;
+    })
+    if (errorOccured) {
+      return false;
+    } else {
+      return true;
+    }
   } catch (err) {
     return false;
   }
