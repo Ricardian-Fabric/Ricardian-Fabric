@@ -69,7 +69,6 @@ import {
   getSimpleTermsByteCode,
 } from "../../wallet/abi/SimpleTerms";
 import { getContractIssueingTags, initialiseBundlr } from "../../wallet/bundlr";
-import { WebBundlr } from "@bundlr-network/client";
 
 export function renderCreateButtonClick(props: State, calledAt: RenderType) {
   if (calledAt === RenderType.create) {
@@ -338,6 +337,7 @@ export function renderCreateButtonClick(props: State, calledAt: RenderType) {
       dispatch_renderError(msg);
     };
 
+    dispatch_renderError("Sign the document hash!")
     //The issuer needs to sign the hash
     await signHash(
       hash,
@@ -365,7 +365,7 @@ async function uploadWithBundlr(
   if (bundlrOptions.status === Status.Failure) {
     throw new Error("Unable to connect to bundlr network!");
   }
-  const bundlr = bundlrOptions.data as WebBundlr;
+  const bundlr = bundlrOptions.data as any;
 
   const tags = getContractIssueingTags(props.version, {
     issuer,
@@ -383,7 +383,7 @@ async function uploadWithBundlr(
     }
 
     const tx = bundlr.createTransaction(page, { tags });
-
+    dispatch_renderError("Sign the bundlr transaciton!")
     await tx.sign();
 
     dispatch_stashDetails({
