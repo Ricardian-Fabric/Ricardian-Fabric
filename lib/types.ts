@@ -631,6 +631,7 @@ declare global {
   interface Window {
     ethereum: any;
     Module: any;
+    Bundlr: any;
   }
 }
 
