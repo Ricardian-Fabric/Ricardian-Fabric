@@ -1,7 +1,4 @@
-// example imports
-// import WebBundlr
 import { Web3Provider } from "@ethersproject/providers";
-import { WebBundlr } from "@bundlr-network/client";
 import { ChainName, Options, Status } from "../types";
 import { switchNetwork } from "./web3";
 
@@ -18,7 +15,7 @@ export async function initialiseBundlr(): Promise<Options<any>> {
     const provider = new Web3Provider(window.ethereum);
     await provider._ready();
 
-    const bundlr = new WebBundlr(BUNDLRURL, CURRENCY, provider);
+    const bundlr = new window.Bundlr.default(BUNDLRURL, CURRENCY, provider);
     await bundlr.ready();
     options.data = bundlr; // done!
   } catch (err) {
@@ -29,12 +26,12 @@ export async function initialiseBundlr(): Promise<Options<any>> {
   }
 }
 
-export async function getWalletAddress(bundlr: WebBundlr) {
+export async function getWalletAddress(bundlr: any) {
   // Get the loaded wallet's address
   return bundlr.address;
 }
 
-export async function getLoadedBalance(bundlr: WebBundlr) {
+export async function getLoadedBalance(bundlr: any) {
   //Get the loaded address' balance with the Bundlr node in atomic units
   const balance = await bundlr.getLoadedBalance();
   return bundlr.utils.unitConverter(balance);
