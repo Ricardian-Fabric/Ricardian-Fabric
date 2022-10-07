@@ -142,7 +142,6 @@ function getCreateRenderer(): CreatePageRenderer {
       renderCreatePage();
       renderButtonSlotAlignment(true);
 
-      // TODO: Check these, I will add web3 modal!
       renderSelectedWallet(props.selectedWallet);
       walletSelectListener();
 
@@ -309,7 +308,7 @@ function getCreateRenderer(): CreatePageRenderer {
       renderTransferSummaryPage(props.tmp);
       transferSummaryPageActions(props);
     },
-    [RenderType.hidePopup]: ({}) => {
+    [RenderType.hidePopup]: ({ }) => {
       removePopup();
     },
     [RenderType.hideElement]: (props: { el: HTMLElement; hide: boolean }) => {
