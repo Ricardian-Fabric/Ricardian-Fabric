@@ -8,7 +8,7 @@ import {
 } from "../../dispatch/render";
 import { dispatch_setPage } from "../../dispatch/stateChange";
 import { PageState, State, Status } from "../../types";
-import { getById } from "../../view/utils";
+import { copyStringToClipboard, getById } from "../../view/utils";
 import {
   balanceOf,
   getRicContract,
@@ -26,6 +26,7 @@ import { hasError, OptionsBuilder } from "../utils";
 import { getError } from "../../wallet/errors";
 
 export async function tokenSalePageActions(props: State) {
+  const copyKYCEmailButton = getById("copy-kycEmail");
   const buyButton = getById("buy-ric");
   const addToWalletButton = getById("add-to-wallet");
   const amountEl = getById("buy-amount") as HTMLInputElement;
@@ -133,6 +134,11 @@ export async function tokenSalePageActions(props: State) {
       dispatch_renderError(err.message);
     }
   };
+
+  copyKYCEmailButton.onclick = function () {
+    const email = copyKYCEmailButton.dataset.email as string;
+    copyStringToClipboard(email);
+  }
 
   function setAmountOnEvent(ev: Event) {
     try {

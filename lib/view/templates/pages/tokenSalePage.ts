@@ -2,6 +2,7 @@ import { html } from "lit-html";
 import {
   BuyIcon,
   CardLookingLogo,
+  CopyLogo,
   CrowdfundLogo,
   RateLogo,
   RicardianFabricLogoWithStyle,
@@ -12,7 +13,7 @@ import { dashEl } from "./dashboardPage";
 export function TokenSalePage() {
   return  html`<h1>${CrowdfundLogo()} Crowdfund the Hackathon DAO</h1>
   <h3>Buy PolyRIC, The Ricardian Fabric Hackathon Token on Polygon!</h3>
-  <p><strong>How does it works?</strong> A total supply of 4 million tokens has been minted. We offer 50% for sale to bootstrap the DAO, to raise 200k at 10 cents/token (Pay with MATIC). The remaining 50% are Hackathon rewards, our DAO smart contracts pay contributors automatically for developing Zero-Code DApps that can be deployed from Ricardian Fabric.</p>
+  <p><strong>How does it work?</strong> A total supply of 4 million tokens has been minted. We offer 50% for sale to bootstrap the DAO, to raise 200k at 10 cents/token (Pay with MATIC). The remaining 50% are Hackathon rewards, our DAO smart contracts pay contributors automatically for developing Smart Contracts with Front End that can be deployed from Ricardian Fabric.</p>
   
   <p> <strong>The Hackathon DAO uses Arweave and Polygon.</strong>The PolyRIC token is used to withdraw fees collected by the smart contracts submitted through the Hackathon and to pay hackathon contributors for their submissions. The more we Buidl, the more it's worth!</p>
   <hr/>
@@ -53,7 +54,7 @@ export function TokenSalePage() {
       </button>
     </div>
     <div class="text-align-center">
-      <p>If you wish to purchase more than 10% of the total supply (400.000 tokens) you must send us your KYC details to kyc@ricardianfabric.com  . We need this if we want to incorporate the DAO as a legal entity later.</p>
+      <p>If you wish to purchase more than 10% of the total supply (400.000 tokens) you must send us your KYC details to kyc@ricardianfabric.com <button class="labelButton" id="copy-kycEmail" data-email="kyc@ricardianfabric.com">${CopyLogo()}</button>  . We need this if we want to incorporate the DAO as a legal entity later.</p>
     </div>
 
     <hr/>
