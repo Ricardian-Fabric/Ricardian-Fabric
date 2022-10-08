@@ -151,6 +151,7 @@ export enum RenderType {
   bundlrNetworkPopup = "bundlrNetworkPopup",
   bundlrNetworkDetails = "bundlrNetworkDetails",
   createMissingContractDeployPopup = "createMissingContractDeployPopup",
+  hideMenuButton = "hideMenuButton"
 }
 
 // TODO refactor to RenderDispatchArgs for specifying the dispatch arguments
@@ -272,6 +273,7 @@ export type Renderer = {
   [RenderType.triggerConfiguration]: RenderFunction;
   [RenderType.bundlrNetworkPopup]: RenderFunction;
   [RenderType.bundlrNetworkDetails]: RenderFunction;
+  [RenderType.hideMenuButton]: RenderFunction;
 };
 
 export type CreatePageRenderer = {
@@ -338,6 +340,7 @@ export type CreatePageRenderer = {
   [RenderType.bundlrNetworkDetails]: RenderFunction;
   [RenderType.createMissingContractDeployPopup]: RenderFunction;
 };
+
 
 export enum VerificationState {
   success,
@@ -512,6 +515,7 @@ export type State = {
 export enum AppType {
   dao = "dao",
   deployments = "deployments",
+  tokensale = "tokensale"
 }
 
 export type SetHookArgs = {

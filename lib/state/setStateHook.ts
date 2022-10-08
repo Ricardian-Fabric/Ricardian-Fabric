@@ -11,6 +11,7 @@ import {
   dispatch_dismissSidebar,
   dispatch_emptyPopup,
   dispatch_feeProposals,
+  dispatch_hideMenuButton,
   dispatch_hidePopup,
   dispatch_manageProposals,
   dispatch_permawebselectActions,
@@ -38,6 +39,7 @@ import {
   dispatch_walletPopup,
 } from "../dispatch/render";
 import {
+  AppType,
   ContractTypes,
   PageState,
   PopupState,
@@ -58,8 +60,8 @@ export const setStateHook = {
       dispatch_renderAcceptButton(clone);
     }
   },
-  [StateProperties.createRicardianPageProps]: (args: SetHookArgs) => {},
-  [StateProperties.editor]: (args: SetHookArgs) => {},
+  [StateProperties.createRicardianPageProps]: (args: SetHookArgs) => { },
+  [StateProperties.editor]: (args: SetHookArgs) => { },
   [StateProperties.balance]: (args: SetHookArgs) => {
     dispatch_renderBalance(cloneState(args.obj));
   },
@@ -153,7 +155,7 @@ export const setStateHook = {
         break;
     }
   },
-  [StateProperties.previousPopupState]: (args: SetHookArgs) => {},
+  [StateProperties.previousPopupState]: (args: SetHookArgs) => { },
   [StateProperties.pageState]: (args: SetHookArgs) => {
     const detectScreen = new ScreenSizeDetector();
     if (detectScreen.width < 1000) {
@@ -169,7 +171,6 @@ export const setStateHook = {
 
     // Based on the selected page, change the shadow of the  menu button
     // dispatch_
-
     const clone = cloneState(args.obj);
     switch (args.value) {
       case PageState.Dashboard:
@@ -178,6 +179,11 @@ export const setStateHook = {
       case PageState.Menu:
         dispatch_sideBar(clone);
         dispatch_renderMenu(clone);
+
+        if (args.obj.appType === AppType.tokensale) {
+          dispatch_hideMenuButton(clone)
+        }
+
         break;
       case PageState.CreateRicardian:
         dispatch_renderCreate(clone);
@@ -226,8 +232,8 @@ export const setStateHook = {
     dispatch_renderCreateProposalPage(clone);
     dispatch_permawebselectActions(clone);
   },
-  [StateProperties.uploadProposalProps]: (args: SetHookArgs) => {},
-  [StateProperties.blockPollTimer]: (args: SetHookArgs) => {},
+  [StateProperties.uploadProposalProps]: (args: SetHookArgs) => { },
+  [StateProperties.blockPollTimer]: (args: SetHookArgs) => { },
 };
 
 function cloneState(state: State) {

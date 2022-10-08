@@ -132,6 +132,7 @@ import {
   assignSmartContractAddress,
   triggerConfiguration,
   renderBundlrPopup,
+  renderHideMenuButton,
 } from "./render";
 import { renderAcceptTools } from "./render";
 import { areYouSureButtons } from "../business/actions/areYouSureButtons";
@@ -226,7 +227,7 @@ import {
 } from "../business/actions/collectRewardsPageActions";
 import { bundlrNetworkActions } from "../business/actions/bundlerNetworkActions";
 
-function Render(): Renderer {
+function getRenderer(): Renderer {
   return {
     [RenderType.connectYourWallet]: (props: State) => {
       renderConnectYourWallet(props);
@@ -443,7 +444,7 @@ function Render(): Renderer {
       renderTransferSummaryPage(props.tmp);
       transferSummaryPageActions(props);
     },
-    [RenderType.hidePopup]: ({}) => {
+    [RenderType.hidePopup]: ({ }) => {
       removePopup();
     },
     [RenderType.hideElement]: (props: { el: HTMLElement; hide: boolean }) => {
@@ -852,14 +853,17 @@ function Render(): Renderer {
       renderBundlrPopup();
       await bundlrNetworkActions(props);
     },
-    [RenderType.bundlrNetworkDetails]: async (props: RenderDispatchArgs) => {},
+    [RenderType.bundlrNetworkDetails]: async (props: RenderDispatchArgs) => { },
+    [RenderType.hideMenuButton]: async (props: RenderDispatchArgs) => {
+      renderHideMenuButton();
+     }
   };
 }
 
-export function RenderAll() {
-  document.body.addEventListener(Events.render, async (e: any) => {
-    const type: RenderType = e.detail.type;
-    const props: State = e.detail.props;
-    await Render[type](props);
-  });
-}
+
+document.body.addEventListener(Events.render, async (e: any) => {
+  const type: RenderType = e.detail.type;
+  const props: State = e.detail.props;
+  const renderer = getRenderer();
+  await renderer[type](props);
+});
