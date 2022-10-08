@@ -1345,7 +1345,7 @@ export function tokenSaleInit(
 
   ricLeftEl.textContent = ricLeft + " PolyRIC";
 
-  rateEl.textContent = rate + " PolyRIC/ONE";
+  rateEl.textContent = rate + " PolyRIC/MATIC";
 
   if (tokensSold === "2000000") {
     ricLeftEl.textContent = "SALE FINISHED";
@@ -1767,4 +1767,12 @@ export function renderMissingContractDeployPopup() {
   const layout = getById("overlay-layout");
 
   render(missingContractPopup(), layout);
+}
+
+export function renderHideMenuButton() {
+  const sideBar = getById("sidebar");
+  const toggleSidebar = getById("toggleOpen");
+  
+  sideBar.style.display = "none";
+  toggleSidebar.style.display = "none";
 }
