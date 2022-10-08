@@ -1,4 +1,4 @@
-import { html } from "lit-html";
+import { html, nothing } from "lit-html";
 import { AppType, State } from "../../../types";
 import {
   AgreementLogo,
@@ -24,6 +24,7 @@ export function MenuPage(state: State) {
     ${TrailsLogo()}
   </button>
 </div>`;
+
   const DAOPage = () => html`
     <div class="text-align-center">
       <button class="lightSlateGray-shadow  labelButton" id="dashboard-button" title="Dashboard">
@@ -52,9 +53,12 @@ export function MenuPage(state: State) {
     </div>
   `;
 
+
   if (state.appType === AppType.deployments) {
     return DeploymentsPage();
   } else if (state.appType === AppType.dao) {
     return DAOPage();
+  } else if (state.appType === AppType.tokensale) {
+    return nothing;
   }
 };
