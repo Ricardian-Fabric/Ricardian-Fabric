@@ -1081,3 +1081,10 @@ export function dispatch_createMissingContractDeployPopup(props: State) {
     props: { ...props },
   });
 }
+
+export function dispatch_hideMenuButton(props: State) {
+  dispatch(Events.render, {
+    type: RenderType.hideMenuButton,
+    props: { ...props }
+  })
+}
