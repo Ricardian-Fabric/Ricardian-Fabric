@@ -49,7 +49,9 @@ and this for contract deployments
 
     data-apptype="deployments"
 
+and this is for the tokensale
 
+data-apptype="tokensale"
 
 ## Latest Deployments
 
