@@ -97,7 +97,8 @@ export async function tokenSalePageActions(props: State) {
       dispatch_renderError("Invalid amount entered");
       return;
     }
-    if (sellAmount > 100000) {
+
+    if (sellAmount > ricLeft) {
       dispatch_renderError("Max buy amount exceeded");
       return;
     }
@@ -133,7 +134,7 @@ export async function tokenSalePageActions(props: State) {
     }
   };
 
-  amountEl.onchange = async function (ev: Event) {
+  function setAmountOnEvent(ev: Event) {
     try {
       //@ts-ignore
       setSellAmount(ev.target.value);
@@ -142,4 +143,15 @@ export async function tokenSalePageActions(props: State) {
       return;
     }
   };
+
+  amountEl.oninput = async function (ev: Event) {
+    setAmountOnEvent(ev);
+  }
+
+  amountEl.onchange = async function (ev: Event) {
+    setAmountOnEvent(ev);
+  }
+
 }
+
+
