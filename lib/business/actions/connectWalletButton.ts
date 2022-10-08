@@ -5,16 +5,17 @@ import {
 import { getById, parseQueryString } from "../../view/utils";
 import {
   requestAccounts,
+  switchToPolygon,
   web3Injected,
 } from "../../wallet/web3";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import {
   dispatch_setPage,
 } from "../../dispatch/stateChange";
-import { PageState, QueryStrings } from "../../types";
+import { AppType, PageState, QueryStrings, State } from "../../types";
 import { registerEthereumProviderEvents } from "../utils";
 
-export async function connectWalletButton(props) {
+export async function connectWalletButton(props: State) {
   const btn = getById("connectWalletButton");
 
   btn.onclick = async function () {
@@ -33,12 +34,21 @@ export async function connectWalletButton(props) {
     }
     registerEthereumProviderEvents(props);
 
-    dispatch_setPage(PageState.Menu);
-    OnQueryRedirect();
+    if (props.appType === AppType.tokensale) {
+      await switchToPolygon("Mainnet").then(() => {
+        dispatch_setPage(PageState.Menu);
+        OnQueryRedirect(props);
+      }).catch((err) => {
+        dispatch_renderError(err.message)
+      })
+    } else {
+      dispatch_setPage(PageState.Menu);
+      OnQueryRedirect(props);
+    }
   };
 }
 
-export function OnQueryRedirect() {
+export function OnQueryRedirect(props: State) {
   // If the url container query strings, I do actions based on that!
   const queryStrings = parseQueryString(
     location.search.replace("?", ""),
@@ -56,6 +66,13 @@ export function OnQueryRedirect() {
     dispatch_setPage(PageState.VerifyContract);
     dispatch_navigateTo(QueryStrings.verify, queryStrings.verify);
   } else {
-    dispatch_setPage(PageState.CreateRicardian);
+
+
+    if (props.appType === AppType.tokensale) {
+      dispatch_setPage(PageState.tokenSale);
+    } else if (props.appType === AppType.deployments) {
+      dispatch_setPage(PageState.CreateRicardian);
+    }
+
   }
 }
