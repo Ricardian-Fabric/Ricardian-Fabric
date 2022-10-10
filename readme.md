@@ -60,7 +60,7 @@ Currently to run the deployments page the app-type must be set like mentioned ab
 
 To run the tokensale the main is called `tokenSale_main.ts`
 
-Later the dependencies an havve their own index.html files and separat parcel build but it was not implemented, yet in the package.json.
+Later the dependencies will have their own index.html files and separate parcel build but it is not implemented yet in the package.json.
 
 ## Latest Deployments
 
