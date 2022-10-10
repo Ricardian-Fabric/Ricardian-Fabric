@@ -51,7 +51,16 @@ and this for contract deployments
 
 and this is for the tokensale
 
-data-apptype="tokensale"
+    data-apptype="tokensale"
+
+##### NOTE
+The project is under refactoring to support building 3 different apps from the library.
+
+Currently to run the deployments page the app-type must be set like mentioned above and the dependency for it is `createPage_main.ts`. this dependency is uploaded to arweave and set on the cloudflare router that provides the dependency at app.ricardianfabric.com/deps/*
+
+To run the tokensale the main is called `tokenSale_main.ts`
+
+Later the dependencies an havve their own index.html files and separat parcel build but it was not implemented, yet in the package.json.
 
 ## Latest Deployments
 
